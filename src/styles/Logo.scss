@@ -1,0 +1,15 @@
+.logo {
+  &__image {
+    position: relative;
+    top: 2px;
+    object-position: bottom;
+    height: 18px;
+    width: 18px;
+    transform: rotate(21deg);
+    object-position: center;
+  }
+
+  &__link {
+    padding: 0 5px 5px 0;
+  }
+}
