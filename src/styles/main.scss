@@ -1,6 +1,7 @@
 @import './reset/reset.scss';
 @import './_utils/variables.scss';
 
-@import './App.scss';
-@import './Header.scss';
-@import './Logo.scss';
+@import './blocks/App.scss';
+@import './blocks/Header.scss';
+@import './blocks/Logo.scss';
+@import './blocks/Button.scss';

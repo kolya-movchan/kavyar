@@ -1,0 +1,134 @@
+@import '../../_utils/variables.scss';
+@import '../../_utils/extends.scss';
+
+.admin-form-container {
+  margin: 0 auto;
+  width: 70%;
+  font-family: KyivTypeSans-Bold;
+  background-color: #fff;
+}
+
+.admin-form-container2 {
+  margin: 0 auto;
+  padding: 2px;
+  width: 60%;
+}
+
+.admin-form-heading {
+  padding-top: 60px;
+  margin-bottom: 60px;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 35px;
+  text-align: center;
+}
+
+.admin-form {
+  margin-bottom: 30px;
+
+  .cfp-contacts {
+    margin-bottom: 40px;
+
+    &__input {
+      @extend %form-input;
+    }
+  
+    &__input:last-child {
+      margin: 0;
+    }
+  
+    &__input:focus {
+      @extend %form-input-focus
+    }
+  
+    &__description {
+      padding-top: 15px;
+      resize: vertical;
+      min-height: 100px;
+      max-height: 200px;
+    }
+  }
+
+  .cfp-features {
+    margin-bottom: 40px;
+  
+    &__wrapper {
+      margin: 0 auto;
+      text-align: left;
+      width: max-content;
+    }
+  
+    &__title {
+      @extend %form-title
+    }
+  
+    &__container {
+      margin-bottom: 5px;
+    }
+  
+    &__filter {
+      margin-right: 10px;
+    }
+  
+    &__name {
+      display: inline-block;
+      padding: 5px;
+      font-family: KyivTypeSans-Light;
+    }
+  }
+
+  .cfp-products {
+    margin-bottom: 80px;
+
+    &__title {
+      @extend %form-title
+    }
+
+    &__container {
+      margin-bottom: 40px;
+  
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10%;
+    }
+  
+    &__name {
+      margin: 0;
+      width: 50%;
+    }
+  
+    &__price-container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+  
+    &__price {
+      margin: 0;
+      width: 20%;
+    }
+
+    &__input {
+      @extend %form-input;
+    }
+
+    &__input:focus {
+      @extend %form-input-focus
+    }
+
+    &__add-button {
+      margin: 0 auto;
+      padding: 13px;
+      display: block;
+    }
+  
+  }
+
+  .add-cfp__button {
+    margin: 0 auto;
+    padding: 16px;
+    display: block;
+    font-size: 20px;
+  }
+}

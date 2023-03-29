@@ -1,0 +1,2 @@
+(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[7695],{55378:function(n,_,u){(window.__NEXT_P=window.__NEXT_P||[]).push(["/events",function(){return u(52206)}])}},function(n){n.O(0,[3662,3090,8797,693,9336,7078,5176,4514,159,429,3913,8521,6253,4737,6432,8945,7706,9484,4602,4990,1965,9774,2888,179],(function(){return _=55378,n(n.s=_);var _}));var _=n.O();_N_E=_}]);
+//# sourceMappingURL=events-f171e021f4be975c.js.map

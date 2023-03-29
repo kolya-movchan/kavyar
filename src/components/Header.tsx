@@ -14,7 +14,7 @@ export const Header: React.FC = () => {
             <img className="logo__image" src="/coffe-grain-logo.svg" alt="logo" />
           </a>
 
-          <div className="header__language-section">
+          {/* <div className="header__language-section">
             <a href="/" className="header__language header__language-eng">
               eng
             </a>
@@ -23,7 +23,7 @@ export const Header: React.FC = () => {
             <a href="/" className="header__language header__language-ua">
               ua
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

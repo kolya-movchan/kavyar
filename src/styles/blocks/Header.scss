@@ -1,0 +1,39 @@
+@import '../_utils/fonts.scss';
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+
+  height: 65px;
+  width: $header-width;
+  color: $main-color-2;
+  background-color: $main-color;
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: (($header-width / 2) + $logo-half-width);
+  }
+  
+  // &__language-section {
+  //   margin-right: $language-margin;
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
+  // }
+
+  // &__language {
+  //   font-size: 15px;
+  //   font-family: 'Inter', sans-serif;
+  //   text-transform: uppercase;
+  // }
+
+  // &__language-eng {
+  //   padding: 5px;
+  // }
+
+  // &__language-ua {
+  //   padding: 5px;
+  // }
+}

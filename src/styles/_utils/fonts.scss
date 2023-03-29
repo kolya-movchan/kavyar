@@ -1,6 +1,21 @@
 @font-face {
-  font-family: 'KyivTypeSans';
+  font-family: 'KyivTypeSans-Light';
   src: url('../../fonts/kyivtypesans/TTF/KyivTypeSans-Light-.ttf');
+}
+
+@font-face {
+  font-family: 'KyivTypeSans-Bold';
+  src: url('../../fonts/kyivtypesans/TTF/KyivTypeSans-Bold-.ttf');
+}
+
+@font-face {
+  font-family: 'KyivTypeSans-Bold2';
+  src: url('../../fonts/kyivtypesans/TTF/KyivTypeSans-Bold2.ttf');
+}
+
+@font-face {
+  font-family: 'KyivTypeSans-Medium';
+  src: url('../../fonts/kyivtypesans/TTF/KyivTypeSans-Bold2.ttf');
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');

@@ -1,0 +1,2 @@
+(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[7044],{51568:function(n,_,u){(window.__NEXT_P=window.__NEXT_P||[]).push(["/chats",function(){return u(53061)}])}},function(n){n.O(0,[3662,3090,8797,693,9336,7691,4869,9804,7836,159,429,3913,8521,6253,4737,7871,3535,9774,2888,179],(function(){return _=51568,n(n.s=_);var _}));var _=n.O();_N_E=_}]);
+//# sourceMappingURL=chats-effb469a29885014.js.map
