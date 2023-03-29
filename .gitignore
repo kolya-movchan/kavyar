@@ -3,6 +3,7 @@
 # IDE
 .idea
 .vscode
+/taget
 
 # dependencies
 /node_modules
