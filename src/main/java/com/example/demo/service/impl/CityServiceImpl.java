@@ -3,9 +3,8 @@ package com.example.demo.service.impl;
 import com.example.demo.model.City;
 import com.example.demo.repository.CityRepository;
 import com.example.demo.service.CityService;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
 public class CityServiceImpl implements CityService {
@@ -34,4 +33,10 @@ public class CityServiceImpl implements CityService {
     public void delete(Long id) {
         cityRepository.deleteById(id);
     }
+
+    @Override
+    public City update(City city) {
+        return cityRepository.save(city);
+    }
+
 }

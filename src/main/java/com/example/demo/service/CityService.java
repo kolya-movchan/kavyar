@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.model.City;
-
 import java.util.List;
 
 public interface CityService {
@@ -12,4 +11,6 @@ public interface CityService {
     City getById(Long id);
 
     void delete(Long id);
+
+    City update(City city);
 }
