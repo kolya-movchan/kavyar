@@ -13,6 +13,6 @@ public class CoffeeShopDrinkPK implements Serializable {
     @JoinColumn(name = "coffee_shop_id")
     private CoffeeShop coffeeShop;
     @ManyToOne
-    @JoinColumn(name = "drink_id")
+    @JoinColumn(name = "product_id")
     private Product product;
 }
