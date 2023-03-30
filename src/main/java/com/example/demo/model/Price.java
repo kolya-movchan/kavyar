@@ -13,5 +13,4 @@ public class Price {
     @EmbeddedId
     private CoffeeShopDrinkPK coffeeShopDrinkPK;
     private BigDecimal price;
-
 }
