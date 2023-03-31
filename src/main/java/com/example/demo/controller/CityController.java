@@ -4,7 +4,7 @@ import com.example.demo.dto.CityRequestDto;
 import com.example.demo.dto.CityResponseDto;
 import com.example.demo.model.City;
 import com.example.demo.service.CityService;
-import com.example.demo.service.mapper.DtoMapper;
+import com.example.demo.service.DtoMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.log4j.Log4j2;
@@ -31,7 +31,7 @@ public class CityController {
     }
 
     @PostMapping
-    public CityResponseDto addCity(@RequestBody CityRequestDto cityRequestDto) {
+    public CityResponseDto add(@RequestBody CityRequestDto cityRequestDto) {
         return dtoMapper.mapToDto(cityService.create(dtoMapper.mapToModel(cityRequestDto)));
     }
 
@@ -43,12 +43,12 @@ public class CityController {
     }
 
     @GetMapping("/{id}")
-    public CityResponseDto getCityById(@PathVariable Long id) {
+    public CityResponseDto getById(@PathVariable Long id) {
         return dtoMapper.mapToDto(cityService.getById(id));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCity(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         cityService.delete(id);
     }
 

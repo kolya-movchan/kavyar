@@ -4,7 +4,7 @@ import com.example.demo.dto.CategoryRequestDto;
 import com.example.demo.dto.CategoryResponseDto;
 import com.example.demo.model.Category;
 import com.example.demo.service.CategoryService;
-import com.example.demo.service.mapper.DtoMapper;
+import com.example.demo.service.DtoMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.log4j.Log4j2;

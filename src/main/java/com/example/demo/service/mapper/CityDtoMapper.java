@@ -3,10 +3,11 @@ package com.example.demo.service.mapper;
 import com.example.demo.dto.CityRequestDto;
 import com.example.demo.dto.CityResponseDto;
 import com.example.demo.model.City;
+import com.example.demo.service.DtoMapper;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CityMapper implements DtoMapper<City, CityRequestDto,CityResponseDto> {
+public class CityDtoMapper implements DtoMapper<City, CityRequestDto,CityResponseDto> {
     @Override
     public CityResponseDto mapToDto(City city) {
         CityResponseDto cityResponseDto = new CityResponseDto();

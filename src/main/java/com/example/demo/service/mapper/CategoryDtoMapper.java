@@ -3,10 +3,11 @@ package com.example.demo.service.mapper;
 import com.example.demo.dto.CategoryRequestDto;
 import com.example.demo.dto.CategoryResponseDto;
 import com.example.demo.model.Category;
+import com.example.demo.service.DtoMapper;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CategoryMapper implements
+public class CategoryDtoMapper implements
         DtoMapper<Category, CategoryRequestDto, CategoryResponseDto> {
     @Override
     public CategoryResponseDto mapToDto(Category category) {
