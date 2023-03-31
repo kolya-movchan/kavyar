@@ -7,6 +7,5 @@ public class ProductResponseDto {
     private Long id;
     private String name;
     private String description;
-    private Long categoryId;
-    private String categoryName;
+    private CategoryResponseDto category;
 }

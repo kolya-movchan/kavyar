@@ -1,7 +1,10 @@
 package com.example.demo.service.mapper;
 
+import com.example.demo.dto.CategoryRequestDto;
+import com.example.demo.dto.CategoryResponseDto;
 import com.example.demo.dto.ProductRequestDto;
 import com.example.demo.dto.ProductResponseDto;
+import com.example.demo.model.Category;
 import com.example.demo.model.Product;
 import com.example.demo.service.CategoryService;
 import com.example.demo.service.DtoMapper;
@@ -10,9 +13,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProductDtoMapper implements
         DtoMapper<Product, ProductRequestDto, ProductResponseDto> {
+    private final DtoMapper<Category, CategoryRequestDto, CategoryResponseDto> categoryDtoMapper;
     private final CategoryService categoryService;
 
-    public ProductDtoMapper(CategoryService categoryService) {
+    public ProductDtoMapper(
+            DtoMapper<Category, CategoryRequestDto, CategoryResponseDto> categoryDtoMapper,
+            CategoryService categoryService) {
+        this.categoryDtoMapper = categoryDtoMapper;
         this.categoryService = categoryService;
     }
 
@@ -22,9 +29,7 @@ public class ProductDtoMapper implements
         productResponseDto.setId(product.getId());
         productResponseDto.setName(product.getName());
         productResponseDto.setDescription(product.getDescription());
-        productResponseDto.setCategoryId(product.getCategory().getId());
-        productResponseDto.setCategoryName(
-                categoryService.getById(product.getCategory().getId()).getName());
+        productResponseDto.setCategory(categoryDtoMapper.mapToDto(product.getCategory()));
         return productResponseDto;
     }
 

@@ -12,11 +12,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "coffee_shops")
 public class CoffeeShop {
@@ -29,10 +31,11 @@ public class CoffeeShop {
     private Boolean isDisable;
     @Column(unique = true)
     private String title;
+    @Column(length = 1000)
     private String description;
     private String phone;
-    private LocalDateTime open;
-    private LocalDateTime close;
+    private String open;
+    private String close;
     private String instagram;
     private String facebook;
     private String url;
@@ -41,7 +44,7 @@ public class CoffeeShop {
     @OneToMany
     @JoinTable(name = "coffee_shops_photos",
             joinColumns = @JoinColumn(name = "coffee_shop_id"),
-            inverseJoinColumns = @JoinColumn(name = "photo_id"))
+            inverseJoinColumns = @JoinColumn(name = "photo_id", unique = true))
     private List<Photo> photos;
     @ManyToMany
     @JoinTable(name = "coffee_shops_features",
@@ -49,4 +52,10 @@ public class CoffeeShop {
             inverseJoinColumns = @JoinColumn(name = "feature_id"))
     private List<Feature> features;
     private String location;
+
+    public CoffeeShop() {
+        photos = new ArrayList<>();
+        features = new ArrayList<>();
+        isDisable = false;
+    }
 }
