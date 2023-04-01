@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class CoffeeShopResponseDto {
     private Long id;
-    private CityResponseDto cityResponseDto;
+    private CityResponseDto city;
     private Boolean isDisable;
     private String title;
     private String description;

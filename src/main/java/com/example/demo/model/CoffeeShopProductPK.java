@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Embeddable
-public class CoffeeShopDrinkPK implements Serializable {
+public class CoffeeShopProductPK implements Serializable {
     @ManyToOne
     @JoinColumn(name = "coffee_shop_id")
     private CoffeeShop coffeeShop;

@@ -48,7 +48,7 @@ public class CoffeeShopDtoMapper implements
     public CoffeeShopResponseDto mapToDto(CoffeeShop coffeeShop) {
         CoffeeShopResponseDto coffeeShopResponseDto = new CoffeeShopResponseDto();
         coffeeShopResponseDto.setId(coffeeShop.getId());
-        coffeeShopResponseDto.setCityResponseDto(cityDtoMapper.mapToDto(coffeeShop.getCity()));
+        coffeeShopResponseDto.setCity(cityDtoMapper.mapToDto(coffeeShop.getCity()));
         coffeeShopResponseDto.setIsDisable(coffeeShop.getIsDisable());
         coffeeShopResponseDto.setTitle(coffeeShop.getTitle());
         coffeeShopResponseDto.setDescription(coffeeShop.getDescription());

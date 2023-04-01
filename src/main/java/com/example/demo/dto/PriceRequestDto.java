@@ -4,10 +4,8 @@ import java.math.BigDecimal;
 import lombok.Data;
 
 @Data
-public class PriceResponseDto {
+public class PriceRequestDto {
     private Long coffeeShopId;
-    private String coffeeShopTitle;
     private Long productId;
-    private String productName;
     private BigDecimal price;
 }

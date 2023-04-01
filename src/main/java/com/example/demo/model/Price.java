@@ -11,6 +11,6 @@ import lombok.Data;
 @Table(name = "prices")
 public class Price {
     @EmbeddedId
-    private CoffeeShopDrinkPK coffeeShopDrinkPK;
+    private CoffeeShopProductPK coffeeShopProductPK;
     private BigDecimal price;
 }
