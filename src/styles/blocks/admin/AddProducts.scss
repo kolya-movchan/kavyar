@@ -1,0 +1,42 @@
+@import '../../_utils/extends.scss';
+
+.cfp-products {
+  margin-bottom: 80px;
+
+  &__title {
+    @extend %form-title
+  }
+
+  &__container {
+    min-height: 85px;
+    max-height: 85px;
+    // padding: 10px;
+
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    // align-items: center;
+  }
+
+  &__name {
+    margin: 0;
+    width: 50%;
+  }
+
+  &__price {
+    margin: 0;
+    width: 20%;
+  }
+
+  &__input {
+    @extend %form-input;
+  }
+
+  &__input:focus {
+    @extend %form-input-focus
+  }
+
+  &__add-button {
+    align-self: center;
+  }
+}

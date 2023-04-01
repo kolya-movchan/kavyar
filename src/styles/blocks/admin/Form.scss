@@ -77,58 +77,14 @@
     }
   }
 
-  .cfp-products {
-    margin-bottom: 80px;
-
-    &__title {
-      @extend %form-title
-    }
-
-    &__container {
-      margin-bottom: 40px;
-  
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10%;
-    }
-  
-    &__name {
-      margin: 0;
-      width: 50%;
-    }
-  
-    &__price-container {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-    }
-  
-    &__price {
-      margin: 0;
-      width: 20%;
-    }
-
-    &__input {
-      @extend %form-input;
-    }
-
-    &__input:focus {
-      @extend %form-input-focus
-    }
-
-    &__add-button {
-      margin: 0 auto;
-      padding: 13px;
-      display: block;
-    }
-  
-  }
 
   .add-cfp__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin: 0 auto;
     padding: 16px;
-    display: block;
     font-size: 20px;
+    border-radius: 80px;
   }
 }
