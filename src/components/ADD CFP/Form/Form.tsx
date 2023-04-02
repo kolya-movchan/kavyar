@@ -85,6 +85,12 @@ export const Form: React.FC = () => {
     }
   };
 
+  const deleteProduct = (id: string) => {
+    const filtered = productList.filter(productItem => productItem.id !== id);
+
+    setProductList(filtered);
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -149,7 +155,7 @@ export const Form: React.FC = () => {
 
           <fieldset className="cfp-products">
             <h2 className="cfp-products__title">
-              Продукти кав’ярні
+              {'Продукти кав’ярні '}
               {name.length > 0 && name}
             </h2>
 
@@ -161,6 +167,7 @@ export const Form: React.FC = () => {
               setProduct={setProduct}
               setProductPrice={setProductPrice}
               productList={productList}
+              onDelete={deleteProduct}
             />
           </fieldset>
 

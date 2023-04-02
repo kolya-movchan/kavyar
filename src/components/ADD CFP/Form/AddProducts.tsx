@@ -1,6 +1,7 @@
 import React from 'react';
 import { InputField } from './InputField';
 import { Product } from '../../../types/Product';
+import { priceRegex } from '../../_tools/Regex';
 
 type Props = {
   product: string,
@@ -10,6 +11,7 @@ type Props = {
   setProduct: (value: string) => void,
   setProductPrice: (value: string) => void,
   productList: Product[],
+  onDelete: (value: string) => void,
 };
 
 export const AddProducts: React.FC<Props> = ({
@@ -20,15 +22,25 @@ export const AddProducts: React.FC<Props> = ({
   setProduct,
   setProductPrice,
   productList,
+  onDelete,
 }) => {
+  const disabledAdd = !product || !productPrice || !productPrice.match(priceRegex);
+
   return (
     <>
       {productList.length > 0 && (
         <table className="products-table">
           <thead>
             <tr>
-              <th className="products-table__heading products-table__item">Назва</th>
-              <th className="products-table__heading products-table__item">Ціна</th>
+              <th className="products-table__heading products-table__item">
+                Назва
+              </th>
+              <th className="products-table__heading products-table__item">
+                Ціна
+              </th>
+              {/* <th className="products-table__heading products-table__item">
+                Видалити
+              </th> */}
             </tr>
           </thead>
           <tbody>
@@ -42,6 +54,15 @@ export const AddProducts: React.FC<Props> = ({
                   </td>
                   <td className="products-table__item products-table__slot">
                     {price}
+                  </td>
+                  <td className="products-table__item products-table__slot">
+                    <button
+                      type="button"
+                      className="delete is-small"
+                      onClick={() => onDelete(id)}
+                    >
+                      -
+                    </button>
                   </td>
                 </tr>
               );
@@ -72,7 +93,7 @@ export const AddProducts: React.FC<Props> = ({
           className="button is-link cfp-products__add-button"
           type="button"
           onClick={onAdd}
-          disabled={!product || !productPrice}
+          disabled={disabledAdd}
         >
           Додати
         </button>
