@@ -1,36 +1,42 @@
 /* eslint-disable no-console */
-import classNames from 'classnames';
 import React, { useState } from 'react';
+import classNames from 'classnames';
+import { getRandomDigits } from '../../_tools/Tools';
+import { priceRegex } from '../../_tools/Regex';
 
 type Props = {
   name: string,
   value: string,
-  label?: string,
+  label: string,
   required?: boolean,
-  onChange?: (newValue: string) => void,
   textarea?: boolean,
+  maxLength?: number,
+  onAddButton?: (event: React.KeyboardEvent, productPress: string) => void,
+  onChange: (newValue: string) => void,
 };
-
-function getRandomDigits() {
-  return Math.random().toString().slice(2);
-}
 
 export const InputField: React.FC<Props> = ({
   name,
   label = name,
   value,
   required = false,
-  onChange = () => {},
   textarea = false,
+  maxLength,
+  onAddButton = null,
+  onChange = () => {},
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
-  const [touched, setToched] = useState(false);
-  // eslint-disable-next-line max-len
-  // const linkError = name === 'cfp-logo-link' || name === 'cfp-photos-link' || name === 'cfp-contacts-contact';
-  const hasError = touched && required && !value;
-  const upperCaseLabel = label.slice(0, 1).toUpperCase() + label.slice(1);
+  const [touched, setTuched] = useState(false);
+  const links = ['cfp-logo-link', 'cfp-contacts-social-link'];
 
+  const linkError = links.some(link => link === name);
+  const hasError = touched && !value;
+  const priceError = name === 'price' && !value.match(priceRegex);
+  const productNameError = name === 'product' && value.length === 30;
+  const descriptionError = name === 'cfp-contacts-description' && value.length === 400;
+
+  const upperCaseLabel = label.slice(0, 1).toUpperCase() + label.slice(1);
   const firstWordLabel = label.split(' ')[0];
   const restWordsLabel = label.split(' ').slice(1);
   const labelDeclension = firstWordLabel.slice(-1) === 'а'
@@ -43,20 +49,17 @@ export const InputField: React.FC<Props> = ({
     }
 
     if (name.includes('price-')) {
-      return { width: '133px' };
+      return { width: '140px' };
     }
 
     return {};
   };
 
-  // console.log('linkError', linkError);
-  // console.log('hasError', hasError);
-  // console.log('name', name);
-
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
         {upperCaseLabel}
+        {required && <span className="required-field">*</span>}
       </label>
 
       <div>
@@ -64,12 +67,18 @@ export const InputField: React.FC<Props> = ({
           <input
             id={id}
             className={classNames('input', {
-              'is-danger': hasError,
+              'is-danger': hasError && required,
             })}
             placeholder={`Введіть ${labelDeclension}`}
             value={value}
+            maxLength={maxLength}
             onChange={event => onChange(event.target.value)}
-            onBlur={() => setToched(true)}
+            onBlur={() => setTuched(true)}
+            onKeyDown={(event) => {
+              if (onAddButton) {
+                onAddButton(event, name);
+              }
+            }}
             style={addStyle()}
           />
         ) : (
@@ -80,8 +89,9 @@ export const InputField: React.FC<Props> = ({
             })}
             placeholder={`Введіть ${labelDeclension}`}
             value={value}
+            maxLength={400}
             onChange={event => onChange(event.target.value)}
-            onBlur={() => setToched(true)}
+            onBlur={() => setTuched(true)}
             style={{
               paddingTop: '15px',
               resize: 'vertical',
@@ -92,13 +102,25 @@ export const InputField: React.FC<Props> = ({
         )}
       </div>
 
-      {hasError && (
+      {descriptionError && (
+        <p className="help is-danger">Максимум - 400 символів </p>
+      )}
+
+      {productNameError && (
+        <p className="help is-danger">Максимум - 30 символів </p>
+      )}
+
+      {priceError && (
+        <p className="help is-danger">Невірний Формат (пр. 22.50)</p>
+      )}
+
+      {(!linkError && hasError && required) && (
         <p className="help is-danger">Це обовʼязкове поле!</p>
       )}
 
-      {/* {hasError && linkError && (
+      {(linkError && hasError) && (
         <p className="help is-danger">{`Будь ласка, введіть коректний формат ${label}`}</p>
-      )} */}
+      )}
     </div>
   );
 };

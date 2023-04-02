@@ -52,7 +52,7 @@ export const Contacts: React.FC<Props> = ({
         label="посилання на фото кавʼярні"
         value={photosURL}
         onChange={setPhotosURL}
-        required
+        // required
       />
       <InputField
         name="cfp-contacts-social-link"
@@ -68,7 +68,7 @@ export const Contacts: React.FC<Props> = ({
         data-declension="Посилання на Instagram/Facebook"
         value={googleMapsURL}
         onChange={setGoogleMapsURL}
-        required
+        // required
       />
       <InputField
         name="cfp-contacts-description"

@@ -18,6 +18,8 @@
     "scss-reset": "^1.2.2",
     "typescript": "^4.2.4",
     "typescript-eslint-parser": "^22.0.0",
+    "uuid": "^9.0.0",
+    "uuidv4": "^6.2.13",
     "web-vitals": "^1.1.1"
   },
   "scripts": {

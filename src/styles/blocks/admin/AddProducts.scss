@@ -10,12 +10,10 @@
   &__container {
     min-height: 85px;
     max-height: 85px;
-    // padding: 10px;
 
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     text-align: center;
-    // align-items: center;
   }
 
   &__name {
