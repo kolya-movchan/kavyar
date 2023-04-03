@@ -11,9 +11,7 @@ export type Props = {
 export const AuthForm: React.FC<Props> = ({ onLogin }) => {
   const [login, setLogin] = useState('');
   // const [password, setPassword] = useState('');
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   // const [errorMessage, setErrorMessage] = useState('');
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   // const [loading, setLoading] = useState(false);
   // console.log(onLogin);
 
@@ -27,8 +25,6 @@ export const AuthForm: React.FC<Props> = ({ onLogin }) => {
 
     if (admin) {
       saveAdmin(admin);
-    } else {
-      return;
     }
   };
 
@@ -38,13 +34,13 @@ export const AuthForm: React.FC<Props> = ({ onLogin }) => {
     // setErrorMessage('');
     // setLoading(true);
   
-      try {
-        await loadAdmin();
-      } catch (error) {
-        // setErrorMessage('Something went wrong');
-      } finally {
-        // setLoading(false);
-      }
+    try {
+      await loadAdmin();
+    } catch (error) {
+      // setErrorMessage('Something went wrong');
+    } finally {
+      // setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -65,51 +61,51 @@ export const AuthForm: React.FC<Props> = ({ onLogin }) => {
 
   return (
     <>
-    <Header />
+      <Header navBar={false}/>
 
-    <form
-      className="login"
-      onSubmit={handleSubmit}
-    >
-      <div className="login__container">
-        <div className="login__credentials">
-          <h1 className="login__title">
-            Вхід до
-            <br />
-            кабінету адміністратора
-          </h1>
+      <form
+        className="login"
+        onSubmit={handleSubmit}
+      >
+        <div className="login__container">
+          <div className="login__credentials">
+            <h1 className="login__title">
+              Вхід до
+              <br />
+              кабінету адміністратора
+            </h1>
 
-          <div className="login__login-container">
-            <input
-              className="input login__login-input login__input"
-              type="email"
-              placeholder="Логін"
-              value={login}
-              onChange={(event) => setLogin(event.target.value)}
-            />
-          </div>
+            <div className="login__login-container">
+              <input
+                className="input login__login-input login__input"
+                type="email"
+                placeholder="Логін"
+                value={login}
+                onChange={(event) => setLogin(event.target.value)}
+              />
+            </div>
 
-          <div className="login__login-container">
-            <input
-              className="input login__password-input login__input"
-              type="password"
-              placeholder="Пароль"
-              // value={password}
-              // onChange={(event) => setPassword(event.target.value)}
-            />
-          </div>
+            <div className="login__login-container">
+              <input
+                className="input login__password-input login__input"
+                type="password"
+                placeholder="Пароль"
+                // value={password}
+                // onChange={(event) => setPassword(event.target.value)}
+              />
+            </div>
 
-          <div className="field">
-            <button
-              className="buttons-local login__login-button"
-              type="submit"
-            >
-              Увійти
-            </button>
+            <div className="field">
+              <button
+                className="buttons-local login__login-button"
+                type="submit"
+              >
+                Увійти
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
     </>
   );
 };

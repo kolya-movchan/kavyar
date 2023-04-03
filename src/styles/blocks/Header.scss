@@ -4,7 +4,7 @@
   display: flex;
   justify-content: flex-end;
 
-  height: 65px;
+  height: $header-height;
   width: $header-width;
   color: $main-color-2;
   background-color: $main-color;
@@ -15,25 +15,20 @@
     align-items: center;
     width: (($header-width / 2) + $logo-half-width);
   }
-  
-  // &__language-section {
-  //   margin-right: $language-margin;
-  //   display: flex;
-  //   justify-content: center;
-  //   align-items: center;
-  // }
 
-  // &__language {
-  //   font-size: 15px;
-  //   font-family: 'Inter', sans-serif;
-  //   text-transform: uppercase;
-  // }
+  .navBar {
+    margin-right: 30px;
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
 
-  // &__language-eng {
-  //   padding: 5px;
-  // }
+    &__navLink {
+      padding: 5px;
+    }
 
-  // &__language-ua {
-  //   padding: 5px;
-  // }
+    &__link {
+      height: 100%;
+      width: 30px;
+    }
+  }
 }

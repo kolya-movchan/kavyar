@@ -1,0 +1,42 @@
+@import '../../_utils/variables.scss';
+
+.admin-panel {
+  height: $page-title-height;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $main-color-2;
+  border-bottom: 5px solid #000;
+
+  &__title {
+    padding: 10px;
+    font-family: $title-light;
+    font-size: 30px;
+    font-weight: bold;
+    color: $main-color;
+  }
+
+  &__menu {
+    height: (100vh - $header-height) - $page-title-height;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__menu-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 60%;
+    height: 7%;
+    border: 1px solid #000;
+    color: $main-color-2;
+    font-size: 25px;
+    font-family: $title-bold-medium;
+    background-color: $main-color;
+    border-radius: 50px;
+  }
+}

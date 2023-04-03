@@ -5,6 +5,7 @@ module.exports = {
   ],
 
   rules: {
+    "indent": ["error", 2],
     // React
     'react/prop-types': 0,
     'react/self-closing-comp': 0,
@@ -33,5 +34,5 @@ module.exports = {
     "browser": true,
     "amd": true,
     "node": true
-},
+  },
 };
