@@ -23,7 +23,7 @@ export const InputField: React.FC<Props> = ({
   textarea = false,
   maxLength,
   onAddButton = null,
-  onChange = () => {},
+  onChange,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 

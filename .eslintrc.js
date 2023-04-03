@@ -1,8 +1,9 @@
 module.exports = {
-  extends: [
-    '@mate-academy/eslint-config-react-typescript',
-    'plugin:react/recommended',
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
   ],
+
   rules: {
     // React
     'react/prop-types': 0,
@@ -20,9 +21,17 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 0,
     '@typescript-eslint/ban-types': 0,
     '@typescript-eslint/semi': ['error'],
+
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': 'warn',
   },
   parser: '@typescript-eslint/parser',
   plugins: [
     '@typescript-eslint',
   ],
+  "env": {
+    "browser": true,
+    "amd": true,
+    "node": true
+},
 };

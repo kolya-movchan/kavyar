@@ -1,8 +1,12 @@
-.button {
-  font-family: KyivTypeSans-Bold;
+.buttons-local {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 180px;
+  text-align: center;
   color: $main-color-2;
-  background-color: $button-color;
-  border: none;
-  border-radius: 80px;
+  background-color: $main-color;
+  border-color: $main-color-2;
   cursor: pointer;
 }

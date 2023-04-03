@@ -17,7 +17,7 @@ export const CheckBox: React.FC<Props> = ({
   label,
   value,
   onChange
-  = () => {},
+  = () => null,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
