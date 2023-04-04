@@ -69,10 +69,6 @@ export const Form: React.FC = () => {
     const allowedToSubmit = sumbit && product && productPrice;
     const resetInput = event.key === 'Escape';
 
-    if (resetInput && productType === 'product') {
-      setProduct('');
-    }
-
     if (resetInput && productType === 'price') {
       setProductPrice('');
     }
@@ -118,7 +114,26 @@ export const Form: React.FC = () => {
     reset();
   };
 
-  console.log(JSON.stringify(productList));
+  // console.log(JSON.stringify(productList));
+
+  const productsTest: Product[] = [
+    {
+      name: 'Cappucino',
+      value: 'Cappucino',
+    },
+    {
+      name: 'Amerikano',
+      value: 'Amerikano',
+    },
+    {
+      name: 'Test1',
+      value: 'Test1',
+    },
+    {
+      name: 'Test2',
+      value: 'Test2',
+    },
+  ];
   
   return (
     <div className="admin-form-container">
@@ -167,6 +182,7 @@ export const Form: React.FC = () => {
               setProductPrice={setProductPrice}
               productList={productList}
               onDelete={deleteProduct}
+              productsTest={productsTest}
             />
 
             <input

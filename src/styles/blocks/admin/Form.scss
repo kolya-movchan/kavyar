@@ -88,6 +88,17 @@
 
   .required-field {
     margin-left: 2px;
-    color: red;
+    color: #f00;
   }
+
+  &__price {
+    width: 65%;
+  }
+
+  // .custom-select {
+  //   @extend %flex;
+  //   text-align: center;
+  //   height: 40px;
+  //   width: 150px;
+  // }
 }

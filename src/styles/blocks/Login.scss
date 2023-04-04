@@ -5,13 +5,14 @@
   @extend %flex;
 
   &__container {
-    height: 47vh;
+    height: 50vh;
     width: 70vh;
     background-color: rgba(0, 0, 0, 0.862);
     border-radius: 50px;
   }
 
   &__credentials {
+    box-sizing: border-box;
     width: 100%;
     height: 100%;
     padding: 40px;
@@ -39,7 +40,7 @@
   }
 
   &__login-button {
-    margin: 0 auto;
+    margin: 0 10px;
     width: 220px;
     height: 50px;
     font-family: $title-bold;

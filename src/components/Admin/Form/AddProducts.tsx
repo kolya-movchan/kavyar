@@ -12,6 +12,7 @@ type Props = {
   setProductPrice: (value: string) => void,
   productList: Product[],
   onDelete: (value: string) => void,
+  productsTest: Product[],
 };
 
 export const AddProducts: React.FC<Props> = ({
@@ -23,6 +24,7 @@ export const AddProducts: React.FC<Props> = ({
   setProductPrice,
   productList,
   onDelete,
+  productsTest,
 }) => {
   const disabledAdd = !product || !productPrice || !productPrice.match(priceRegex);
 
@@ -38,9 +40,6 @@ export const AddProducts: React.FC<Props> = ({
               <th className="products-table__heading products-table__item">
                 Ціна
               </th>
-              {/* <th className="products-table__heading products-table__item">
-                Видалити
-              </th> */}
             </tr>
           </thead>
           <tbody>
@@ -59,7 +58,7 @@ export const AddProducts: React.FC<Props> = ({
                     <button
                       type="button"
                       className="delete is-small"
-                      onClick={() => onDelete(id)}
+                      onClick={() => id ? onDelete(id) : null}
                     >
                       -
                     </button>
@@ -74,11 +73,12 @@ export const AddProducts: React.FC<Props> = ({
       <div className="cfp-products__container">
         <InputField
           name="product"
-          label="назва"
-          value={product}
+          label="продукт"
+          // array of products from API
+          productsAPI={productsTest}
           onChange={setProduct}
-          onAddButton={onAddButton}
-          maxLength={30}
+          // onAddButton={onAddButton}
+          selecting
         />
 
         <InputField

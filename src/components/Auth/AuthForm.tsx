@@ -54,10 +54,11 @@ export const AuthForm: React.FC<Props> = ({ onLogin }) => {
       const admin = JSON.parse(userData) as User;
 
       onLogin(admin);
+
     } catch (error) {
       // setErrorMessage('Failed to log in, Please, try again');
     }
-  }, []);
+  });
 
   return (
     <>

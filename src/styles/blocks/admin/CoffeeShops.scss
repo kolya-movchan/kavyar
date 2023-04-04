@@ -84,12 +84,11 @@
   &__buttons {
     display: flex;
     justify-content: center;
-    // justify-content: space-between;
-    // width: 15%;
     margin: 0 auto;
   }
 
   &__buttons-pagination {
     min-width: 10em;
+    opacity: 1;
   }
 }
