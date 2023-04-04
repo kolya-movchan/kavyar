@@ -1,5 +1,10 @@
 package com.example.demo.dto;
 
+import com.example.demo.dto.auxiliary.CityResponseDto;
+import com.example.demo.dto.auxiliary.FeatureResponseDto;
+import com.example.demo.dto.auxiliary.PhotoResponseDto;
+import java.time.LocalTime;
+import java.util.List;
 import lombok.Data;
 
 @Data
@@ -10,13 +15,12 @@ public class CoffeeShopResponseDto {
     private String title;
     private String description;
     private String phone;
-    private String open;
-    private String close;
-    private String instagram;
-    private String facebook;
+    private LocalTime open;
+    private LocalTime close;
     private String url;
-    private PhotoResponseDto logo;
-    private PhotoResponseDto[] photos;
-    private FeatureResponseDto[] features;
     private String location;
+    private String logo;
+    private List<PhotoResponseDto> photos;
+    private List<FeatureResponseDto> features;
+    private List<ProductPriceResponseDto> productPrices;
 }

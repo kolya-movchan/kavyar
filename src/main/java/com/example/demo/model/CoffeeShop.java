@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,7 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.util.ArrayList;
+import java.time.LocalTime;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,12 +35,12 @@ public class CoffeeShop {
     @Column(length = 1000)
     private String description;
     private String phone;
-    private String open;
-    private String close;
-    private String instagram;
-    private String facebook;
+    private LocalTime open;
+    private LocalTime close;
     private String url;
+    private String location;
     @OneToOne
+    @JoinColumn(unique = true)
     private Photo logo;
     @OneToMany
     @JoinTable(name = "coffee_shops_photos",
@@ -51,11 +52,10 @@ public class CoffeeShop {
             joinColumns = @JoinColumn(name = "coffee_shop_id"),
             inverseJoinColumns = @JoinColumn(name = "feature_id"))
     private List<Feature> features;
-    private String location;
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @JoinTable(name = "coffee_shops_product_prices",
+            joinColumns = @JoinColumn(name = "coffee_shop_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_price_id", unique = true))
+    private List<ProductPrice> products;
 
-    public CoffeeShop() {
-        photos = new ArrayList<>();
-        features = new ArrayList<>();
-        isDisable = false;
-    }
 }
