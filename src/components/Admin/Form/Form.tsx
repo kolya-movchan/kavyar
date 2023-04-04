@@ -118,6 +118,8 @@ export const Form: React.FC = () => {
     reset();
   };
 
+  console.log(JSON.stringify(productList));
+  
   return (
     <div className="admin-form-container">
       <div className="admin-form-container2">
@@ -129,7 +131,7 @@ export const Form: React.FC = () => {
           className="admin-form"
           name="admin-form"
           action="/"
-          method="post"
+          method="get"
           key={count}
           onSubmit={handleSubmit}
         >
@@ -165,6 +167,12 @@ export const Form: React.FC = () => {
               setProductPrice={setProductPrice}
               productList={productList}
               onDelete={deleteProduct}
+            />
+
+            <input
+              type="hidden"
+              name="product-list"
+              value={JSON.stringify(productList)}
             />
           </fieldset>
 

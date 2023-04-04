@@ -1,10 +1,9 @@
 @import '../../_utils/variables.scss';
+@import '../../_utils/extends.scss';
 
 .admin-panel {
+  @extend %flex;
   height: $page-title-height;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: $main-color-2;
   border-bottom: 5px solid #000;
 
@@ -18,17 +17,13 @@
 
   &__menu {
     height: (100vh - $header-height) - $page-title-height;
-    display: flex;
+    @extend %flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     gap: 20px;
   }
 
   &__menu-item {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @extend %flex;
 
     width: 60%;
     height: 7%;

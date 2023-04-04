@@ -11,50 +11,38 @@ export const Header: React.FC<Props> = ( {navBar = true} ) => {
     <>
       <div className="header">
         <div className="header__container">
-          {!navBar && (
-            <a className="header__logo-container logo" href="/">
+            <NavLink className="header__logo-container logo" to="/admin">
               <span className="logo__title">
                 Кав’яр
               </span>
 
               <img className="logo__image" src="/coffe-grain-logo.svg" alt="logo" />
-            </a>
-          )}
+          </NavLink>
 
           {navBar && (
-            <>
-              <NavLink className="header__logo-container logo" to="/">
-                <span className="logo__title">
-                  Кав’яр
-                </span>
-
-                <img className="logo__image" src="/coffe-grain-logo.svg" alt="logo" />
+            <div className="navBar">
+              <NavLink
+                to="/admin/form"
+                className=""
+              >
+                <img
+                  className="navBar__link"
+                  src="/form-access.svg"
+                  alt="form-link"
+                />
               </NavLink>
 
-              <div className="navBar">
-                <NavLink
-                  to="/form"
-                  className=""
-                >
-                  <img
-                    className="navBar__link"
-                    src="/form-access.svg"
-                    alt="form-link"
-                  />
-                </NavLink>
-
-                <NavLink
-                  to="/"
-                  className=""
-                >
-                  <img
-                    className="navBar__link"
-                    src="/logout.svg"
-                    alt=""
-                  />
-                </NavLink>
-              </div>
-            </>
+              <NavLink
+                to="/admin"
+                className=""
+              >
+                <img
+                  className="navBar__link"
+                  src="/logout.svg"
+                  alt=""
+                />
+              </NavLink>
+            </div>
           )}
         </div>
       </div>

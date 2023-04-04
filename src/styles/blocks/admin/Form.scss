@@ -79,9 +79,7 @@
 
 
   .add-cfp__button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @extend %flex;
     margin: 0 auto;
     padding: 16px;
     font-size: 20px;

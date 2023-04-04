@@ -1,10 +1,9 @@
+@import '../_utils/extends.scss';
+
 .buttons-local {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @extend %flex;
   height: 50px;
   width: 180px;
-  text-align: center;
   color: $main-color-2;
   background-color: $main-color;
   border-color: $main-color-2;

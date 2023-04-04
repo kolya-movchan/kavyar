@@ -1,7 +1,35 @@
+@import '../_utils/extends.scss';
+@import '../_utils/variables.scss';
 // .page-container {
 //   overflow: hidden;
 // }
 
+#root {
+  min-height: 100vh;
+}
+
 body {
   background-color: $bg-style;
+}
+
+.not-found {
+  height: 100%;
+  @extend %flex;
+  // display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 50px;
+
+  &__photo {
+    width: 150px;
+  }
+
+  &__text {
+    font-family: $title-light;
+    font-size: 50px;
+  }
+
+  &--page {
+    height: 100vh;
+  }
 }

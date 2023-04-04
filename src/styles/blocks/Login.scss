@@ -1,8 +1,8 @@
+@import '../_utils/extends.scss';
+
 .login {
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @extend %flex;
 
   &__container {
     height: 47vh;

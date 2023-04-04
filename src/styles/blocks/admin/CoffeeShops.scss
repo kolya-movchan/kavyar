@@ -1,0 +1,95 @@
+@import '../../_utils//variables.scss';
+@import '../../_utils//extends.scss';
+
+.cfp {
+  // height: 100vh - $header-height - $page-title-height;
+  height: 100%;
+
+  &__wrapper {
+    // height: 100vh;
+    padding: 20px 95px 60px;
+  }
+
+  &__search {
+    margin-bottom: 30px;
+  }
+
+  &__search-input {
+    padding: 5px 15px;
+    width: 30%;
+    border-radius: 25px;
+    background-image: url(../../pictures/search.svg);
+    background-repeat: no-repeat;
+    background-size: 18px;
+    background-position: 90%;
+  }
+
+  .cfp-card__list {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .cfp-card {
+    @extend %flex;
+    margin: 10px;
+    flex-direction: column;
+    padding: 20px 20px 30px;
+    width: 230px;
+    font-family: $title-bold;
+    background-color: $main-color-2;
+    box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+    border-radius: 50px;
+    border: 1px solid #d2d3d4;
+
+    &__logo-container {
+      @extend %flex;
+      margin-bottom: 20px;
+      width: 150px;
+      height: 150px;
+    }
+
+    &__logo {
+      max-height: 100%;
+      max-width: 100%;
+    }
+  
+    &__name {
+      margin-bottom: 20px;
+      width: 80%;
+      font-size: 14px;
+      padding: 5px 10px;
+      color: $main-color-2;
+      background-color: $main-color;
+      border-radius: 25px;
+    }
+
+    &__slogan {
+      margin-bottom: 20px;
+    }
+
+    &__productName {
+      margin-bottom: 20px;
+    }
+
+    &__price {
+      padding: 16px;
+      font-size: 20px;
+      border-radius: 50px;
+      background-color: $main-color;
+      color: $main-color-2;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: center;
+    // justify-content: space-between;
+    // width: 15%;
+    margin: 0 auto;
+  }
+
+  &__buttons-pagination {
+    min-width: 10em;
+  }
+}

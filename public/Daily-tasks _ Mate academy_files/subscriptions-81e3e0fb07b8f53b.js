@@ -1,2 +1,0 @@
-(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[5027],{26429:function(n,u,t){(window.__NEXT_P=window.__NEXT_P||[]).push(["/subscriptions",function(){return t(47076)}])},47076:function(n,u,t){"use strict";t.r(u);var _=t(51816);u.default=_.default}},function(n){n.O(0,[3662,3090,8797,159,429,3913,8521,6253,4737,152,9774,2888,179],(function(){return u=26429,n(n.s=u);var u}));var u=n.O();_N_E=u}]);
-//# sourceMappingURL=subscriptions-81e3e0fb07b8f53b.js.map
