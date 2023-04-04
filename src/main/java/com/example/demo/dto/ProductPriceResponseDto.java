@@ -1,6 +1,5 @@
 package com.example.demo.dto;
 
-import com.example.demo.dto.auxiliary.ProductResponseDto;
 import java.math.BigDecimal;
 import lombok.Data;
 

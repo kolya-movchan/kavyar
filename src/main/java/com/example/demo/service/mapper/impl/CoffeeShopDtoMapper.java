@@ -1,15 +1,15 @@
 package com.example.demo.service.mapper.impl;
 
-import com.example.demo.dto.CoffeeShopAddRequestDto;
+import com.example.demo.dto.CityRequestDto;
+import com.example.demo.dto.CityResponseDto;
+import com.example.demo.dto.CoffeeShopCreateRequestDto;
 import com.example.demo.dto.CoffeeShopResponseDto;
+import com.example.demo.dto.FeatureRequestDto;
+import com.example.demo.dto.FeatureResponseDto;
+import com.example.demo.dto.PhotoRequestDto;
+import com.example.demo.dto.PhotoResponseDto;
 import com.example.demo.dto.ProductPriceRequestDto;
 import com.example.demo.dto.ProductPriceResponseDto;
-import com.example.demo.dto.auxiliary.CityRequestDto;
-import com.example.demo.dto.auxiliary.CityResponseDto;
-import com.example.demo.dto.auxiliary.FeatureRequestDto;
-import com.example.demo.dto.auxiliary.FeatureResponseDto;
-import com.example.demo.dto.auxiliary.PhotoRequestDto;
-import com.example.demo.dto.auxiliary.PhotoResponseDto;
 import com.example.demo.model.City;
 import com.example.demo.model.CoffeeShop;
 import com.example.demo.model.Feature;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CoffeeShopDtoMapper implements
-        DtoMapper<CoffeeShop, CoffeeShopAddRequestDto, CoffeeShopResponseDto> {
+        DtoMapper<CoffeeShop, CoffeeShopCreateRequestDto, CoffeeShopResponseDto> {
     private static final boolean DEFAULT_IS_DISABLE_COFFEE_SHOP = false;
     private final DtoMapper<City, CityRequestDto, CityResponseDto> cityDtoMapper;
     private final DtoMapper<Photo, PhotoRequestDto, PhotoResponseDto> photoDtoMapper;
@@ -74,28 +74,31 @@ public class CoffeeShopDtoMapper implements
                 .collect(Collectors.toList()));
         coffeeShopResponseDto.setProductPrices(coffeeShop.getProducts().stream()
                 .map(productPriceDtoMapper::mapToDto)
+                .sorted((p1, p2) ->
+                        Math.toIntExact(p1.getProduct().getCategory().getId()
+                                - p2.getProduct().getCategory().getId()))
                 .collect(Collectors.toList()));
         return coffeeShopResponseDto;
     }
 
     @Override
-    public CoffeeShop mapToModel(CoffeeShopAddRequestDto coffeeShopAddRequestDto) {
+    public CoffeeShop mapToModel(CoffeeShopCreateRequestDto coffeeShopCreateRequestDto) {
         CoffeeShop coffeeShop = new CoffeeShop();
-        coffeeShop.setCity(cityService.getById(coffeeShopAddRequestDto.getCityId()));
+        coffeeShop.setCity(cityService.getById(coffeeShopCreateRequestDto.getCityId()));
         coffeeShop.setIsDisable(DEFAULT_IS_DISABLE_COFFEE_SHOP);
-        coffeeShop.setTitle(coffeeShopAddRequestDto.getTitle());
-        coffeeShop.setDescription(coffeeShopAddRequestDto.getDescription());
-        coffeeShop.setPhone(coffeeShopAddRequestDto.getPhone());
-        coffeeShop.setOpen(coffeeShopAddRequestDto.getOpen());
-        coffeeShop.setClose(coffeeShopAddRequestDto.getClose());
-        coffeeShop.setUrl(coffeeShopAddRequestDto.getUrl());
-        coffeeShop.setLocation(coffeeShopAddRequestDto.getLocation());
-        coffeeShop.setLogo(photoService.getById(coffeeShopAddRequestDto.getLogoId()));
-        coffeeShop.setPhotos(coffeeShopAddRequestDto.getPhotos().stream()
+        coffeeShop.setTitle(coffeeShopCreateRequestDto.getTitle());
+        coffeeShop.setDescription(coffeeShopCreateRequestDto.getDescription());
+        coffeeShop.setPhone(coffeeShopCreateRequestDto.getPhone());
+        coffeeShop.setOpen(coffeeShopCreateRequestDto.getOpen());
+        coffeeShop.setClose(coffeeShopCreateRequestDto.getClose());
+        coffeeShop.setUrl(coffeeShopCreateRequestDto.getUrl());
+        coffeeShop.setLocation(coffeeShopCreateRequestDto.getLocation());
+        coffeeShop.setLogo(photoService.getById(coffeeShopCreateRequestDto.getLogoId()));
+        coffeeShop.setPhotos(coffeeShopCreateRequestDto.getPhotos().stream()
                 .map(photoService::getById).collect(Collectors.toList()));
-        coffeeShop.setFeatures(coffeeShopAddRequestDto.getFeatures().stream()
+        coffeeShop.setFeatures(coffeeShopCreateRequestDto.getFeatures().stream()
                 .map(featureService::getById).collect(Collectors.toList()));
-        coffeeShop.setProducts(coffeeShopAddRequestDto.getProductPrices().stream()
+        coffeeShop.setProducts(coffeeShopCreateRequestDto.getProductPrices().stream()
                 .map(productPriceDtoMapper::mapToModel)
                 .collect(Collectors.toList()));
         return coffeeShop;

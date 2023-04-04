@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class CoffeeShopAddRequestDto {
+public class CoffeeShopCreateRequestDto {
     private Long cityId;
     private String title;
     private String description;

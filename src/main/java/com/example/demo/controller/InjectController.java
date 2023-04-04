@@ -1,4 +1,4 @@
-package com.example.demo.controller.auxiliary;
+package com.example.demo.controller;
 
 import com.example.demo.model.Category;
 import com.example.demo.model.City;

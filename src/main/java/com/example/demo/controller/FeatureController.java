@@ -1,7 +1,7 @@
-package com.example.demo.controller.auxiliary;
+package com.example.demo.controller;
 
-import com.example.demo.dto.auxiliary.FeatureRequestDto;
-import com.example.demo.dto.auxiliary.FeatureResponseDto;
+import com.example.demo.dto.FeatureRequestDto;
+import com.example.demo.dto.FeatureResponseDto;
 import com.example.demo.model.Feature;
 import com.example.demo.service.FeatureService;
 import com.example.demo.service.mapper.DtoMapper;

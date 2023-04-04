@@ -1,7 +1,7 @@
 package com.example.demo.service.mapper.impl;
 
-import com.example.demo.dto.auxiliary.CityRequestDto;
-import com.example.demo.dto.auxiliary.CityResponseDto;
+import com.example.demo.dto.CityRequestDto;
+import com.example.demo.dto.CityResponseDto;
 import com.example.demo.model.City;
 import com.example.demo.service.mapper.DtoMapper;
 import org.springframework.stereotype.Service;

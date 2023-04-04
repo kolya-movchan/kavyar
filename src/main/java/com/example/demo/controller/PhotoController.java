@@ -1,7 +1,7 @@
-package com.example.demo.controller.auxiliary;
+package com.example.demo.controller;
 
-import com.example.demo.dto.auxiliary.PhotoRequestDto;
-import com.example.demo.dto.auxiliary.PhotoResponseDto;
+import com.example.demo.dto.PhotoRequestDto;
+import com.example.demo.dto.PhotoResponseDto;
 import com.example.demo.model.Photo;
 import com.example.demo.service.PhotoService;
 import com.example.demo.service.mapper.DtoMapper;

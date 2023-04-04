@@ -1,4 +1,4 @@
-package com.example.demo.controller.future;
+package com.example.demo.controller;
 
 import com.example.demo.dto.ProductPriceRequestDto;
 import com.example.demo.dto.ProductPriceResponseDto;

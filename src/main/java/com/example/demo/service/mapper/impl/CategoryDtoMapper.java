@@ -1,7 +1,7 @@
 package com.example.demo.service.mapper.impl;
 
-import com.example.demo.dto.auxiliary.CategoryRequestDto;
-import com.example.demo.dto.auxiliary.CategoryResponseDto;
+import com.example.demo.dto.CategoryRequestDto;
+import com.example.demo.dto.CategoryResponseDto;
 import com.example.demo.model.Category;
 import com.example.demo.service.mapper.DtoMapper;
 import org.springframework.stereotype.Service;

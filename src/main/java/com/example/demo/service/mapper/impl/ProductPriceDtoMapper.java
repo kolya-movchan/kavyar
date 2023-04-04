@@ -2,8 +2,8 @@ package com.example.demo.service.mapper.impl;
 
 import com.example.demo.dto.ProductPriceRequestDto;
 import com.example.demo.dto.ProductPriceResponseDto;
-import com.example.demo.dto.auxiliary.ProductRequestDto;
-import com.example.demo.dto.auxiliary.ProductResponseDto;
+import com.example.demo.dto.ProductRequestDto;
+import com.example.demo.dto.ProductResponseDto;
 import com.example.demo.model.Product;
 import com.example.demo.model.ProductPrice;
 import com.example.demo.service.ProductService;

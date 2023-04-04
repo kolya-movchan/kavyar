@@ -6,7 +6,7 @@ import com.example.demo.service.mapper.ResponseDtoMapper;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CoffeeShopSimpleResponseMapper implements
+public class CoffeeShopSimpleResponseDtoMapper implements
         ResponseDtoMapper<CoffeeShop, CoffeeShopSimpleResponseDto> {
     @Override
     public CoffeeShopSimpleResponseDto mapToDto(CoffeeShop coffeeShop) {

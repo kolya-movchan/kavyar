@@ -1,7 +1,7 @@
-package com.example.demo.controller.auxiliary;
+package com.example.demo.controller;
 
-import com.example.demo.dto.auxiliary.ProductRequestDto;
-import com.example.demo.dto.auxiliary.ProductResponseDto;
+import com.example.demo.dto.ProductRequestDto;
+import com.example.demo.dto.ProductResponseDto;
 import com.example.demo.model.Product;
 import com.example.demo.service.ProductService;
 import com.example.demo.service.mapper.DtoMapper;

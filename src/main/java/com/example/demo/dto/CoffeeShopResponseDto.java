@@ -1,8 +1,5 @@
 package com.example.demo.dto;
 
-import com.example.demo.dto.auxiliary.CityResponseDto;
-import com.example.demo.dto.auxiliary.FeatureResponseDto;
-import com.example.demo.dto.auxiliary.PhotoResponseDto;
 import java.time.LocalTime;
 import java.util.List;
 import lombok.Data;

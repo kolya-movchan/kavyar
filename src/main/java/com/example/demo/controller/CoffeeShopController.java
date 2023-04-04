@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.CoffeeShopAddRequestDto;
+import com.example.demo.dto.CoffeeShopCreateRequestDto;
 import com.example.demo.dto.CoffeeShopResponseDto;
 import com.example.demo.dto.CoffeeShopSimpleResponseDto;
 import com.example.demo.dto.CoffeeShopUpdateRequestDto;
@@ -24,26 +24,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/coffee-shops")
 public class CoffeeShopController {
     private final CoffeeShopService coffeeShopService;
-    private final DtoMapper<CoffeeShop, CoffeeShopAddRequestDto, CoffeeShopResponseDto> dtoMapper;
+    private final DtoMapper<CoffeeShop,
+            CoffeeShopCreateRequestDto, CoffeeShopResponseDto> coffeeShopDtoMapper;
     private final ResponseDtoMapper<
             CoffeeShop, CoffeeShopSimpleResponseDto> simpleResponseDtoMapper;
     private final RequestDtoMapper<CoffeeShop, CoffeeShopUpdateRequestDto> updateDtoMapper;
 
     public CoffeeShopController(
             CoffeeShopService coffeeShopService,
-            DtoMapper<CoffeeShop, CoffeeShopAddRequestDto, CoffeeShopResponseDto> dtoMapper,
+            DtoMapper<CoffeeShop,
+                    CoffeeShopCreateRequestDto, CoffeeShopResponseDto> coffeeShopDtoMapper,
             ResponseDtoMapper<CoffeeShop, CoffeeShopSimpleResponseDto> simpleResponseDtoMapper,
             RequestDtoMapper<CoffeeShop, CoffeeShopUpdateRequestDto> updateDtoMapper) {
         this.coffeeShopService = coffeeShopService;
-        this.dtoMapper = dtoMapper;
+        this.coffeeShopDtoMapper = coffeeShopDtoMapper;
         this.simpleResponseDtoMapper = simpleResponseDtoMapper;
         this.updateDtoMapper = updateDtoMapper;
     }
 
     @PostMapping
-    public CoffeeShopResponseDto add(@RequestBody CoffeeShopAddRequestDto coffeeShopAddRequestDto) {
-        return dtoMapper.mapToDto(
-                coffeeShopService.create(dtoMapper.mapToModel(coffeeShopAddRequestDto)));
+    public CoffeeShopResponseDto add(
+            @RequestBody CoffeeShopCreateRequestDto coffeeShopCreateRequestDto) {
+        return coffeeShopDtoMapper.mapToDto(
+                coffeeShopService.create(
+                        coffeeShopDtoMapper.mapToModel(coffeeShopCreateRequestDto)));
     }
 
     @GetMapping
@@ -55,23 +59,23 @@ public class CoffeeShopController {
 
     @GetMapping("/get/{id}")
     public CoffeeShopResponseDto getById(@PathVariable Long id) {
-        return dtoMapper.mapToDto(coffeeShopService.getById(id));
+        return coffeeShopDtoMapper.mapToDto(coffeeShopService.getById(id));
     }
 
     @DeleteMapping("/delete/{id}")
     public CoffeeShopResponseDto delete(@PathVariable Long id) {
-        return dtoMapper.mapToDto(coffeeShopService.delete(id));
+        return coffeeShopDtoMapper.mapToDto(coffeeShopService.delete(id));
     }
 
     @PutMapping("/restore/{id}")
     public CoffeeShopResponseDto restore(@PathVariable Long id) {
-        return dtoMapper.mapToDto(coffeeShopService.restore(id));
+        return coffeeShopDtoMapper.mapToDto(coffeeShopService.restore(id));
     }
 
     @PutMapping("/update")
     public CoffeeShopResponseDto update(
             @RequestBody CoffeeShopUpdateRequestDto coffeeShopUpdateRequestDto) {
-        return dtoMapper.mapToDto(coffeeShopService.update(
+        return coffeeShopDtoMapper.mapToDto(coffeeShopService.update(
                 updateDtoMapper.mapToModel(coffeeShopUpdateRequestDto)));
     }
 }
