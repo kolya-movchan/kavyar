@@ -1,10 +1,10 @@
 package ua.kavyar.service.mapper.impl;
 
+import org.springframework.stereotype.Service;
 import ua.kavyar.dto.FeatureRequestDto;
 import ua.kavyar.dto.FeatureResponseDto;
 import ua.kavyar.model.Feature;
 import ua.kavyar.service.mapper.DtoMapper;
-import org.springframework.stereotype.Service;
 
 @Service
 public class FeatureDtoMapper implements

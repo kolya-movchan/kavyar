@@ -1,4 +1,4 @@
-package ua.kavyar.repository.specification.coffeeShop;
+package ua.kavyar.repository.specification.coffeeshop;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Join;

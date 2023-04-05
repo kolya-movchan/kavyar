@@ -1,14 +1,5 @@
 package ua.kavyar.controller;
 
-import ua.kavyar.dto.CoffeeShopCreateRequestDto;
-import ua.kavyar.dto.CoffeeShopResponseDto;
-import ua.kavyar.dto.CoffeeShopSimpleResponseDto;
-import ua.kavyar.dto.CoffeeShopUpdateRequestDto;
-import ua.kavyar.model.CoffeeShop;
-import ua.kavyar.service.CoffeeShopService;
-import ua.kavyar.service.mapper.DtoMapper;
-import ua.kavyar.service.mapper.RequestDtoMapper;
-import ua.kavyar.service.mapper.ResponseDtoMapper;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,6 +12,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ua.kavyar.dto.CoffeeShopCreateRequestDto;
+import ua.kavyar.dto.CoffeeShopResponseDto;
+import ua.kavyar.dto.CoffeeShopSimpleResponseDto;
+import ua.kavyar.dto.CoffeeShopUpdateRequestDto;
+import ua.kavyar.model.CoffeeShop;
+import ua.kavyar.service.CoffeeShopService;
+import ua.kavyar.service.mapper.DtoMapper;
+import ua.kavyar.service.mapper.RequestDtoMapper;
+import ua.kavyar.service.mapper.ResponseDtoMapper;
 
 @RestController
 @RequestMapping("/coffee-shops")

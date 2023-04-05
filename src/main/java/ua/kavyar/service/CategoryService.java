@@ -1,7 +1,7 @@
 package ua.kavyar.service;
 
-import ua.kavyar.model.Category;
 import java.util.List;
+import ua.kavyar.model.Category;
 
 public interface CategoryService {
     Category create(Category city);

@@ -1,10 +1,10 @@
 package ua.kavyar.service.mapper.impl;
 
+import org.springframework.stereotype.Service;
 import ua.kavyar.dto.ProductPriceUpdateRequestDto;
 import ua.kavyar.model.ProductPrice;
 import ua.kavyar.service.ProductPriceService;
 import ua.kavyar.service.mapper.RequestDtoMapper;
-import org.springframework.stereotype.Service;
 
 @Service
 public class ProductPriceUpdateRequestDtoMapper implements

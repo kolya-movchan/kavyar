@@ -1,10 +1,5 @@
 package ua.kavyar.controller;
 
-import ua.kavyar.dto.ProductRequestDto;
-import ua.kavyar.dto.ProductResponseDto;
-import ua.kavyar.model.Product;
-import ua.kavyar.service.ProductService;
-import ua.kavyar.service.mapper.DtoMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +10,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ua.kavyar.dto.ProductRequestDto;
+import ua.kavyar.dto.ProductResponseDto;
+import ua.kavyar.model.Product;
+import ua.kavyar.service.ProductService;
+import ua.kavyar.service.mapper.DtoMapper;
 
 @RestController
 @RequestMapping("/products")

@@ -1,9 +1,9 @@
 package ua.kavyar.service;
 
-import ua.kavyar.model.CoffeeShop;
-import ua.kavyar.model.ProductPrice;
 import java.util.Map;
 import org.springframework.data.domain.Page;
+import ua.kavyar.model.CoffeeShop;
+import ua.kavyar.model.ProductPrice;
 
 public interface CoffeeShopService {
     CoffeeShop create(CoffeeShop coffeeShop);

@@ -1,10 +1,10 @@
 package ua.kavyar.service.impl;
 
+import java.util.List;
+import org.springframework.stereotype.Service;
 import ua.kavyar.model.Product;
 import ua.kavyar.repository.ProductRepository;
 import ua.kavyar.service.ProductService;
-import java.util.List;
-import org.springframework.stereotype.Service;
 
 @Service
 public class ProductServiceImpl implements ProductService {

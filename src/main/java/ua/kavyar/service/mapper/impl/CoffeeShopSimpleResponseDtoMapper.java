@@ -1,9 +1,9 @@
 package ua.kavyar.service.mapper.impl;
 
+import org.springframework.stereotype.Service;
 import ua.kavyar.dto.CoffeeShopSimpleResponseDto;
 import ua.kavyar.model.CoffeeShop;
 import ua.kavyar.service.mapper.ResponseDtoMapper;
-import org.springframework.stereotype.Service;
 
 @Service
 public class CoffeeShopSimpleResponseDtoMapper implements

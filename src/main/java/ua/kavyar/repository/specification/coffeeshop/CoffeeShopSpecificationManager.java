@@ -1,21 +1,21 @@
-package ua.kavyar.repository.specification.coffeeShop;
+package ua.kavyar.repository.specification.coffeeshop;
 
-import ua.kavyar.model.CoffeeShop;
-import ua.kavyar.repository.specification.SpecificationManager;
-import ua.kavyar.repository.specification.SpecificationProvider;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
+import ua.kavyar.model.CoffeeShop;
+import ua.kavyar.repository.specification.SpecificationManager;
+import ua.kavyar.repository.specification.SpecificationProvider;
 
 @Component
 public class CoffeeShopSpecificationManager implements SpecificationManager<CoffeeShop> {
+    private final Map<String, SpecificationProvider<CoffeeShop>> providerMap;
 
-    private Map<String, SpecificationProvider<CoffeeShop>> providerMap;
-
-    public CoffeeShopSpecificationManager(List<SpecificationProvider<CoffeeShop>> productSpecifications) {
+    public CoffeeShopSpecificationManager(
+            List<SpecificationProvider<CoffeeShop>> productSpecifications) {
         this.providerMap = productSpecifications.stream()
                 .collect(Collectors.toMap(SpecificationProvider::getFilterKey,
                         Function.identity()));

@@ -1,7 +1,7 @@
 package ua.kavyar.service;
 
-import ua.kavyar.model.City;
 import java.util.List;
+import ua.kavyar.model.City;
 
 public interface CityService {
     City create(City city);

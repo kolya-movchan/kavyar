@@ -1,10 +1,5 @@
 package ua.kavyar.controller;
 
-import ua.kavyar.dto.CategoryRequestDto;
-import ua.kavyar.dto.CategoryResponseDto;
-import ua.kavyar.model.Category;
-import ua.kavyar.service.CategoryService;
-import ua.kavyar.service.mapper.DtoMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +10,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ua.kavyar.dto.CategoryRequestDto;
+import ua.kavyar.dto.CategoryResponseDto;
+import ua.kavyar.model.Category;
+import ua.kavyar.service.CategoryService;
+import ua.kavyar.service.mapper.DtoMapper;
 
 @RestController
 @RequestMapping("/categories")
@@ -24,8 +24,7 @@ public class CategoryController {
 
     public CategoryController(CategoryService categoryService,
                               DtoMapper<Category,
-                                      CategoryRequestDto,
-                                      CategoryResponseDto> dtoMapper) {
+                                      CategoryRequestDto, CategoryResponseDto> dtoMapper) {
         this.categoryService = categoryService;
         this.dtoMapper = dtoMapper;
     }

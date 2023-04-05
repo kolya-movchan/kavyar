@@ -1,10 +1,10 @@
 package ua.kavyar.service.mapper.impl;
 
+import org.springframework.stereotype.Service;
 import ua.kavyar.dto.CityRequestDto;
 import ua.kavyar.dto.CityResponseDto;
 import ua.kavyar.model.City;
 import ua.kavyar.service.mapper.DtoMapper;
-import org.springframework.stereotype.Service;
 
 @Service
 public class CityDtoMapper implements DtoMapper<City, CityRequestDto, CityResponseDto> {

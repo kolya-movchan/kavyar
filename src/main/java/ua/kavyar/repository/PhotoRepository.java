@@ -1,8 +1,8 @@
 package ua.kavyar.repository;
 
-import ua.kavyar.model.Photo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import ua.kavyar.model.Photo;
 
 @Repository
 public interface PhotoRepository extends JpaRepository<Photo, Long> {
