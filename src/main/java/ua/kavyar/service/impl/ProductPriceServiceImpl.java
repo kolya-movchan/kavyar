@@ -1,9 +1,9 @@
 package ua.kavyar.service.impl;
 
+import org.springframework.stereotype.Service;
 import ua.kavyar.model.ProductPrice;
 import ua.kavyar.repository.ProductPriceRepository;
 import ua.kavyar.service.ProductPriceService;
-import org.springframework.stereotype.Service;
 
 @Service
 public class ProductPriceServiceImpl implements ProductPriceService {

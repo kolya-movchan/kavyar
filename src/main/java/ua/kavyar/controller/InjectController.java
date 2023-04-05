@@ -1,5 +1,8 @@
 package ua.kavyar.controller;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ua.kavyar.model.Category;
 import ua.kavyar.model.City;
 import ua.kavyar.model.Feature;
@@ -10,9 +13,6 @@ import ua.kavyar.service.CityService;
 import ua.kavyar.service.FeatureService;
 import ua.kavyar.service.PhotoService;
 import ua.kavyar.service.ProductService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/inject")

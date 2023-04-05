@@ -1,10 +1,10 @@
 package ua.kavyar.service.impl;
 
+import java.util.List;
+import org.springframework.stereotype.Service;
 import ua.kavyar.model.Photo;
 import ua.kavyar.repository.PhotoRepository;
 import ua.kavyar.service.PhotoService;
-import java.util.List;
-import org.springframework.stereotype.Service;
 
 @Service
 public class PhotoServiceImpl implements PhotoService {

@@ -1,10 +1,10 @@
 package ua.kavyar.service.impl;
 
+import java.util.List;
+import org.springframework.stereotype.Service;
 import ua.kavyar.model.City;
 import ua.kavyar.repository.CityRepository;
 import ua.kavyar.service.CityService;
-import java.util.List;
-import org.springframework.stereotype.Service;
 
 @Service
 public class CityServiceImpl implements CityService {

@@ -1,10 +1,5 @@
 package ua.kavyar.controller;
 
-import ua.kavyar.dto.CityRequestDto;
-import ua.kavyar.dto.CityResponseDto;
-import ua.kavyar.model.City;
-import ua.kavyar.service.CityService;
-import ua.kavyar.service.mapper.DtoMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +10,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ua.kavyar.dto.CityRequestDto;
+import ua.kavyar.dto.CityResponseDto;
+import ua.kavyar.model.City;
+import ua.kavyar.service.CityService;
+import ua.kavyar.service.mapper.DtoMapper;
 
 @RestController
 @RequestMapping("/cities")

@@ -1,7 +1,7 @@
 package ua.kavyar.service;
 
-import ua.kavyar.model.Feature;
 import java.util.List;
+import ua.kavyar.model.Feature;
 
 public interface FeatureService {
     Feature create(Feature feature);

@@ -1,17 +1,18 @@
-package ua.kavyar.repository.specification.coffeeShop;
+package ua.kavyar.repository.specification.coffeeshop;
 
-import ua.kavyar.model.CoffeeShop;
-import ua.kavyar.repository.specification.SpecificationProvider;
+import jakarta.persistence.criteria.Path;
+import jakarta.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import jakarta.persistence.criteria.Path;
-import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
+import ua.kavyar.model.CoffeeShop;
+import ua.kavyar.repository.specification.SpecificationProvider;
 
 @Component
-public class CoffeeShopTitleSearchSpecificationProvider implements SpecificationProvider<CoffeeShop> {
+public class CoffeeShopTitleSearchSpecificationProvider
+        implements SpecificationProvider<CoffeeShop> {
 
     private static final String FILTER_KEY = "searchInTitle";
     private static final String FIELD_NAME = "title";

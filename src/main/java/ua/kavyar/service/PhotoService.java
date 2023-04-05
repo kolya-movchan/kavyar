@@ -1,7 +1,7 @@
 package ua.kavyar.service;
 
-import ua.kavyar.model.Photo;
 import java.util.List;
+import ua.kavyar.model.Photo;
 
 public interface PhotoService {
     Photo create(Photo photo);

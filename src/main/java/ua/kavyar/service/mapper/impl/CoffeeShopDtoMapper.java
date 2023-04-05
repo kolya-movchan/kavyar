@@ -1,5 +1,7 @@
 package ua.kavyar.service.mapper.impl;
 
+import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
 import ua.kavyar.dto.CityRequestDto;
 import ua.kavyar.dto.CityResponseDto;
 import ua.kavyar.dto.CoffeeShopCreateRequestDto;
@@ -19,8 +21,6 @@ import ua.kavyar.service.CityService;
 import ua.kavyar.service.FeatureService;
 import ua.kavyar.service.PhotoService;
 import ua.kavyar.service.mapper.DtoMapper;
-import java.util.stream.Collectors;
-import org.springframework.stereotype.Service;
 
 @Service
 public class CoffeeShopDtoMapper implements

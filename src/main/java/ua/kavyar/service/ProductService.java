@@ -1,7 +1,7 @@
 package ua.kavyar.service;
 
-import ua.kavyar.model.Product;
 import java.util.List;
+import ua.kavyar.model.Product;
 
 public interface ProductService {
     Product create(Product product);

@@ -1,12 +1,5 @@
 package ua.kavyar.service.impl;
 
-import ua.kavyar.model.CoffeeShop;
-import ua.kavyar.model.ProductPrice;
-import ua.kavyar.repository.CoffeeShopRepository;
-import ua.kavyar.repository.specification.SpecificationManager;
-import ua.kavyar.service.CoffeeShopService;
-import ua.kavyar.service.ProductPriceService;
-import ua.kavyar.service.handler.PaginationAndSortingHandler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,6 +7,13 @@ import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import ua.kavyar.model.CoffeeShop;
+import ua.kavyar.model.ProductPrice;
+import ua.kavyar.repository.CoffeeShopRepository;
+import ua.kavyar.repository.specification.SpecificationManager;
+import ua.kavyar.service.CoffeeShopService;
+import ua.kavyar.service.ProductPriceService;
+import ua.kavyar.service.handler.PaginationAndSortingHandler;
 
 @Service
 public class CoffeeShopServiceImpl implements CoffeeShopService {
@@ -48,8 +48,8 @@ public class CoffeeShopServiceImpl implements CoffeeShopService {
             if (!specificationIgnoreParams.contains(param.getKey())) {
                 Specification<CoffeeShop> sp = shopSpecificationManager.get(param.getKey(),
                         param.getValue().split(","));
-                specification = specification == null ?
-                        Specification.where(sp) : specification.and(sp);
+                specification = specification == null
+                        ? Specification.where(sp) : specification.and(sp);
             }
         }
         return coffeeShopRepository.findAll(specification,

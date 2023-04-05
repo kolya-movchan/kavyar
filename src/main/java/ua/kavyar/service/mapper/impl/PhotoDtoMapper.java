@@ -1,10 +1,10 @@
 package ua.kavyar.service.mapper.impl;
 
+import org.springframework.stereotype.Service;
 import ua.kavyar.dto.PhotoRequestDto;
 import ua.kavyar.dto.PhotoResponseDto;
 import ua.kavyar.model.Photo;
 import ua.kavyar.service.mapper.DtoMapper;
-import org.springframework.stereotype.Service;
 
 @Service
 public class PhotoDtoMapper implements DtoMapper<Photo, PhotoRequestDto, PhotoResponseDto> {

@@ -1,10 +1,5 @@
 package ua.kavyar.controller;
 
-import ua.kavyar.dto.PhotoRequestDto;
-import ua.kavyar.dto.PhotoResponseDto;
-import ua.kavyar.model.Photo;
-import ua.kavyar.service.PhotoService;
-import ua.kavyar.service.mapper.DtoMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +10,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ua.kavyar.dto.PhotoRequestDto;
+import ua.kavyar.dto.PhotoResponseDto;
+import ua.kavyar.model.Photo;
+import ua.kavyar.service.PhotoService;
+import ua.kavyar.service.mapper.DtoMapper;
 
 @RestController
 @RequestMapping("/photos")

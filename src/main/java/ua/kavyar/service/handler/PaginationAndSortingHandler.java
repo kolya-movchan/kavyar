@@ -25,11 +25,11 @@ public class PaginationAndSortingHandler {
 
     public Pageable handle(Map<String, String> params) {
         return PageRequest.of(
-                params.containsKey(fields[0]) ?
-                        Integer.parseInt(params.get(fields[0])) :
+                params.containsKey(fields[0])
+                        ? Integer.parseInt(params.get(fields[0])) :
                         defaultPage,
-                params.containsKey(fields[1]) ?
-                        Integer.parseInt(params.get(fields[1])) :
+                params.containsKey(fields[1])
+                        ? Integer.parseInt(params.get(fields[1])) :
                         defaultCount,
                 params.containsKey(fields[2]) ? getSort(params) : Sort.unsorted());
     }

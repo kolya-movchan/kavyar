@@ -1,13 +1,13 @@
-package ua.kavyar.repository.specification.coffeeShop;
+package ua.kavyar.repository.specification.coffeeshop;
 
-import ua.kavyar.model.CoffeeShop;
-import ua.kavyar.model.Feature;
-import ua.kavyar.repository.specification.SpecificationProvider;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
+import ua.kavyar.model.CoffeeShop;
+import ua.kavyar.model.Feature;
+import ua.kavyar.repository.specification.SpecificationProvider;
 
 @Component
 public class CoffeeShopFilterSpecificationProvider implements SpecificationProvider<CoffeeShop> {

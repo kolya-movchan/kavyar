@@ -1,10 +1,10 @@
 package ua.kavyar.service.mapper.impl;
 
+import org.springframework.stereotype.Service;
 import ua.kavyar.dto.CategoryRequestDto;
 import ua.kavyar.dto.CategoryResponseDto;
 import ua.kavyar.model.Category;
 import ua.kavyar.service.mapper.DtoMapper;
-import org.springframework.stereotype.Service;
 
 @Service
 public class CategoryDtoMapper implements

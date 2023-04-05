@@ -1,5 +1,6 @@
 package ua.kavyar.service.mapper.impl;
 
+import org.springframework.stereotype.Service;
 import ua.kavyar.dto.ProductPriceRequestDto;
 import ua.kavyar.dto.ProductPriceResponseDto;
 import ua.kavyar.dto.ProductRequestDto;
@@ -8,7 +9,6 @@ import ua.kavyar.model.Product;
 import ua.kavyar.model.ProductPrice;
 import ua.kavyar.service.ProductService;
 import ua.kavyar.service.mapper.DtoMapper;
-import org.springframework.stereotype.Service;
 
 @Service
 public class ProductPriceDtoMapper implements
