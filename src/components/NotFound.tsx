@@ -17,6 +17,6 @@ export const NotFound: React.FC<Props> = ( { title, styling } ) => {
       <span className="not-found__text">
         {`${title} Не Знайдено`}
       </span>
-  </div>
+    </div>
   );
 };

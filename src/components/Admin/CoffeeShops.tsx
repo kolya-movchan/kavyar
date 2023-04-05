@@ -99,37 +99,37 @@ export const CoffeeShops: React.FC<Props> = ( { title } ) => {
         </div>
 
         <div className="cfp-card-container">
-            <ul className="cfp-card__list">
-              {cfpFiltered.map(store => {
-                const {img, name, slogan, productName, price } = store;
-                return (
-                  <li className="cfp-card" key={price}>
-                    <div className="cfp-card__logo-container">
-                      <img
-                        src={img}
-                        alt="coffee-shop1"
-                        className="cpf__card-logo"
-                      />
-                    </div>
-                    <div className="cfp-card__name">
-                      {name}
-                    </div>
-                    <div className="cfp-card__slogan">
-                      {slogan}
-                    </div>
-                    <div className="cfp-card__productName">
-                      {productName}
-                    </div>
-                    <div className="cfp-card__price">
-                      {price}
-                    </div>
-                  </li>
-                )
-              })}
-            </ul>
+          <ul className="cfp-card__list">
+            {cfpFiltered.map(store => {
+              const {img, name, slogan, productName, price } = store;
+              return (
+                <li className="cfp-card" key={price}>
+                  <div className="cfp-card__logo-container">
+                    <img
+                      src={img}
+                      alt="coffee-shop1"
+                      className="cpf__card-logo"
+                    />
+                  </div>
+                  <div className="cfp-card__name">
+                    {name}
+                  </div>
+                  <div className="cfp-card__slogan">
+                    {slogan}
+                  </div>
+                  <div className="cfp-card__productName">
+                    {productName}
+                  </div>
+                  <div className="cfp-card__price">
+                    {price}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
         </div>
 
-        {!cfpFiltered.length && <NotFound title={'Кавʼярню'} />}
+        {!cfpFiltered.length && <NotFound title={title} />}
 
         {cfpFiltered.length > 5 && (
           <div className="cfp__buttons">
@@ -143,7 +143,7 @@ export const CoffeeShops: React.FC<Props> = ( { title } ) => {
             <button className="pagination-next cfp__buttons-pagination">
               &gt;
             </button>
-        </div>
+          </div>
         )}
       </div>
     </div>

@@ -95,7 +95,7 @@ export const InputField: React.FC<Props> = ({
           />)}
 
         {(selecting && productsAPI) && (
-          <div className="select is-info">
+          <div className="select is-link">
             <select
               onChange={event => onChange(event.target.value)}
               defaultValue={'DEFAULT'}

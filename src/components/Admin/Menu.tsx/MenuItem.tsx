@@ -1,6 +1,6 @@
-// import classNames from 'classnames';
+import classNames from 'classnames';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 type Props = {
   title: string,
@@ -9,11 +9,14 @@ type Props = {
 
 export const MenuItem: React.FC<Props> = ( { title, address } ) => {
   return (
-    <Link
+    <NavLink
       to={address}
-      className="admin-panel__menu-item"
+      className={({ isActive }) => classNames(
+        'navbar-item admin-panel__menu-item',
+        { 'is-active': isActive },
+      )}
     >
       {title}
-    </Link>
+    </NavLink>
   );
 };
