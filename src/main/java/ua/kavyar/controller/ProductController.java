@@ -54,7 +54,6 @@ public class ProductController {
     @PutMapping("/{id}")
     public ProductResponseDto update(@PathVariable Long id,
                                      @RequestBody ProductRequestDto productRequestDto) {
-
         Product product = dtoMapper.mapToModel(productRequestDto);
         product.setId(id);
         return dtoMapper.mapToDto(productService.update(product));
