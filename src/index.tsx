@@ -1,5 +1,6 @@
+import { createRoot } from 'react-dom/client';
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import {
   BrowserRouter,
   Navigate,
@@ -20,6 +21,7 @@ import { Filters } from './components/Admin/Filters';
 import { Cities } from './components/Admin/Cities';
 import { Categories } from './components/Admin/Categories';
 import { Products } from './components/Admin/Products';
+
 
 const hashRouter = () => (
   <BrowserRouter>
@@ -43,4 +45,8 @@ const hashRouter = () => (
   </BrowserRouter>
 );
 
-ReactDOM.render(hashRouter(), document.getElementById('root'));
+// ReactDOM.render(hashRouter(), document.getElementById('root'));
+
+const root = createRoot(document.getElementById('root') as HTMLElement);
+
+root.render(hashRouter());

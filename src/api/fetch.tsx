@@ -1,6 +1,6 @@
 import { UserData } from '../types/User';
 
-const BASE_URL = 'https://kavyar-api.herokuapp.com/';
+const BASE_URL = 'https://mate.academy/students-api';
 
 function wait(delay: number) {
   return new Promise(resolve => {
@@ -47,6 +47,3 @@ export const client = {
   // );},
   // delete: function <T>(url: string) {request(url, 'DELETE');},
 };
-
-
-console.log(client.get('cities').then(cities => console.log(cities)));
