@@ -8,9 +8,9 @@
   font-family: $title-heavy;
   color: $main-color;
 
-  &__create-button {
-    margin-bottom: 10px;
-  }
+  // &__create-button {
+  //   margin-bottom: 10px;
+  // }
 
   &__add-container {
     display: flex;
@@ -20,7 +20,6 @@
   &__create-button {
     background-color: $main-color;
   }
-
 
   &__title {
     margin-bottom: 15px;
@@ -57,7 +56,7 @@
     background-color: $main-color-2;
     cursor: pointer;
 
-    &--white {
+    &--black {
       background-color: $main-color;
     }
   }

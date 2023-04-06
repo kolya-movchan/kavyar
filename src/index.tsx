@@ -17,6 +17,7 @@ import { CoffeeShops } from './components/Admin/CoffeeShops';
 import { NotFound } from './components/NotFound';
 import { HomePageLogo } from './components/Admin/HomePageLogo';
 import { Filters } from './components/Admin/Filters';
+import { Cities } from './components/Admin/Cities';
 
 const hashRouter = () => (
   <BrowserRouter>
@@ -27,7 +28,7 @@ const hashRouter = () => (
           <Route path="admin/home" element={<Navigate to="/admin" replace />}/>
           <Route path="*" element={<NotFound title={'Сторінку'} styling={'page'} />}/>
           <Route path="coffeeshops" element={<CoffeeShops title={'Ваші кав’ярні'} />} />
-          {/* <Route path="cities" element={(<Cities />)}/> */}
+          <Route path="cities" element={(<Cities />)}/>
           <Route path="filters" element={(<Filters />)}/>
           <Route path="categories" element={(<></>)}/>
           <Route path="products" element={(<></>)}/>
