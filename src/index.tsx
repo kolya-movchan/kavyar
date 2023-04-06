@@ -18,6 +18,8 @@ import { NotFound } from './components/NotFound';
 import { HomePageLogo } from './components/Admin/HomePageLogo';
 import { Filters } from './components/Admin/Filters';
 import { Cities } from './components/Admin/Cities';
+import { Categories } from './components/Admin/Categories';
+import { Products } from './components/Admin/Products';
 
 const hashRouter = () => (
   <BrowserRouter>
@@ -30,8 +32,8 @@ const hashRouter = () => (
           <Route path="coffeeshops" element={<CoffeeShops title={'Ваші кав’ярні'} />} />
           <Route path="cities" element={(<Cities />)}/>
           <Route path="filters" element={(<Filters />)}/>
-          <Route path="categories" element={(<></>)}/>
-          <Route path="products" element={(<></>)}/>
+          <Route path="categories" element={(<Categories />)}/>
+          <Route path="products" element={(<Products />)}/>
           <Route path="form" element={<Form />} />
         </Route>
 

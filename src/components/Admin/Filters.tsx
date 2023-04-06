@@ -18,20 +18,24 @@ export const Filters: React.FC = ( ) => {
 
   return (
     <>
-      <SearchPannel
-        value={searchQuery}
-        onChange={setSearchQuery}
-        decoration="search-input--filters"
-      />
+      <div className="menus-top">
+        <SearchPannel
+          value={searchQuery}
+          onChange={setSearchQuery}
+          decoration="search-input--filters"
+        />
 
-      <div className="filters">
+        {/* <div className="menus-top__dynamic"> */}
         <DynamicAddButton
           input={input}
           showInput={setInput}
           onQuery={setQuery}
           query={query}
         />
+        {/* </div> */}
+      </div>
 
+      <div className="filters">
         <div className="filters__active">
           <h2 className="filters__title">
             Активні

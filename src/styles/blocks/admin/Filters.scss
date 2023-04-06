@@ -1,7 +1,20 @@
 @import '../../_utils/extends.scss';
 @import '../../_utils/variables.scss';
 
+.menus-top {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 20px 50px;
+
+  // &__dynamic {
+  //   display: flex;
+  //   justify-content: flex-end;
+  //   width: 300px;
+  // }
+}
+
 .filters {
+  // height: 80vh;
   @extend %flex;
   flex-direction: column;
   gap: 20px;

@@ -3,17 +3,17 @@ import { SearchPannel } from '../SearchPannel';
 import { DynamicAddButton } from './DynamicAddButton';
 import { DynamicField } from './DynamicField';
 
-export const Cities: React.FC = ( ) => {
+export const Categories: React.FC = ( ) => {
   const [ searchQuery, setSearchQuery ] = useState('');
   const [ query, setQuery ] = useState('');
   const [ input, setInput ] = useState(false);
 
   const test = [
-    'Київ', 'Львів', 'Одеса',
+    'Кава', 'Десерти',
   ];
 
   const test2 = [
-    'Хмельницький', 'Чернівці',
+    'Сінабони',
   ];
 
   return (
