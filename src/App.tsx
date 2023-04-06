@@ -10,7 +10,10 @@ export const App: React.FC = () => {
   return (
     <>
       <Header />
-      <div className="tabs is-medium is-centered admin-panel__tabs">
+      <div
+        className="tabs is-medium is-centered" 
+        style={{ border: 'solid 1px #000'}}
+      >
         <ul>
           <li><MenuItem title={'Кавʼярні'} address={'coffeeshops'} /></li>
           <li><MenuItem title={'Фільтри'} address={'filters'} /></li>

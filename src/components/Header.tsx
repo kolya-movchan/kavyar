@@ -11,7 +11,7 @@ export const Header: React.FC<Props> = ( {navBar = true} ) => {
     <>
       <div className="header">
         <div className="header__container">
-          <NavLink className="header__logo-container logo" to="/admin">
+          <NavLink className="header__logo-container logo" to="/">
             <span className="logo__title">
               Кав’яр
             </span>
@@ -23,7 +23,7 @@ export const Header: React.FC<Props> = ( {navBar = true} ) => {
             <div className="navBar">
 
               <NavLink
-                to="/admin"
+                to="/"
                 className=""
               >
                 <img

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NotFound } from '../NotFound';
+import { SearchPannel } from '../SearchPannel';
 
 type Props = {
   title: string,
@@ -10,28 +11,28 @@ export const CoffeeShops: React.FC<Props> = ( { title } ) => {
 
   const cfp = [
     {
-      img: './sturbucks.png',
+      img: '../../sturbucks.png',
       name: 'Український наступ',
       slogan: 'Найдешевша ціна',
       productName: 'Лонг Блек/Еспресо',
       price: '45 ГРН',
     },
     {
-      img: './idealist-coffee.jpg',
+      img: '../../idealist-coffee.jpg',
       name: 'Український наступ',
       slogan: 'Найдешевша ціна',
       productName: 'Лонг Блек/Еспресо',
       price: '100 ГРН',
     },
     {
-      img: './test-coffee.jpeg',
+      img: '../../test-coffee.jpeg',
       name: 'Український наступ',
       slogan: 'Найдешевша ціна',
       productName: 'Лонг Блек/Еспресо',
       price: '95 ГРН',
     },
     {
-      img: './merry-berry.png',
+      img: '../../merry-berry.png',
       name: 'Український наступ',
       slogan: 'Найдешевша ціна',
       productName: 'Лонг Блек/Еспресо',
@@ -59,21 +60,21 @@ export const CoffeeShops: React.FC<Props> = ( { title } ) => {
     //   price: '92 ГРН',
     // },
     {
-      img: './idealist-coffee.jpg',
+      img: '../../idealist-coffee.jpg',
       name: 'Український наступ',
       slogan: 'Найдешевша ціна',
       productName: 'Лонг Блек/Еспресо',
       price: '33 ГРН',
     },
     {
-      img: './test-coffee.jpeg',
+      img: '../../test-coffee.jpeg',
       name: 'Український наступ',
       slogan: 'Найдешевша ціна',
       productName: 'Лонг Блек/Еспресо',
       price: '932 ГРН',
     },
     {
-      img: './sturbucks.png',
+      img: '../../sturbucks.png',
       name: 'Український наступ',
       slogan: 'Найдешевша ціна',
       productName: 'Лонг Блек/Еспресо',
@@ -87,17 +88,12 @@ export const CoffeeShops: React.FC<Props> = ( { title } ) => {
   
   return (
     <div className="cfp">
+      <SearchPannel
+        value={query}
+        onChange={setQuery}
+        decoration="search-input--cfp"
+      />
       <div className="cfp__wrapper">
-        <div className="cfp__search">
-          <input
-            type="search"
-            className='cfp__search-input input'
-            value={query}
-            placeholder="Пошук"
-            onChange={(event) => setQuery(event.target.value)}
-          />
-        </div>
-
         <div className="cfp-card-container">
           <ul className="cfp-card__list">
             {cfpFiltered.map(store => {

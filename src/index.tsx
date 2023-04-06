@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
-  HashRouter,
+  BrowserRouter,
   Navigate,
   Route,
   Routes,
@@ -16,24 +16,28 @@ import { App } from './App';
 import { CoffeeShops } from './components/Admin/CoffeeShops';
 import { NotFound } from './components/NotFound';
 import { HomePageLogo } from './components/Admin/HomePageLogo';
+import { Filters } from './components/Admin/Filters';
 
 const hashRouter = () => (
-  <HashRouter>
+  <BrowserRouter>
     <AuthProvider>
       <Routes>
-        <Route path="admin/" element={<App />}>
+        <Route path="/admin" element={<App />}>
           <Route index element={<HomePageLogo />}/>
-          <Route path="home" element={<Navigate to="/admin" replace />}/>
+          <Route path="admin/home" element={<Navigate to="/admin" replace />}/>
           <Route path="*" element={<NotFound title={'Сторінку'} styling={'page'} />}/>
-          <Route path="form" element={<Form />} />
           <Route path="coffeeshops" element={<CoffeeShops title={'Ваші кав’ярні'} />} />
-          <Route path="filters" element={(<></>)}/>
+          {/* <Route path="cities" element={(<Cities />)}/> */}
+          <Route path="filters" element={(<Filters />)}/>
           <Route path="categories" element={(<></>)}/>
           <Route path="products" element={(<></>)}/>
+          <Route path="form" element={<Form />} />
         </Route>
+
+        <Route path="/" element={<Navigate to="/admin" replace />}/>
       </Routes>
     </AuthProvider>
-  </HashRouter>
+  </BrowserRouter>
 );
 
 ReactDOM.render(hashRouter(), document.getElementById('root'));
