@@ -1,6 +1,5 @@
 package ua.kavyar;
 
-import java.util.List;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +12,6 @@ public class StartKavyarServer {
     public static void main(String[] args) {
         SpringApplication.run(StartKavyarServer.class, args);
     }
-
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
