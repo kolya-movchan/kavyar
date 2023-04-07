@@ -25,6 +25,7 @@ import ua.kavyar.service.mapper.ResponseDtoMapper;
 @RestController
 @RequestMapping("/coffee-shops")
 public class CoffeeShopController {
+
     private final CoffeeShopService coffeeShopService;
     private final DtoMapper<CoffeeShop,
             CoffeeShopCreateRequestDto, CoffeeShopResponseDto> coffeeShopDtoMapper;

@@ -9,6 +9,7 @@ import ua.kavyar.service.mapper.DtoMapper;
 @Service
 public class FeatureDtoMapper implements
         DtoMapper<Feature, FeatureRequestDto, FeatureResponseDto> {
+
     @Override
     public FeatureResponseDto mapToDto(Feature feature) {
         FeatureResponseDto featureResponseDto = new FeatureResponseDto();

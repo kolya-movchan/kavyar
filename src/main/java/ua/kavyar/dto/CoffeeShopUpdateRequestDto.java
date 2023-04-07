@@ -14,9 +14,9 @@ public class CoffeeShopUpdateRequestDto {
     private LocalTime open;
     private LocalTime close;
     private String url;
-    private Long logoId;
+    private PhotoUpdateRequestDto logo;
+    private PhotoUpdateRequestDto photo;
     private String location;
-    private List<Long> photos;
     private List<Long> features;
     private List<ProductPriceUpdateRequestDto> productPrices;
     private List<ProductPriceRequestDto> newProductPrices;

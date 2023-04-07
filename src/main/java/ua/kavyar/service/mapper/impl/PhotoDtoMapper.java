@@ -8,6 +8,7 @@ import ua.kavyar.service.mapper.DtoMapper;
 
 @Service
 public class PhotoDtoMapper implements DtoMapper<Photo, PhotoRequestDto, PhotoResponseDto> {
+
     @Override
     public PhotoResponseDto mapToDto(Photo photo) {
         PhotoResponseDto photoResponseDto = new PhotoResponseDto();

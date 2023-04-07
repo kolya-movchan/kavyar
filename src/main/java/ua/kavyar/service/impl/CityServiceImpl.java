@@ -8,6 +8,7 @@ import ua.kavyar.service.CityService;
 
 @Service
 public class CityServiceImpl implements CityService {
+
     private final CityRepository cityRepository;
 
     public CityServiceImpl(CityRepository cityRepository) {

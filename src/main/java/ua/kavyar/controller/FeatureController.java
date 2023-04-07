@@ -19,6 +19,7 @@ import ua.kavyar.service.mapper.DtoMapper;
 @RestController
 @RequestMapping("/features")
 public class FeatureController {
+
     private final FeatureService featureService;
     private final DtoMapper<Feature, FeatureRequestDto, FeatureResponseDto> dtoMapper;
 

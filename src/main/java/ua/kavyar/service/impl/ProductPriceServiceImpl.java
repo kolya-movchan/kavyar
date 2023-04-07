@@ -7,6 +7,7 @@ import ua.kavyar.service.ProductPriceService;
 
 @Service
 public class ProductPriceServiceImpl implements ProductPriceService {
+
     private final ProductPriceRepository productPriceRepository;
 
     public ProductPriceServiceImpl(ProductPriceRepository productPriceRepository) {

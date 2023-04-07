@@ -8,6 +8,7 @@ import ua.kavyar.service.mapper.ResponseDtoMapper;
 @Service
 public class CoffeeShopSimpleResponseDtoMapper implements
         ResponseDtoMapper<CoffeeShop, CoffeeShopSimpleResponseDto> {
+
     @Override
     public CoffeeShopSimpleResponseDto mapToDto(CoffeeShop coffeeShop) {
         CoffeeShopSimpleResponseDto coffeeShopSimpleResponseDto = new CoffeeShopSimpleResponseDto();

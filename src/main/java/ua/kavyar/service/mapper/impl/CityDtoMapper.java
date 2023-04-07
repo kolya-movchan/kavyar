@@ -8,6 +8,7 @@ import ua.kavyar.service.mapper.DtoMapper;
 
 @Service
 public class CityDtoMapper implements DtoMapper<City, CityRequestDto, CityResponseDto> {
+
     @Override
     public CityResponseDto mapToDto(City city) {
         CityResponseDto cityResponseDto = new CityResponseDto();

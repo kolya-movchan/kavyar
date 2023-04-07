@@ -9,6 +9,7 @@ import ua.kavyar.service.mapper.DtoMapper;
 @Service
 public class CategoryDtoMapper implements
         DtoMapper<Category, CategoryRequestDto, CategoryResponseDto> {
+
     @Override
     public CategoryResponseDto mapToDto(Category category) {
         CategoryResponseDto categoryResponseDto = new CategoryResponseDto();

@@ -9,6 +9,7 @@ import ua.kavyar.service.mapper.RequestDtoMapper;
 @Service
 public class ProductPriceUpdateRequestDtoMapper implements
         RequestDtoMapper<ProductPrice, ProductPriceUpdateRequestDto> {
+
     private final ProductPriceService productPriceService;
 
     public ProductPriceUpdateRequestDtoMapper(ProductPriceService productPriceService) {

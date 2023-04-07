@@ -8,6 +8,7 @@ import ua.kavyar.service.PhotoService;
 
 @Service
 public class PhotoServiceImpl implements PhotoService {
+
     private final PhotoRepository photoRepository;
 
     public PhotoServiceImpl(PhotoRepository photoRepository) {

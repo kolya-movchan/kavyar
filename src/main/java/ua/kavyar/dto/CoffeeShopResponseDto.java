@@ -16,8 +16,8 @@ public class CoffeeShopResponseDto {
     private LocalTime close;
     private String url;
     private String location;
-    private String logo;
-    private List<PhotoResponseDto> photos;
+    private PhotoResponseDto logo;
+    private PhotoResponseDto photo;
     private List<FeatureResponseDto> features;
     private List<ProductPriceResponseDto> productPrices;
 }

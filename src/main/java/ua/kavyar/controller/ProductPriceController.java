@@ -19,6 +19,7 @@ import ua.kavyar.service.mapper.DtoMapper;
 @RestController
 @RequestMapping("/product-prices")
 public class ProductPriceController {
+
     private final ProductPriceService productPriceService;
     private final CoffeeShopService coffeeShopService;
     private final DtoMapper<ProductPrice, ProductPriceRequestDto,

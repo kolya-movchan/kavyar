@@ -8,6 +8,7 @@ import ua.kavyar.service.FeatureService;
 
 @Service
 public class FeatureServiceImpl implements FeatureService {
+
     private final FeatureRepository featureRepository;
 
     public FeatureServiceImpl(FeatureRepository featureRepository) {

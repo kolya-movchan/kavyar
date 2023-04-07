@@ -13,6 +13,7 @@ import ua.kavyar.service.mapper.DtoMapper;
 @Service
 public class ProductDtoMapper implements
         DtoMapper<Product, ProductRequestDto, ProductResponseDto> {
+
     private final DtoMapper<Category, CategoryRequestDto, CategoryResponseDto> categoryDtoMapper;
     private final CategoryService categoryService;
 

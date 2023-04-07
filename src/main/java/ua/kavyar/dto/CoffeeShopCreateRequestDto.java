@@ -13,9 +13,9 @@ public class CoffeeShopCreateRequestDto {
     private LocalTime open;
     private LocalTime close;
     private String url;
-    private Long logoId;
     private String location;
-    private List<Long> photos;
+    private PhotoRequestDto logo;
+    private PhotoRequestDto photo;
     private List<Long> features;
     private List<ProductPriceRequestDto> productPrices;
 }

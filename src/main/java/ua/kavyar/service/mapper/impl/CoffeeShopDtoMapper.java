@@ -19,12 +19,12 @@ import ua.kavyar.model.Photo;
 import ua.kavyar.model.ProductPrice;
 import ua.kavyar.service.CityService;
 import ua.kavyar.service.FeatureService;
-import ua.kavyar.service.PhotoService;
 import ua.kavyar.service.mapper.DtoMapper;
 
 @Service
 public class CoffeeShopDtoMapper implements
         DtoMapper<CoffeeShop, CoffeeShopCreateRequestDto, CoffeeShopResponseDto> {
+
     private static final boolean DEFAULT_IS_DISABLE_COFFEE_SHOP = false;
     private final DtoMapper<City, CityRequestDto, CityResponseDto> cityDtoMapper;
     private final DtoMapper<Photo, PhotoRequestDto, PhotoResponseDto> photoDtoMapper;
@@ -32,7 +32,6 @@ public class CoffeeShopDtoMapper implements
     private final DtoMapper<ProductPrice, ProductPriceRequestDto,
             ProductPriceResponseDto> productPriceDtoMapper;
     private final CityService cityService;
-    private final PhotoService photoService;
     private final FeatureService featureService;
 
     public CoffeeShopDtoMapper(
@@ -41,14 +40,12 @@ public class CoffeeShopDtoMapper implements
             DtoMapper<Feature, FeatureRequestDto, FeatureResponseDto> featureDtoMapper,
             DtoMapper<ProductPrice, ProductPriceRequestDto,
                     ProductPriceResponseDto> productPriceDtoMapper,
-            CityService cityService, PhotoService photoService,
-            FeatureService featureService) {
+            CityService cityService, FeatureService featureService) {
         this.cityDtoMapper = cityDtoMapper;
         this.photoDtoMapper = photoDtoMapper;
         this.featureDtoMapper = featureDtoMapper;
         this.productPriceDtoMapper = productPriceDtoMapper;
         this.cityService = cityService;
-        this.photoService = photoService;
         this.featureService = featureService;
     }
 
@@ -65,10 +62,8 @@ public class CoffeeShopDtoMapper implements
         coffeeShopResponseDto.setClose(coffeeShop.getClose());
         coffeeShopResponseDto.setUrl(coffeeShop.getUrl());
         coffeeShopResponseDto.setLocation(coffeeShop.getLocation());
-        coffeeShopResponseDto.setLogo(coffeeShop.getLogo().getUrl());
-        coffeeShopResponseDto.setPhotos(coffeeShop.getPhotos().stream()
-                .map(photoDtoMapper::mapToDto)
-                .collect(Collectors.toList()));
+        coffeeShopResponseDto.setLogo(photoDtoMapper.mapToDto(coffeeShop.getLogo()));
+        coffeeShopResponseDto.setPhoto(photoDtoMapper.mapToDto(coffeeShop.getPhoto()));
         coffeeShopResponseDto.setFeatures(coffeeShop.getFeatures().stream()
                 .map(featureDtoMapper::mapToDto)
                 .collect(Collectors.toList()));
@@ -93,9 +88,8 @@ public class CoffeeShopDtoMapper implements
         coffeeShop.setClose(coffeeShopCreateRequestDto.getClose());
         coffeeShop.setUrl(coffeeShopCreateRequestDto.getUrl());
         coffeeShop.setLocation(coffeeShopCreateRequestDto.getLocation());
-        coffeeShop.setLogo(photoService.getById(coffeeShopCreateRequestDto.getLogoId()));
-        coffeeShop.setPhotos(coffeeShopCreateRequestDto.getPhotos().stream()
-                .map(photoService::getById).collect(Collectors.toList()));
+        coffeeShop.setLogo(photoDtoMapper.mapToModel(coffeeShopCreateRequestDto.getLogo()));
+        coffeeShop.setPhoto(photoDtoMapper.mapToModel(coffeeShopCreateRequestDto.getPhoto()));
         coffeeShop.setFeatures(coffeeShopCreateRequestDto.getFeatures().stream()
                 .map(featureService::getById).collect(Collectors.toList()));
         coffeeShop.setProducts(coffeeShopCreateRequestDto.getProductPrices().stream()
