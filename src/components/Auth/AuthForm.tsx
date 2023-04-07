@@ -1,3 +1,5 @@
+// CHANGE TYPE OF INPUT TO EMAIL type="text" - WRONG/TEMPORARY
+
 import React, { useEffect, useState } from 'react';
 import { getAdminByEmail } from '../../api/fetch';
 import '../../styles/main.scss';
@@ -79,7 +81,7 @@ export const AuthForm: React.FC<Props> = ({ onLogin }) => {
             <div className="login__login-container">
               <input
                 className="input login__login-input login__input"
-                type="email"
+                type="text"
                 placeholder="Логін"
                 value={login}
                 onChange={(event) => setLogin(event.target.value)}

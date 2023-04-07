@@ -15,12 +15,12 @@ export const App: React.FC = () => {
         style={{ border: 'solid 1px #000'}}
       >
         <ul>
-          <li><MenuItem title={'Міста'} address={'cities'} /></li>
-          <li><MenuItem title={'Особливості'} address={'features'} /></li>
-          <li><MenuItem title={'Категорії'} address={'categories'} /></li>
-          <li><MenuItem title={'Продукти'} address={'products'} /></li>
-          <li><MenuItem title={'Кавʼярні'} address={'coffeeshops'} /></li>
-          <li><MenuItem title={'Створити Кавʼярню'} address={'form'} /></li>
+          <li><MenuItem title={'Міста'} address={'cities'}/></li>
+          <li><MenuItem title={'Особливості'} address={'features'}/></li>
+          <li><MenuItem title={'Категорії'} address={'categories'}/></li>
+          <li><MenuItem title={'Продукти'} address={'products'}/></li>
+          <li><MenuItem title={'Кавʼярні'} address={'coffeeshops'}/></li>
+          <li><MenuItem title={'Створити Кавʼярню'} address={'form'}/></li>
         </ul>
       </div>
 

@@ -88,9 +88,9 @@ export const Cities: React.FC = ( ) => {
               Активні
             </h2>
 
-            {(loader || !cities) && (
-              <Loader type='spin' color='#000' />
-            )}
+            {!cities && <Loader type='spin' color='#000' />}
+
+            {loader && <Loader type='bubbles' color='#000' />}
 
             <ul
               className="filters__active-list"

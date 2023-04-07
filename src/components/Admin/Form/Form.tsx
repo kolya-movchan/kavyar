@@ -20,7 +20,7 @@ export const Form: React.FC = () => {
   const [count, addCount] = useState(0);
   const [productList, setProductList] = useState<Product[]>([]);
 
-  const unique_id = uuid();
+  const unique_id = Number(uuid());
 
   const fieldsFilledIn = logoURL && name && description && socialURL;
 
@@ -78,7 +78,7 @@ export const Form: React.FC = () => {
     }
   };
 
-  const deleteProduct = (id: string) => {
+  const deleteProduct = (id: number) => {
     const filtered = productList.filter(productItem => productItem.id !== id);
 
     setProductList(filtered);
@@ -117,22 +117,11 @@ export const Form: React.FC = () => {
   // console.log(JSON.stringify(productList));
 
   const productsTest: Product[] = [
-    {
-      name: 'Cappucino',
-      value: 'Cappucino',
-    },
-    {
-      name: 'Amerikano',
-      value: 'Amerikano',
-    },
-    {
-      name: 'Test1',
-      value: 'Test1',
-    },
-    {
-      name: 'Test2',
-      value: 'Test2',
-    },
+    {"id":1,"name":"Espresso","description":"Espresso","category":{"id":1,"name":"Coffee"}},
+    {"id":2,"name":"Americano","description":"Americano","category":{"id":1,"name":"Coffee"}},
+    {"id":3,"name":"Cappuccino","description":"Cappuccino","category":{"id":1,"name":"Coffee"}},
+    {"id":4,"name":"Brownie","description":"Brownie","category":{"id":4,"name":"Desserts"}},
+    {"id":5,"name":"Cheesecake","description":"Cheesecake","category":{"id":4,"name":"Desserts"}}
   ];
   
   return (

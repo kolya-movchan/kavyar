@@ -20,5 +20,8 @@
   &__menu-item {
     font-size: 20px;
     font-family: $title-bold-medium;
+    // background-image: url(../../../../public/city-bg.png);
+    background-size: 100px;
+    background-repeat: no-repeat;
   }
 }

@@ -11,7 +11,7 @@ type Props = {
   setProduct: (value: string) => void,
   setProductPrice: (value: string) => void,
   productList: Product[],
-  onDelete: (value: string) => void,
+  onDelete: (value: number) => void,
   productsTest: Product[],
 };
 

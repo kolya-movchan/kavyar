@@ -1,20 +1,66 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { deleteProductAPI, getAllProductsAPI, postNewProductAPI } from '../../api/fetch';
+import { Product } from '../../types/Product';
+import { Loader } from '../Loader';
 import { SearchPannel } from '../SearchPannel';
 import { DynamicAddButton } from './DynamicAddButton';
 import { DynamicField } from './DynamicField';
 
 export const Products: React.FC = ( ) => {
-  const [ searchQuery, setSearchQuery ] = useState('');
-  const [ query, setQuery ] = useState('');
-  const [ input, setInput ] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [query, setQuery] = useState('');
+  const [input, setInput] = useState(false);
+  const [products, setProducts] = useState<Product[] | null>(null);
+  const [loader, setLoader] = useState(false);
 
-  const test = [
-    'Product 1', 'Product2 ',
-  ];
+  const getProducts = () => {
+    getAllProductsAPI('products')
+      .then(categoriesList => setProducts(categoriesList))
+      .catch(e => {
+        console.log(e);
+      })
+      .finally(() => setLoader(false));
+  };
 
-  const test2 = [
-    'test',
-  ];
+  const addProducts = () => {
+    setInput(false);
+
+    if (query) {
+      const newProduct = {
+        id: 0,
+        name: query,
+      };
+
+      postNewProductAPI(newProduct)
+        .then(() => setTimeout(() => {
+          getProducts();
+        }, 100))
+        .catch((e) => {
+          console.log(e);
+          setLoader(false);
+        });
+
+      setQuery('');
+      setLoader(true);
+    }
+  };
+
+  const deleteProduct = (id: number) => {
+    setLoader(true);
+
+    deleteProductAPI(id)
+      .then(() => getProducts())
+      .catch((e) => {
+        console.log(e);
+        setLoader(false);
+      });
+  };
+
+  const productsSorted = products?.sort((product1, product2) => (product2.id - product1.id));
+
+  useEffect(() => {
+    getProducts();
+  }, []);
 
   return (
     <>
@@ -24,11 +70,13 @@ export const Products: React.FC = ( ) => {
           onChange={setSearchQuery}
           decoration="search-input--filters"
         />
+
         <DynamicAddButton
           input={input}
           showInput={setInput}
           onQuery={setQuery}
           query={query}
+          onAdd={addProducts}
         />
       </div>
 
@@ -38,19 +86,25 @@ export const Products: React.FC = ( ) => {
             Активні
           </h2>
 
+          {!products && <Loader type='spin' color='#000' />}
+
+          {loader && <Loader type='bubbles' color='#000' />}
+
           <ul className="filters__active-list">
-            {test.map(city => (
+            {productsSorted && productsSorted.map(product => (
               <DynamicField
-                key={city}
-                value={city}
+                key={product.id}
+                value={product.name}
                 styling="filters__active-item"
                 stylingLink="../power_cfp.svg"
+                id={product.id}
+                onDelete={deleteProduct}
               />
             ))}
           </ul>
         </div>
 
-        <div className="filters__inactive">
+        {/* <div className="filters__inactive">
           <h2 className="filters__title">
             Неактивні
           </h2>
@@ -66,7 +120,7 @@ export const Products: React.FC = ( ) => {
               />
             ))}
           </ul>
-        </div>
+        </div> */}
       </div>
     </>
   );

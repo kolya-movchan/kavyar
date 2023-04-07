@@ -92,9 +92,9 @@ export const Features: React.FC = ( ) => {
             Активні
           </h2>
 
-          {(loader || !features) && (
-            <Loader type='spin' color='#000' />
-          )}
+          {!features && <Loader type='spin' color='#000' />}
+
+          {loader && <Loader type='bubbles' color='#000' />}
 
           <ul
             className="filters__active-list"
