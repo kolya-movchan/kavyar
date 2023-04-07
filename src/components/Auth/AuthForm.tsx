@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { getAdminByEmail } from '../../api/fetch';
 import '../../styles/main.scss';
-import { User } from '../../types/User';
+// import { User } from '../../types/User';
 import { Header } from '../Header';
 
 export type Props = {
-  onLogin: (user: User) => void,
+  onLogin: (user: string) => void,
 };
 
 export const AuthForm: React.FC<Props> = ({ onLogin }) => {
@@ -15,7 +15,7 @@ export const AuthForm: React.FC<Props> = ({ onLogin }) => {
   // const [loading, setLoading] = useState(false);
   // console.log(onLogin);
 
-  const saveAdmin = (user: User) => {
+  const saveAdmin = (user: string) => {
     localStorage.setItem('user', JSON.stringify(user));
     onLogin(user);
   };
@@ -51,7 +51,7 @@ export const AuthForm: React.FC<Props> = ({ onLogin }) => {
     }
 
     try {
-      const admin = JSON.parse(userData) as User;
+      const admin = JSON.parse(userData) as string;
 
       onLogin(admin);
 

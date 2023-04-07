@@ -1,10 +1,11 @@
 import { City } from '../types/City';
 import { Feature } from '../types/Feature';
-import { User } from '../types/User';
+// import { User } from '../types/User';
 import { item } from './fetch-extended';
 
 export const getAdminByEmail = async (email: string) => {
-  const user = await item.get<User>(`/users?email=${email}`);
+  // const user = await item.get<User>(`/users?email=${email}`);
+  const user = await Promise.resolve(email);
 
   return user || null;
 };
