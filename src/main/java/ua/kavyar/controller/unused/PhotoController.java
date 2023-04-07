@@ -1,4 +1,4 @@
-package ua.kavyar.controller;
+package ua.kavyar.controller.unused;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ua.kavyar.dto.PhotoRequestDto;
 import ua.kavyar.dto.PhotoResponseDto;
 import ua.kavyar.model.Photo;
-import ua.kavyar.service.PhotoService;
+import ua.kavyar.service.unused.PhotoService;
 import ua.kavyar.service.mapper.DtoMapper;
 
 @RestController

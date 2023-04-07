@@ -12,21 +12,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ua.kavyar.dto.FeatureRequestDto;
 import ua.kavyar.dto.FeatureResponseDto;
+import ua.kavyar.dto.MessageResponseDto;
 import ua.kavyar.model.Feature;
 import ua.kavyar.service.FeatureService;
 import ua.kavyar.service.mapper.DtoMapper;
+import ua.kavyar.service.mapper.ResponseDtoMapper;
 
 @RestController
 @RequestMapping("/features")
 public class FeatureController {
 
+    private static final String MESSAGE = "Success!";
+
     private final FeatureService featureService;
     private final DtoMapper<Feature, FeatureRequestDto, FeatureResponseDto> dtoMapper;
+    private final ResponseDtoMapper<String, MessageResponseDto> messageResponseDtoMapper;
 
     public FeatureController(FeatureService featureService,
-                             DtoMapper<Feature, FeatureRequestDto, FeatureResponseDto> dtoMapper) {
+                             DtoMapper<Feature, FeatureRequestDto, FeatureResponseDto> dtoMapper,
+                             ResponseDtoMapper<String, MessageResponseDto> messageResponseDtoMapper) {
         this.featureService = featureService;
         this.dtoMapper = dtoMapper;
+        this.messageResponseDtoMapper = messageResponseDtoMapper;
     }
 
     @PostMapping
@@ -47,8 +54,9 @@ public class FeatureController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public MessageResponseDto delete(@PathVariable Long id) {
         featureService.delete(id);
+        return messageResponseDtoMapper.mapToDto(MESSAGE);
     }
 
     @PutMapping("/{id}")

@@ -1,4 +1,4 @@
-package ua.kavyar.repository;
+package ua.kavyar.repository.unused;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

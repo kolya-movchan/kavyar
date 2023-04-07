@@ -39,10 +39,10 @@ public class CoffeeShop {
     private LocalTime close;
     private String url;
     private String location;
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinColumn(name = "logo_id", unique = true)
     private Photo logo;
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinColumn(name = "photo_id", unique = true)
     private Photo photo;
     @ManyToMany

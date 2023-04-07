@@ -12,22 +12,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ua.kavyar.dto.CategoryRequestDto;
 import ua.kavyar.dto.CategoryResponseDto;
+import ua.kavyar.dto.MessageResponseDto;
 import ua.kavyar.model.Category;
 import ua.kavyar.service.CategoryService;
 import ua.kavyar.service.mapper.DtoMapper;
+import ua.kavyar.service.mapper.ResponseDtoMapper;
 
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
 
+    private static final String MESSAGE = "Success!";
+
     private final CategoryService categoryService;
     private final DtoMapper<Category, CategoryRequestDto, CategoryResponseDto> dtoMapper;
+    private final ResponseDtoMapper<String, MessageResponseDto> messageResponseDtoMapper;
 
     public CategoryController(CategoryService categoryService,
                               DtoMapper<Category,
-                                      CategoryRequestDto, CategoryResponseDto> dtoMapper) {
+                                      CategoryRequestDto, CategoryResponseDto> dtoMapper,
+                              ResponseDtoMapper<String, MessageResponseDto> messageResponseDtoMapper) {
         this.categoryService = categoryService;
         this.dtoMapper = dtoMapper;
+        this.messageResponseDtoMapper = messageResponseDtoMapper;
     }
 
     @PostMapping
@@ -48,8 +55,9 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public MessageResponseDto delete(@PathVariable Long id) {
         categoryService.delete(id);
+        return messageResponseDtoMapper.mapToDto(MESSAGE);
     }
 
     @PutMapping("/{id}")

@@ -1,4 +1,4 @@
-package ua.kavyar.service;
+package ua.kavyar.service.unused;
 
 import java.util.List;
 import ua.kavyar.model.Photo;

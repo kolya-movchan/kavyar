@@ -12,21 +12,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ua.kavyar.dto.CityRequestDto;
 import ua.kavyar.dto.CityResponseDto;
+import ua.kavyar.dto.MessageResponseDto;
 import ua.kavyar.model.City;
 import ua.kavyar.service.CityService;
 import ua.kavyar.service.mapper.DtoMapper;
+import ua.kavyar.service.mapper.ResponseDtoMapper;
 
 @RestController
 @RequestMapping("/cities")
 public class CityController {
 
+    private static final String MESSAGE = "Success!";
+
     private final CityService cityService;
     private final DtoMapper<City, CityRequestDto, CityResponseDto> dtoMapper;
+    private final ResponseDtoMapper<String, MessageResponseDto> messageResponseDtoMapper;
 
     public CityController(CityService cityService,
-                          DtoMapper<City, CityRequestDto, CityResponseDto> dtoMapper) {
+                          DtoMapper<City, CityRequestDto, CityResponseDto> dtoMapper,
+                          ResponseDtoMapper<String, MessageResponseDto> messageResponseDtoMapper) {
         this.cityService = cityService;
         this.dtoMapper = dtoMapper;
+        this.messageResponseDtoMapper = messageResponseDtoMapper;
     }
 
     @PostMapping
@@ -47,9 +54,9 @@ public class CityController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id) {
+    public MessageResponseDto delete(@PathVariable Long id) {
         cityService.delete(id);
-        return "Success!";
+        return messageResponseDtoMapper.mapToDto(MESSAGE);
     }
 
     @PutMapping("/{id}")

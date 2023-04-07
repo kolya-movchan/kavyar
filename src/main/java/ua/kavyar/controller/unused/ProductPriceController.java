@@ -1,4 +1,4 @@
-package ua.kavyar.controller;
+package ua.kavyar.controller.unused;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

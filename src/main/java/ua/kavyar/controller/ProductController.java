@@ -10,23 +10,30 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ua.kavyar.dto.MessageResponseDto;
 import ua.kavyar.dto.ProductRequestDto;
 import ua.kavyar.dto.ProductResponseDto;
 import ua.kavyar.model.Product;
 import ua.kavyar.service.ProductService;
 import ua.kavyar.service.mapper.DtoMapper;
+import ua.kavyar.service.mapper.ResponseDtoMapper;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
 
+    private static final String MESSAGE = "Success!";
+
     private final ProductService productService;
     private final DtoMapper<Product, ProductRequestDto, ProductResponseDto> dtoMapper;
+    private final ResponseDtoMapper<String, MessageResponseDto> messageResponseDtoMapper;
 
     public ProductController(ProductService productService,
-                             DtoMapper<Product, ProductRequestDto, ProductResponseDto> dtoMapper) {
+                             DtoMapper<Product, ProductRequestDto, ProductResponseDto> dtoMapper,
+                             ResponseDtoMapper<String, MessageResponseDto> messageResponseDtoMapper) {
         this.productService = productService;
         this.dtoMapper = dtoMapper;
+        this.messageResponseDtoMapper = messageResponseDtoMapper;
     }
 
     @PostMapping
@@ -48,8 +55,9 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public MessageResponseDto delete(@PathVariable Long id) {
         productService.delete(id);
+        return messageResponseDtoMapper.mapToDto(MESSAGE);
     }
 
     @PutMapping("/{id}")
