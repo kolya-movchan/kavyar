@@ -47,8 +47,9 @@ public class CityController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public String delete(@PathVariable Long id) {
         cityService.delete(id);
+        return "Success!";
     }
 
     @PutMapping("/{id}")
