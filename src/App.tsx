@@ -16,7 +16,7 @@ export const App: React.FC = () => {
       >
         <ul>
           <li><MenuItem title={'Міста'} address={'cities'} /></li>
-          <li><MenuItem title={'Фільтри'} address={'filters'} /></li>
+          <li><MenuItem title={'Особливості'} address={'features'} /></li>
           <li><MenuItem title={'Категорії'} address={'categories'} /></li>
           <li><MenuItem title={'Продукти'} address={'products'} /></li>
           <li><MenuItem title={'Кавʼярні'} address={'coffeeshops'} /></li>

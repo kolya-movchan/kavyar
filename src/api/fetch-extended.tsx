@@ -1,4 +1,5 @@
 import { City } from '../types/City';
+import { Feature } from '../types/Feature';
 
 const BASE_URL = 'https://kavyar-api.herokuapp.com';
 
@@ -13,7 +14,7 @@ type RequestMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE';
 function request<T>(
   url: string,
   method: RequestMethod = 'GET',
-  data: | City | null = null,
+  data: | City | Feature | null = null,
 ): Promise<T> {
   const options: RequestInit = { method };
 
@@ -31,6 +32,10 @@ function request<T>(
         throw new Error();
       }
 
+      // if (response.ok && method === 'DELETE') {
+      //   return response;
+      // }
+
       return response.json();
     });
 }
@@ -40,7 +45,7 @@ export const item = {
     return request<T>(url);
   },
 
-  post: function <T>(url: string, data: City) {
+  post: function <T>(url: string, data: City | Feature) {
     request<T>(url, 'POST', data);
   },
 

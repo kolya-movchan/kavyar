@@ -13,10 +13,12 @@ export const Cities: React.FC = ( ) => {
   const [cities, setCities] = useState<City[] | null>(null);
   const [loader, setLoader] = useState(false);
 
-
   const getCities = () => {
     getCitiesAll('cities')
       .then(cityList => setCities(cityList))
+      .catch(e => {
+        console.log(e);
+      })
       .finally(() => setLoader(false));
   };
 
@@ -30,20 +32,33 @@ export const Cities: React.FC = ( ) => {
       };
 
       postNewCity(newCity)
-        .then(() => getCities());
+        .then(() => setTimeout(() => {
+          getCities();
+        }, 100))
+        .catch((e) => {
+          console.log(e);
+          setLoader(false);
+        });
+
       setQuery('');
       setLoader(true);
     }
   };
 
   const handleCityDeletion = (id: number) => {
-    console.log(id);
-
     setLoader(true);
+
     deleteCity(id)
       .then(() => getCities())
-      .finally(() => setLoader(false));
+      .catch((e) => {
+        console.log(e);
+        setLoader(false);
+      });
   };
+
+  const citiesSorted = cities?.sort((city1, city2) => {
+    return city2.id - city1.id;
+  });
 
   useEffect(() => {
     getCities();
@@ -62,38 +77,39 @@ export const Cities: React.FC = ( ) => {
           showInput={setInput}
           onQuery={setQuery}
           query={query}
-          onCityAdd={addCity}
+          onAdd={addCity}
         />
       </div>
 
       <div className="filters">
-        {loader && <Loader type='spin' color='#000' />}
-        {!cities ? (
-          // <div>No data</div>
-          <Loader type='spin' color='#000' />
-        )
-          : (
-            <>
-              <div className="filters__active">
-                <h2 className="filters__title">
-                  Активні
-                </h2>
+        <>
+          <div className="filters__active">
+            <h2 className="filters__title">
+              Активні
+            </h2>
 
-                <ul className="filters__active-list">
-                  {cities && cities.map(city => (
-                    <DynamicField
-                      key={city.id}
-                      value={city.name}
-                      styling="filters__active-item"
-                      stylingLink="../power_cfp.svg"
-                      id={city.id}
-                      onDelete={handleCityDeletion}
-                    />
-                  ))}
-                </ul>
-              </div>
+            {(loader || !cities) && (
+              <Loader type='spin' color='#000' />
+            )}
 
-              {/* <div className="filters__inactive">
+            <ul
+              className="filters__active-list"
+              style={ loader ? {marginTop: '20px'}: {}}
+            >
+              {citiesSorted && citiesSorted.map(city => (
+                <DynamicField
+                  key={city.id}
+                  value={city.name}
+                  styling="filters__active-item"
+                  stylingLink="../power_cfp.svg"
+                  id={city.id}
+                  onDelete={handleCityDeletion}
+                />
+              ))}
+            </ul>
+          </div>
+
+          {/* <div className="filters__inactive">
                 <h2 className="filters__title">
                   Неактивні
                 </h2>
@@ -110,8 +126,7 @@ export const Cities: React.FC = ( ) => {
                   ))}
                 </ul>
               </div> */}
-            </>
-          )}
+        </>
       </div>
     </>
   );

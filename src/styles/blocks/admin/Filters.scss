@@ -54,6 +54,13 @@
     max-width: 80%;
   }
 
+  &__active {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
   &__active-item {
     background-color: $main-color-2;
   }

@@ -1,4 +1,5 @@
 import { City } from '../types/City';
+import { Feature } from '../types/Feature';
 import { User } from '../types/User';
 import { item } from './fetch-extended';
 
@@ -22,7 +23,16 @@ export const deleteCity = async (cityId: number) => {
   return item.delete(`/cities/${cityId}`);
 };
 
-// export const deleteTodos = (todoId: number) => {
-//   return client.delete(`/todos/${todoId}`);
-// };
+export const getFeaturesAll = async (value: string) => {
+  const features = await item.get<Feature[]>(`/${value}`);
 
+  return features || null;
+};
+
+export const postNewFeature = async (data: Feature) => {
+  return item.post<Feature>('/features', data);
+};
+
+export const deleteFeatureAPI = async (cityId: number) => {
+  return item.delete(`/features/${cityId}`);
+};

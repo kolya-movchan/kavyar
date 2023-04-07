@@ -5,7 +5,7 @@ type Props = {
   showInput: (value: boolean) => void,
   query: string,
   onQuery: (value: string) => void,
-  onCityAdd?: () => void,
+  onAdd?: () => void,
 };
 
 export const DynamicAddButton: React.FC<Props> = ({
@@ -14,7 +14,7 @@ export const DynamicAddButton: React.FC<Props> = ({
   onQuery,
   query,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onCityAdd = () => {},
+  onAdd = () => {},
 }) => {
   return (
     <div className="filters__add">
@@ -41,7 +41,7 @@ export const DynamicAddButton: React.FC<Props> = ({
           />
           <button
             className="filters__add-button button is-link"
-            onClick={() => onCityAdd()}
+            onClick={() => onAdd()}
             style={{ backgroundColor: '#000' }}
           >
             Додати
