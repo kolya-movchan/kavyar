@@ -4,43 +4,46 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import ua.kavyar.dto.CoffeeShopUpdateRequestDto;
+import ua.kavyar.dto.PhotoUpdateRequestDto;
 import ua.kavyar.dto.ProductPriceRequestDto;
 import ua.kavyar.dto.ProductPriceResponseDto;
 import ua.kavyar.dto.ProductPriceUpdateRequestDto;
 import ua.kavyar.model.CoffeeShop;
+import ua.kavyar.model.Photo;
 import ua.kavyar.model.ProductPrice;
 import ua.kavyar.service.CityService;
 import ua.kavyar.service.CoffeeShopService;
 import ua.kavyar.service.FeatureService;
-import ua.kavyar.service.PhotoService;
 import ua.kavyar.service.mapper.DtoMapper;
 import ua.kavyar.service.mapper.RequestDtoMapper;
 
 @Service
 public class CoffeeShopUpdateRequestDtoMapper implements
         RequestDtoMapper<CoffeeShop, CoffeeShopUpdateRequestDto> {
+
     private final RequestDtoMapper<ProductPrice,
             ProductPriceUpdateRequestDto> productPriceUpdateRequestDtoMapper;
+    private final RequestDtoMapper<Photo,
+            PhotoUpdateRequestDto> photoUpdateRequestDtoMapper;
     private final DtoMapper<ProductPrice, ProductPriceRequestDto,
                 ProductPriceResponseDto> productPriceDtoMapper;
     private final CityService cityService;
-    private final PhotoService photoService;
     private final FeatureService featureService;
     private final CoffeeShopService coffeeShopService;
 
     public CoffeeShopUpdateRequestDtoMapper(
             RequestDtoMapper<ProductPrice,
                     ProductPriceUpdateRequestDto> productPriceUpdateRequestDtoMapper,
+            RequestDtoMapper<Photo, PhotoUpdateRequestDto> photoUpdateRequestDtoMapper,
             DtoMapper<ProductPrice,
                     ProductPriceRequestDto, ProductPriceResponseDto> productPriceDtoMapper,
             CityService cityService,
-            PhotoService photoService,
             FeatureService featureService,
             CoffeeShopService coffeeShopService) {
         this.productPriceUpdateRequestDtoMapper = productPriceUpdateRequestDtoMapper;
+        this.photoUpdateRequestDtoMapper = photoUpdateRequestDtoMapper;
         this.productPriceDtoMapper = productPriceDtoMapper;
         this.cityService = cityService;
-        this.photoService = photoService;
         this.featureService = featureService;
         this.coffeeShopService = coffeeShopService;
     }
@@ -58,10 +61,11 @@ public class CoffeeShopUpdateRequestDtoMapper implements
         coffeeShop.setOpen(coffeeShopUpdateRequestDto.getOpen());
         coffeeShop.setClose(coffeeShopUpdateRequestDto.getClose());
         coffeeShop.setUrl(coffeeShopUpdateRequestDto.getUrl());
-        coffeeShop.setLogo(photoService.getById(coffeeShopUpdateRequestDto.getLogoId()));
+        coffeeShop.setLogo(photoUpdateRequestDtoMapper.mapToModel(
+                coffeeShopUpdateRequestDto.getLogo()));
+        coffeeShop.setPhoto(photoUpdateRequestDtoMapper.mapToModel(
+                coffeeShopUpdateRequestDto.getPhoto()));
         coffeeShop.setLocation(coffeeShopUpdateRequestDto.getLocation());
-        coffeeShop.setPhotos(coffeeShopUpdateRequestDto.getPhotos().stream()
-                .map(photoService::getById).collect(Collectors.toList()));
         coffeeShop.setFeatures(coffeeShopUpdateRequestDto.getFeatures().stream()
                 .map(featureService::getById).collect(Collectors.toList()));
         coffeeShop.setProducts(getProductPrices(coffeeShopUpdateRequestDto));

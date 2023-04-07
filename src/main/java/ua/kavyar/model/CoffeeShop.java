@@ -39,14 +39,12 @@ public class CoffeeShop {
     private LocalTime close;
     private String url;
     private String location;
-    @OneToOne
-    @JoinColumn(unique = true)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "logo_id", unique = true)
     private Photo logo;
-    @OneToMany
-    @JoinTable(name = "coffee_shops_photos",
-            joinColumns = @JoinColumn(name = "coffee_shop_id"),
-            inverseJoinColumns = @JoinColumn(name = "photo_id", unique = true))
-    private List<Photo> photos;
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "photo_id", unique = true)
+    private Photo photo;
     @ManyToMany
     @JoinTable(name = "coffee_shops_features",
             joinColumns = @JoinColumn(name = "coffee_shop_id"),

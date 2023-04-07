@@ -19,6 +19,7 @@ import ua.kavyar.service.mapper.DtoMapper;
 @RestController
 @RequestMapping("/photos")
 public class PhotoController {
+
     private final PhotoService photoService;
     private final DtoMapper<Photo, PhotoRequestDto, PhotoResponseDto> dtoMapper;
 

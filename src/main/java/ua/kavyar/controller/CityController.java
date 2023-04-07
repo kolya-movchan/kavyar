@@ -19,6 +19,7 @@ import ua.kavyar.service.mapper.DtoMapper;
 @RestController
 @RequestMapping("/cities")
 public class CityController {
+
     private final CityService cityService;
     private final DtoMapper<City, CityRequestDto, CityResponseDto> dtoMapper;
 

@@ -17,6 +17,7 @@ import ua.kavyar.service.handler.PaginationAndSortingHandler;
 
 @Service
 public class CoffeeShopServiceImpl implements CoffeeShopService {
+
     private final CoffeeShopRepository coffeeShopRepository;
     private final ProductPriceService productPriceService;
 

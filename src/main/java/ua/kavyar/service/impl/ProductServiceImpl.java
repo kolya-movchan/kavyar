@@ -8,6 +8,7 @@ import ua.kavyar.service.ProductService;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
     private final ProductRepository productRepository;
 
     public ProductServiceImpl(ProductRepository productRepository) {

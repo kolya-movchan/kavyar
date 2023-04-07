@@ -6,31 +6,27 @@ import org.springframework.web.bind.annotation.RestController;
 import ua.kavyar.model.Category;
 import ua.kavyar.model.City;
 import ua.kavyar.model.Feature;
-import ua.kavyar.model.Photo;
 import ua.kavyar.model.Product;
 import ua.kavyar.service.CategoryService;
 import ua.kavyar.service.CityService;
 import ua.kavyar.service.FeatureService;
-import ua.kavyar.service.PhotoService;
 import ua.kavyar.service.ProductService;
 
 @RestController
 @RequestMapping("/inject")
 public class InjectController {
+
     private final CityService cityService;
     private final CategoryService categoryService;
     private final FeatureService featureService;
     private final ProductService productService;
-    private final PhotoService photoService;
 
     public InjectController(CityService cityService, CategoryService categoryService,
-                            FeatureService featureService, ProductService productService,
-                            PhotoService photoService) {
+                            FeatureService featureService, ProductService productService) {
         this.cityService = cityService;
         this.categoryService = categoryService;
         this.featureService = featureService;
         this.productService = productService;
-        this.photoService = photoService;
     }
 
     @GetMapping
@@ -38,34 +34,7 @@ public class InjectController {
         injectCity();
         injectCategoryAndProduct();
         injectFeature();
-        injectPhoto();
         return "Done!";
-    }
-
-    private void injectPhoto() {
-        Photo logo1 = new Photo();
-        logo1.setUrl("logo1");
-        photoService.create(logo1);
-
-        Photo logo2 = new Photo();
-        logo2.setUrl("logo2");
-        photoService.create(logo1);
-
-        Photo photo1 = new Photo();
-        photo1.setUrl("photo1");
-        photoService.create(photo1);
-
-        Photo photo2 = new Photo();
-        photo2.setUrl("photo2");
-        photoService.create(photo2);
-
-        Photo photo3 = new Photo();
-        photo3.setUrl("photo3");
-        photoService.create(photo3);
-
-        Photo photo4 = new Photo();
-        photo4.setUrl("photo4");
-        photoService.create(photo4);
     }
 
     private void injectFeature() {

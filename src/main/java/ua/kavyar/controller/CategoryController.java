@@ -19,6 +19,7 @@ import ua.kavyar.service.mapper.DtoMapper;
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
+
     private final CategoryService categoryService;
     private final DtoMapper<Category, CategoryRequestDto, CategoryResponseDto> dtoMapper;
 
