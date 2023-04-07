@@ -20,7 +20,7 @@ export const App: React.FC = () => {
           <li><MenuItem title={'Категорії'} address={'categories'} /></li>
           <li><MenuItem title={'Продукти'} address={'products'} /></li>
           <li><MenuItem title={'Кавʼярні'} address={'coffeeshops'} /></li>
-          <li><MenuItem title={'+'} address={'form'} /></li>
+          <li><MenuItem title={'Створити Кавʼярню'} address={'form'} /></li>
         </ul>
       </div>
 

@@ -105,6 +105,7 @@ export const CoffeeShops: React.FC<Props> = ( { title } ) => {
                       src={img}
                       alt="coffee-shop1"
                       className="cpf__card-logo"
+                      style={{ borderRadius: '10px'}}
                     />
                   </div>
                   <div className="cfp-card__name">

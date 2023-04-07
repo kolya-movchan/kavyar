@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAdminByEmail } from '../../api/admin';
+import { getAdminByEmail } from '../../api/fetch';
 import '../../styles/main.scss';
 import { User } from '../../types/User';
 import { Header } from '../Header';

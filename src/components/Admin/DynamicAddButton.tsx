@@ -5,6 +5,7 @@ type Props = {
   showInput: (value: boolean) => void,
   query: string,
   onQuery: (value: string) => void,
+  onCityAdd?: () => void,
 };
 
 export const DynamicAddButton: React.FC<Props> = ({
@@ -12,17 +13,21 @@ export const DynamicAddButton: React.FC<Props> = ({
   showInput,
   onQuery,
   query,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onCityAdd = () => {},
 }) => {
   return (
     <div className="filters__add">
       {!input && (
-        <button
-          className="filters__create-button button is-link"
-          onClick={() => showInput(!input)}
-          style={{ backgroundColor: '#000' }}
-        >
-          +
-        </button>
+        <div className="filters__add-wrapper">
+          <button
+            className="filters__create-button button is-link"
+            onClick={() => showInput(!input)}
+            style={{ backgroundColor: '#000' }}
+          >
+            +
+          </button>
+        </div>
       )}
 
       {input && (
@@ -36,7 +41,7 @@ export const DynamicAddButton: React.FC<Props> = ({
           />
           <button
             className="filters__add-button button is-link"
-            onClick={() => showInput(false)}
+            onClick={() => onCityAdd()}
             style={{ backgroundColor: '#000' }}
           >
             Додати
