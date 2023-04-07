@@ -30,7 +30,8 @@ public class FeatureController {
 
     public FeatureController(FeatureService featureService,
                              DtoMapper<Feature, FeatureRequestDto, FeatureResponseDto> dtoMapper,
-                             ResponseDtoMapper<String, MessageResponseDto> messageResponseDtoMapper) {
+                             ResponseDtoMapper<String,
+                                     MessageResponseDto> messageResponseDtoMapper) {
         this.featureService = featureService;
         this.dtoMapper = dtoMapper;
         this.messageResponseDtoMapper = messageResponseDtoMapper;

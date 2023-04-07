@@ -30,7 +30,8 @@ public class ProductController {
 
     public ProductController(ProductService productService,
                              DtoMapper<Product, ProductRequestDto, ProductResponseDto> dtoMapper,
-                             ResponseDtoMapper<String, MessageResponseDto> messageResponseDtoMapper) {
+                             ResponseDtoMapper<String,
+                                     MessageResponseDto> messageResponseDtoMapper) {
         this.productService = productService;
         this.dtoMapper = dtoMapper;
         this.messageResponseDtoMapper = messageResponseDtoMapper;

@@ -31,7 +31,8 @@ public class CategoryController {
     public CategoryController(CategoryService categoryService,
                               DtoMapper<Category,
                                       CategoryRequestDto, CategoryResponseDto> dtoMapper,
-                              ResponseDtoMapper<String, MessageResponseDto> messageResponseDtoMapper) {
+                              ResponseDtoMapper<String,
+                                      MessageResponseDto> messageResponseDtoMapper) {
         this.categoryService = categoryService;
         this.dtoMapper = dtoMapper;
         this.messageResponseDtoMapper = messageResponseDtoMapper;

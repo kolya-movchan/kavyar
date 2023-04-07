@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ua.kavyar.dto.PhotoRequestDto;
 import ua.kavyar.dto.PhotoResponseDto;
 import ua.kavyar.model.Photo;
-import ua.kavyar.service.unused.PhotoService;
 import ua.kavyar.service.mapper.DtoMapper;
+import ua.kavyar.service.unused.PhotoService;
 
 @RestController
 @RequestMapping("/photos")
