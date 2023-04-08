@@ -1,5 +1,11 @@
 package ua.kavyar.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +24,7 @@ import ua.kavyar.service.CategoryService;
 import ua.kavyar.service.mapper.DtoMapper;
 import ua.kavyar.service.mapper.ResponseDtoMapper;
 
+@Tag(name = "Category", description = "Category API")
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
@@ -39,11 +46,20 @@ public class CategoryController {
     }
 
     @PostMapping
+    @Operation(summary = "create category", tags = "category")
+    @ApiResponse(responseCode = "200", description = "category created",
+            content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = CategoryResponseDto.class))})
     public CategoryResponseDto add(@RequestBody CategoryRequestDto categoryRequestDto) {
         return dtoMapper.mapToDto(categoryService.create(dtoMapper.mapToModel(categoryRequestDto)));
     }
 
     @GetMapping
+    @Operation(summary = "get all categories", tags = "category")
+    @ApiResponse(responseCode = "200", description = "all categories",
+            content = {@Content(mediaType = "application/json",
+                    array = @ArraySchema(schema = @Schema(
+                            implementation = CategoryResponseDto.class)))})
     public List<CategoryResponseDto> getAll() {
         return categoryService.findAll().stream()
                 .map(dtoMapper::mapToDto)
@@ -51,17 +67,29 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "get category by id", tags = "category")
+    @ApiResponse(responseCode = "200", description = "category by id",
+            content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = CategoryResponseDto.class))})
     public CategoryResponseDto getById(@PathVariable Long id) {
         return dtoMapper.mapToDto(categoryService.getById(id));
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "delete category by id", tags = "category")
+    @ApiResponse(responseCode = "200", description = "category deleted by id",
+            content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = MessageResponseDto.class))})
     public MessageResponseDto delete(@PathVariable Long id) {
         categoryService.delete(id);
         return messageResponseDtoMapper.mapToDto(MESSAGE);
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "update category by id", tags = "category")
+    @ApiResponse(responseCode = "200", description = "category updated by id",
+            content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = CategoryResponseDto.class))})
     public CategoryResponseDto update(@PathVariable Long id,
                                       @RequestBody CategoryRequestDto categoryRequestDto) {
         Category category = dtoMapper.mapToModel(categoryRequestDto);

@@ -1,5 +1,6 @@
 package ua.kavyar.controller.unused;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +17,7 @@ import ua.kavyar.model.Photo;
 import ua.kavyar.service.mapper.DtoMapper;
 import ua.kavyar.service.unused.PhotoService;
 
+@Hidden
 @RestController
 @RequestMapping("/photos")
 public class PhotoController {
