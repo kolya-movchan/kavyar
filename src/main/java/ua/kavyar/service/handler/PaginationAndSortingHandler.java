@@ -19,8 +19,8 @@ public class PaginationAndSortingHandler {
     @Autowired
     public PaginationAndSortingHandler() {
         fields = new String[]{"page", "count", "sortBy"};
-        defaultCount = 2;
-        defaultPage = 0;
+        defaultCount = 6;
+        defaultPage = 1;
     }
 
     public Pageable handle(Map<String, String> params) {
