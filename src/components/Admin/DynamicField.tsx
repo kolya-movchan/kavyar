@@ -1,4 +1,5 @@
 import React from 'react';
+// import { Category } from '../../types/Category';
 
 type Props = {
   value: string,
@@ -7,6 +8,7 @@ type Props = {
   stylingColor?: string,
   id?: number,
   onDelete?: (id: number) => void,
+  // categoryName?: Category
 };
 
 export const DynamicField: React.FC<Props> = ({
@@ -17,6 +19,7 @@ export const DynamicField: React.FC<Props> = ({
   id = 0,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onDelete = () => {},
+  // categoryName,
 }) => {
   return (
     <>
@@ -24,6 +27,12 @@ export const DynamicField: React.FC<Props> = ({
         <div className="filters__item-text">
           {value}
         </div>
+
+        {/* {categoryName && (
+          <div className="filters__category">
+            {categoryName.name}
+          </div>
+        )} */}
 
         <div className="filters__switch-container">
           <button

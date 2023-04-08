@@ -6,19 +6,21 @@ type Props = {
   query: string,
   onQuery: (value: string) => void,
   onAdd?: () => void,
+  hideMode?: boolean,
 };
 
 export const DynamicAddButton: React.FC<Props> = ({
-  input,
-  showInput,
+  // input,
+  // showInput,
   onQuery,
   query,
+  hideMode,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onAdd = () => {},
 }) => {
   return (
     <div className="filters__add">
-      {!input && (
+      {/* {!input && (
         <div className="filters__add-wrapper">
           <button
             className="filters__create-button button is-link"
@@ -28,17 +30,19 @@ export const DynamicAddButton: React.FC<Props> = ({
             +
           </button>
         </div>
-      )}
+      )} */}
 
-      {input && (
-        <div className="filters__add-container">
-          <input
-            type="text"
-            className="filters__input input"
-            placeholder="Введіть назву"
-            onChange={(event) => onQuery(event.target.value)}
-            value={query}
-          />
+      <div className="filters__add-container">
+        <input
+          type="text"
+          className="filters__input input"
+          placeholder="Введіть назву"
+          onChange={(event) => onQuery(event.target.value)}
+          value={query}
+          style={hideMode ? {marginBottom: '10px'} : {}}
+        />
+
+        {!hideMode && (
           <button
             className="filters__add-button button is-link"
             onClick={() => onAdd()}
@@ -46,8 +50,8 @@ export const DynamicAddButton: React.FC<Props> = ({
           >
             Додати
           </button>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

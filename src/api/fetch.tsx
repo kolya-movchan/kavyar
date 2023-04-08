@@ -65,7 +65,7 @@ export const getAllProductsAPI = async (value: string) => {
 };
 
 export const postNewProductAPI = async (data: Product) => {
-  return item.post<Category>('/products', data);
+  return item.post<Product>('/products', data);
 };
 
 export const deleteProductAPI = async (productId: number) => {

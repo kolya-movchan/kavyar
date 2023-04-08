@@ -8,7 +8,7 @@ import { Product } from '../../../types/Product';
 type Props = {
   name: string,
   value?: string,
-  label: string,
+  label?: string,
   required?: boolean,
   textarea?: boolean,
   maxLength?: number,
@@ -20,7 +20,7 @@ type Props = {
 
 export const InputField: React.FC<Props> = ({
   name,
-  label = name,
+  label = '',
   value,
   required = false,
   textarea = false,
@@ -49,7 +49,7 @@ export const InputField: React.FC<Props> = ({
     : label;
 
   return (
-    <div className="field">
+    <div className="field" style={{ display: 'flex', alignItems: 'center'}}>
       <label className="label" htmlFor={id}>
         {upperCaseLabel}
         {required && <span className="required-field">*</span>}
@@ -95,16 +95,14 @@ export const InputField: React.FC<Props> = ({
           />)}
 
         {(selecting && productsAPI) && (
-          <div className="select is-link">
+          <div className="select">
             <select
               onChange={event => onChange(event.target.value)}
               defaultValue={'DEFAULT'}
+              // style={{ width: '100%'}}
             >
-              <option
-                disabled
-                value="DEFAULT"
-              >
-                  Оберіть:
+              <option disabled value="DEFAULT">
+                Оберіть:
               </option>
 
               {productsAPI.map((product) =>

@@ -1,17 +1,20 @@
 @import '../_utils/variables.scss';
 
 .search-container {
-  width: 300px;
+  display: flex;
+  justify-content: flex-end;
+  width: 405px;
 }
 
 .search-input {
+  width: 300px;
   padding: 5px 15px;
   // border-radius: 25px;
   background-image: url(../../styles/pictures/search.svg);
   background-repeat: no-repeat;
   background-size: 18px;
   background-position: 85%;
-  font-family: $title-bold-medium;
+  font-family: $title-light;
 
   &--cfp {
     margin-left: 105px;
