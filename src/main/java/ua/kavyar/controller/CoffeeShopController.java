@@ -71,12 +71,29 @@ public class CoffeeShopController {
             content = {@Content(mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(
                             implementation = CoffeeShopSimpleResponseDto.class)))})
-    @Parameter(name = "city", schema = @Schema(implementation = Long.class))
-    @Parameter(name = "sortBy", schema = @Schema(implementation = String.class))
-    @Parameter(name = "count", schema = @Schema(implementation = Integer.class))
-    @Parameter(name = "page", schema = @Schema(implementation = Integer.class))
-    @Parameter(name = "filter", schema = @Schema(implementation = Long.class))
-    @Parameter(name = "search", schema = @Schema(implementation = String.class))
+    @Parameter(name = "city",
+            description = "expected city id"
+                    + "Example: city=1",
+            schema = @Schema(implementation = Long.class))
+    @Parameter(name = "sortBy",
+            description = "expected field is one of('title', 'open', 'close') "
+                    + "and direction of sort - ('ASC', 'DESC'). "
+                    + "Example: sortBy=title:DESC"
+                    + "Default: ???",
+            schema = @Schema(implementation = String.class))
+    @Parameter(name = "count",
+            description = "expected number of coffee shops to display per page"
+                    + "Example: count=5",
+            schema = @Schema(implementation = Integer.class))
+    @Parameter(name = "page",
+            description = "",
+            schema = @Schema(implementation = Integer.class))
+    @Parameter(name = "filter",
+            description = "",
+            schema = @Schema(implementation = Long.class))
+    @Parameter(name = "search",
+            description = "",
+            schema = @Schema(implementation = String.class))
     public List<CoffeeShopSimpleResponseDto> getAll(
             @RequestParam Map<String, String> params) {
         return coffeeShopService.findAll(params).stream()
