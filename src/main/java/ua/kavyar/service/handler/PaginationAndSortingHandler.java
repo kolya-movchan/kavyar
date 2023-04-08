@@ -20,18 +20,21 @@ public class PaginationAndSortingHandler {
     public PaginationAndSortingHandler() {
         fields = new String[]{"page", "count", "sortBy"};
         defaultCount = 6;
-        defaultPage = 1;
+        defaultPage = 0;
     }
 
     public Pageable handle(Map<String, String> params) {
-        return PageRequest.of(
-                params.containsKey(fields[0])
-                        ? Integer.parseInt(params.get(fields[0])) :
-                        defaultPage,
-                params.containsKey(fields[1])
-                        ? Integer.parseInt(params.get(fields[1])) :
-                        defaultCount,
-                params.containsKey(fields[2]) ? getSort(params) : Sort.unsorted());
+        int page = params.containsKey(fields[0])
+                ? (Integer.parseInt(params.get(fields[0])) - 1) :
+                defaultPage;
+        int count = params.containsKey(fields[1])
+                ? Integer.parseInt(params.get(fields[1])) :
+                defaultCount;
+        Sort sort = params.containsKey(fields[2]) ? getSort(params) : Sort.unsorted();
+        if (page < 0) {
+            throw new IllegalArgumentException("Parameter page must be > 0");
+        }
+        return PageRequest.of(page, count, sort);
     }
 
     private Sort getSort(Map<String, String> params) {
