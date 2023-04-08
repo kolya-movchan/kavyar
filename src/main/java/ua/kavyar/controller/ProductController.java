@@ -1,5 +1,11 @@
 package ua.kavyar.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +24,7 @@ import ua.kavyar.service.ProductService;
 import ua.kavyar.service.mapper.DtoMapper;
 import ua.kavyar.service.mapper.ResponseDtoMapper;
 
+@Tag(name = "Product", description = "Product API")
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -38,12 +45,21 @@ public class ProductController {
     }
 
     @PostMapping
+    @Operation(summary = "create product", tags = "product")
+    @ApiResponse(description = "product created",
+            content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ProductResponseDto.class))})
     public ProductResponseDto add(@RequestBody ProductRequestDto productRequestDto) {
         return dtoMapper.mapToDto(
                 productService.create(dtoMapper.mapToModel(productRequestDto)));
     }
 
     @GetMapping
+    @Operation(summary = "get all products", tags = "product")
+    @ApiResponse(description = "all product",
+            content = {@Content(mediaType = "application/json",
+                    array = @ArraySchema(schema = @Schema(
+                            implementation = ProductResponseDto.class)))})
     public List<ProductResponseDto> getAll() {
         return productService.findAll().stream()
                 .map(dtoMapper::mapToDto)
@@ -51,17 +67,29 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "get product by id", tags = "product")
+    @ApiResponse(description = "product by id",
+            content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ProductResponseDto.class))})
     public ProductResponseDto getById(@PathVariable Long id) {
         return dtoMapper.mapToDto(productService.getById(id));
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "delete product by id", tags = "product")
+    @ApiResponse(description = "product deleted by id",
+            content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = MessageResponseDto.class))})
     public MessageResponseDto delete(@PathVariable Long id) {
         productService.delete(id);
         return messageResponseDtoMapper.mapToDto(MESSAGE);
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "update product by id", tags = "product")
+    @ApiResponse(description = "product updated by id",
+            content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ProductResponseDto.class))})
     public ProductResponseDto update(@PathVariable Long id,
                                      @RequestBody ProductRequestDto productRequestDto) {
         Product product = dtoMapper.mapToModel(productRequestDto);
