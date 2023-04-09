@@ -72,17 +72,17 @@ public class CoffeeShopController {
                     array = @ArraySchema(schema = @Schema(
                             implementation = CoffeeShopSimpleResponseDto.class)))})
     @Parameter(name = "city",
-            description = "expected city id"
+            description = "Expected city id. "
                     + "Example: city=1",
             schema = @Schema(implementation = Long.class))
     @Parameter(name = "sortBy",
-            description = "expected field is one of('title', 'open', 'close') "
+            description = "Expected field is one of ('title', 'open', 'close') "
                     + "and direction of sort - ('ASC', 'DESC'). "
-                    + "Example: sortBy=title:DESC"
+                    + "Example: sortBy=title:DESC. "
                     + "Default: ???",
             schema = @Schema(implementation = String.class))
     @Parameter(name = "count",
-            description = "expected number of coffee shops to display per page"
+            description = "Expected number of coffee shops to display per page. "
                     + "Example: count=5",
             schema = @Schema(implementation = Integer.class))
     @Parameter(name = "page",

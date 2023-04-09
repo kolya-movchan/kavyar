@@ -19,7 +19,8 @@ public class StartKavyarServer {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOriginPatterns("http://localhost:*", "https://kavyar.herokuapp.com:*")
+                        .allowedOrigins("https://kavyar.herokuapp.com", "http://localhost:3001")
+                        //.allowedOriginPatterns("http://localhost:*", "https://kavyar.herokuapp.com:*")
                         .allowedMethods("GET", "POST", "PUT", "DELETE");
             }
         };
