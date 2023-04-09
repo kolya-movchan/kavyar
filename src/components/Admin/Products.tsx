@@ -86,15 +86,15 @@ export const Products: React.FC = ( ) => {
 
   return (
     <>
-      <div className="menus-top" style={{ alignItems: 'flex-start'}}>
+      <div className="menus-top">
         <SearchPannel
           value={searchQuery}
           onChange={setSearchQuery}
           decoration="search-input--filters"
         />
 
-        <div style={{ display: 'flex', minWidth: '405px' }}>
-          <div>
+        <div style={{ minHeight: '150px' }}>
+          <div style={{ marginBottom: '15px' }}>
             <DynamicAddButton
               input={input}
               showInput={setInput}

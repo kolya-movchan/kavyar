@@ -67,11 +67,14 @@ export const Cities: React.FC = ( ) => {
   return (
     <>
       <div className="menus-top">
-        <SearchPannel
-          value={searchQuery}
-          onChange={setSearchQuery}
-          decoration="search-input--filters"
-        />
+        <div>
+          <SearchPannel
+            value={searchQuery}
+            onChange={setSearchQuery}
+            decoration="search-input--filters"
+          />
+        </div>
+
         <DynamicAddButton
           input={input}
           showInput={setInput}

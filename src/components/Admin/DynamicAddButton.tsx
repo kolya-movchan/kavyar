@@ -47,6 +47,7 @@ export const DynamicAddButton: React.FC<Props> = ({
             className="filters__add-button button is-link"
             onClick={() => onAdd()}
             style={{ backgroundColor: '#000' }}
+            disabled={!query.length}
           >
             Додати
           </button>

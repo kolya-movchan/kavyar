@@ -16,9 +16,13 @@
   }
 
   .cfp-card {
+    // flex-basis: 18%;
     @extend %flex;
-    margin: 23px;
+    // position: relative;
+    margin: 10px;
     flex-direction: column;
+    overflow: hidden;
+    position: relative;
     padding: 20px 20px 30px;
     width: 230px;
     font-family: $title-bold;
@@ -27,13 +31,41 @@
     border-radius: 50px;
     border: 1px solid #d2d3d4;
 
+    & * {
+      box-sizing: border-box;
+      transition: all 0.45s ease;
+    }
+    
+    &::before,
+    &::after {
+      @extend %flex;
+      background-color: rgba(0, 0, 0, 0.6);
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      content: '';
+      // content: url(../../../../public/edit.png);
+      // content:"<a href='mailto:info@site.com'>info@site.com</a>";
+      transition: all 0.3s ease;
+      z-index: 1;
+      opacity: 0;
+      transform: scaleY(2);
+    }
+    
+    &:hover::before,
+    &:hover::after {
+      transform: scale(1);
+      opacity: 1;
+    }
+
     &__logo-container {
       @extend %flex;
       margin-bottom: 20px;
       width: 150px;
       height: 150px;
       border-radius: 10px;
-
     }
 
     &__logo {
@@ -42,6 +74,8 @@
     }
   
     &__name {
+      min-height: 40px;
+      @extend %flex;
       margin-bottom: 20px;
       width: 80%;
       font-size: 14px;
@@ -59,12 +93,25 @@
       margin-bottom: 20px;
     }
 
-    &__price {
-      padding: 16px;
-      font-size: 20px;
-      border-radius: 50px;
-      background-color: $main-color;
-      color: $main-color-2;
+    &__open {
+      margin-bottom: 10px;
+    }
+
+    &__close {
+      margin-bottom: 10px;
+    }
+
+    &__location-img {
+      width: 60px;
+      height: 60px;
+    }
+
+    &__edit {
+      position: absolute;
+      z-index: 2;
+      top: calc(50% - 15px);
+      left: calc(50% - 15px);
+      width: 30px;
     }
   }
 

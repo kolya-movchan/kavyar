@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
 
@@ -7,78 +8,52 @@ type Props = {
 };
 
 export const CoffeeShops: React.FC<Props> = ( { title } ) => {
-  const [ query, setQuery ] = useState('');
+  const [query, setQuery] = useState('');
+  const [showEditId, setShowEditId] = useState(-1);
 
   const cfp = [
     {
+      id: 0,
       img: '../../sturbucks.png',
       name: 'Український наступ',
-      slogan: 'Найдешевша ціна',
-      productName: 'Лонг Блек/Еспресо',
-      price: '45 ГРН',
+      open: '12:00',
+      close: '22:00',
+      location: 'https://goo.gl/maps/hUCQJZGjzVjbemQB7',
     },
+
     {
+      id: 1,
       img: '../../idealist-coffee.jpg',
-      name: 'Український наступ',
-      slogan: 'Найдешевша ціна',
-      productName: 'Лонг Блек/Еспресо',
-      price: '100 ГРН',
+      name: 'Idealist',
+      open: '12:00',
+      close: '22:00',
+      location: 'https://goo.gl/maps/hUCQJZGjzVjbemQB7',
     },
+
     {
-      img: '../../test-coffee.jpeg',
-      name: 'Український наступ',
-      slogan: 'Найдешевша ціна',
-      productName: 'Лонг Блек/Еспресо',
-      price: '95 ГРН',
-    },
-    {
-      img: '../../merry-berry.png',
-      name: 'Український наступ',
-      slogan: 'Найдешевша ціна',
-      productName: 'Лонг Блек/Еспресо',
-      price: '9 ГРН',
-    },
-    // {
-    //   img: './sturbucks.png',
-    //   name: 'Український наступ',
-    //   slogan: 'Найдешевша ціна',
-    //   productName: 'Лонг Блек/Еспресо',
-    //   price: '97 ГРН',
-    // },
-    // {
-    //   img: './sturbucks.png',
-    //   name: 'Український наступ',
-    //   slogan: 'Найдешевша ціна',
-    //   productName: 'Лонг Блек/Еспресо',
-    //   price: '91 ГРН',
-    // },
-    // {
-    //   img: './sturbucks.png',
-    //   name: 'Український наступ',
-    //   slogan: 'Найдешевша ціна',
-    //   productName: 'Лонг Блек/Еспресо',
-    //   price: '92 ГРН',
-    // },
-    {
+      id: 2,
       img: '../../idealist-coffee.jpg',
-      name: 'Український наступ',
-      slogan: 'Найдешевша ціна',
-      productName: 'Лонг Блек/Еспресо',
-      price: '33 ГРН',
+      name: 'Idealist',
+      open: '12:00',
+      close: '22:00',
+      location: 'https://goo.gl/maps/hUCQJZGjzVjbemQB7',
+    },
+
+    {
+      id: 3,
+      img: '../../idealist-coffee.jpg',
+      name: 'Idealist',
+      open: '12:00',
+      close: '22:00',
+      location: 'https://goo.gl/maps/hUCQJZGjzVjbemQB7',
     },
     {
-      img: '../../test-coffee.jpeg',
-      name: 'Український наступ',
-      slogan: 'Найдешевша ціна',
-      productName: 'Лонг Блек/Еспресо',
-      price: '932 ГРН',
-    },
-    {
-      img: '../../sturbucks.png',
-      name: 'Український наступ',
-      slogan: 'Найдешевша ціна',
-      productName: 'Лонг Блек/Еспресо',
-      price: '912 ГРН',
+      id: 4,
+      img: '../../idealist-coffee.jpg',
+      name: 'Idealist',
+      open: '12:00',
+      close: '22:00',
+      location: 'https://goo.gl/maps/hUCQJZGjzVjbemQB7',
     },
   ];
 
@@ -97,9 +72,15 @@ export const CoffeeShops: React.FC<Props> = ( { title } ) => {
         <div className="cfp-card-container">
           <ul className="cfp-card__list">
             {cfpFiltered.map(store => {
-              const {img, name, slogan, productName, price } = store;
+              const {img, name, open, close, id, location } = store;
               return (
-                <li className="cfp-card" key={price}>
+                <li
+                  className="cfp-card"
+                  id={id.toString()}
+                  key={id}
+                  onMouseEnter={() => setShowEditId(id)}
+                  onMouseLeave={() => setShowEditId(-1)}
+                >
                   <div className="cfp-card__logo-container">
                     <img
                       src={img}
@@ -108,17 +89,39 @@ export const CoffeeShops: React.FC<Props> = ( { title } ) => {
                       style={{ borderRadius: '10px'}}
                     />
                   </div>
+
                   <div className="cfp-card__name">
                     {name}
                   </div>
-                  <div className="cfp-card__slogan">
-                    {slogan}
+
+                  {showEditId === id && (
+                    <div>
+                      <Link to='/admin/form'>
+                        <img
+                          src="../edit.png"
+                          alt="edit-coffeshop"
+                          className='cfp-card__edit'
+                        />
+                      </Link>
+                    </div>
+                  )}
+
+                  <div className="cfp-card__open">
+                    Відкриття: {open}
                   </div>
-                  <div className="cfp-card__productName">
-                    {productName}
+
+                  <div className="cfp-card__close">
+                    Закриття: {close}
                   </div>
-                  <div className="cfp-card__price">
-                    {price}
+
+                  <div className="cfp-card__location">
+                    <a href={location} target="_blank">
+                      <img
+                        src="../location.png"
+                        alt="location"
+                        className="cfp-card__location-img"
+                      />
+                    </a>
                   </div>
                 </li>
               );
@@ -128,7 +131,7 @@ export const CoffeeShops: React.FC<Props> = ( { title } ) => {
 
         {!cfpFiltered.length && <NotFound title={title} />}
 
-        {cfpFiltered.length > 5 && (
+        {true && (
           <div className="cfp__buttons">
             <button
               className="pagination-previous cfp__buttons-pagination"

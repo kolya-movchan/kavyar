@@ -9,7 +9,10 @@ type Props = {
 
 export const SearchPannel: React.FC<Props> = ( { value, decoration, onChange } ) => {
   return (
-    <div className={`search-container ${decoration}`}>
+    <div
+      className={`search-container ${decoration}`}
+      style={{display: 'flex', justifyContent: 'flex-start'}}
+    >
       <input
         type="search"
         className='search-input input'

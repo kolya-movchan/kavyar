@@ -49,7 +49,10 @@ export const InputField: React.FC<Props> = ({
     : label;
 
   return (
-    <div className="field" style={{ display: 'flex', alignItems: 'center'}}>
+    <div
+      className="field"
+      // style={{ display: 'flex', alignItems: 'center'}}
+    >
       <label className="label" htmlFor={id}>
         {upperCaseLabel}
         {required && <span className="required-field">*</span>}
@@ -108,7 +111,7 @@ export const InputField: React.FC<Props> = ({
               {productsAPI.map((product) =>
                 <option
                   value={product.value}
-                  key={product.value}
+                  key={product.id}
                 >
                   {product.name}
                 </option>

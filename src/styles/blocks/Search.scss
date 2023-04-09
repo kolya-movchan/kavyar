@@ -1,9 +1,10 @@
 @import '../_utils/variables.scss';
 
 .search-container {
+  align-self: flex-start;
   display: flex;
   justify-content: flex-end;
-  width: 405px;
+  width: 300px;
 }
 
 .search-input {
