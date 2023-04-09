@@ -153,13 +153,27 @@ export const Form: React.FC = () => {
   };
 
   useEffect(() => {
-    document.documentElement.scrollTop = 0;
-
     htmlElement?.classList.add('hidden');
 
     setLoader(true);
     getData();
 
+  }, []);
+
+  const scrollTop = () => {
+    document.documentElement.scrollTop = 0;
+  };
+
+  const alertUser = (event: BeforeUnloadEvent) => {
+    event.preventDefault();
+    event.returnValue = "";
+  };
+
+  useEffect(() => {
+    window.addEventListener("unload", scrollTop);
+    return () => {
+      window.removeEventListener("unload", scrollTop);
+    };
   }, []);
 
   useEffect(() => {
@@ -168,12 +182,6 @@ export const Form: React.FC = () => {
       window.removeEventListener("beforeunload", alertUser);
     };
   }, []);
-
-  const alertUser = (e: BeforeUnloadEvent) => {
-    e.preventDefault();
-    e.returnValue = "";
-    document.documentElement.scrollTop = 0;
-  };
   
   return (
     <>
