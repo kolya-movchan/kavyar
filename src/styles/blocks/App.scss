@@ -1,8 +1,9 @@
 @import '../_utils/extends.scss';
 @import '../_utils/variables.scss';
-// .page-container {
-//   overflow: hidden;
-// }
+
+.hidden {
+  overflow: hidden;
+}
 
 #root {
   min-height: 100vh;

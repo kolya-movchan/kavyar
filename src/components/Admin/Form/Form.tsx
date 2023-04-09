@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
-import { v4 as uuid } from 'uuid';
+import React, { useEffect, useState } from 'react';
+import { getAllProductsAPI, getCitiesAll } from '../../../api/fetch';
 
 import '../../../styles/blocks/admin/Form.scss';
+import { City } from '../../../types/City';
 import { Product } from '../../../types/Product';
+import { Loader } from '../../Loader';
 import { emailRegex, priceRegex } from '../../_tools/Regex';
 import { AddProducts } from './AddProducts';
 import { Contacts } from './Contacts';
 import { Features } from './Features';
+import { InputField } from './InputField';
 
 export const Form: React.FC = () => {
   const [logoURL, setLogoURL] = useState('');
   const [photosURL, setPhotosURL] = useState('');
   const [name, setName] = useState('');
+  const [cities, setCities] = useState<City[]>();
+  const [city, setCity] = useState('');
+  const [products, setProducts] = useState<Product[] | null>(null);
   const [description, setDescription] = useState('');
   const [socialURL, setSocialURL] = useState('');
   const [googleMapsURL, setGoogleMapsURL] = useState('');
@@ -19,10 +25,13 @@ export const Form: React.FC = () => {
   const [productPrice, setProductPrice] = useState('');
   const [count, addCount] = useState(0);
   const [productList, setProductList] = useState<Product[]>([]);
+  const [loader, setLoader] = useState(false);
 
-  const unique_id = Number(uuid());
-
+  const unique_id = Date.now();
+  
   const fieldsFilledIn = logoURL && name && description && socialURL;
+
+  const htmlElement = document.getElementById("html");
 
   const reset = () => {
     setLogoURL('');
@@ -58,8 +67,6 @@ export const Form: React.FC = () => {
   };
 
   const addProduct = () => {
-    // GET -> add new product with productList
-
     createNewProduct();
   };
 
@@ -114,84 +121,150 @@ export const Form: React.FC = () => {
     reset();
   };
 
-  // console.log(JSON.stringify(productList));
+  const getAllCities = () => {
+    getCitiesAll('cities')
+      .then(cityList => setCities(cityList))
+      .catch(e => {
+        console.log(e);
+      })
+      .finally(() => {
+        setLoader(false);
+        htmlElement?.classList.remove('hidden');
+      });
+  };
 
-  const productsTest: Product[] = [
-    {"id":1,"name":"Espresso","description":"Espresso","category":{"id":1,"name":"Coffee"}},
-    {"id":2,"name":"Americano","description":"Americano","category":{"id":1,"name":"Coffee"}},
-    {"id":3,"name":"Cappuccino","description":"Cappuccino","category":{"id":1,"name":"Coffee"}},
-    {"id":4,"name":"Brownie","description":"Brownie","category":{"id":4,"name":"Desserts"}},
-    {"id":5,"name":"Cheesecake","description":"Cheesecake","category":{"id":4,"name":"Desserts"}}
-  ];
+  const getAllProducts = () => {
+    getAllProductsAPI('products')
+      .then(categoriesList => setProducts(categoriesList))
+      .catch(e => {
+        console.log(e);
+      })
+      .finally(() => {
+        setLoader(false);
+        setTimeout(() => {
+          htmlElement?.classList.remove('hidden');
+        }, 300);
+      });
+  };
+
+  const getData = () => {
+    getAllCities();
+    getAllProducts();
+  };
+
+  useEffect(() => {
+    document.documentElement.scrollTop = 0;
+
+    htmlElement?.classList.add('hidden');
+
+    setLoader(true);
+    getData();
+
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("beforeunload", alertUser);
+    return () => {
+      window.removeEventListener("beforeunload", alertUser);
+    };
+  }, []);
+
+  const alertUser = (e: BeforeUnloadEvent) => {
+    e.preventDefault();
+    e.returnValue = "";
+    document.documentElement.scrollTop = 0;
+  };
   
   return (
-    <div className="admin-form-container">
-      <div className="admin-form-container2">
-        <h1 className="admin-form-heading">
-          Створити кавʼярню
-        </h1>
-
-        <form
-          className="admin-form"
-          name="admin-form"
-          action="/"
-          method="get"
-          key={count}
-          onSubmit={handleSubmit}
-        >
-          <Contacts
-            logoURL={logoURL}
-            photosURL={photosURL}
-            name={name}
-            description={description}
-            socialURL={socialURL}
-            googleMapsURL={googleMapsURL}
-            setLogoURL={setLogoURL}
-            setPhotosURL={setPhotosURL}
-            setName={setName}
-            setDescription={setDescription}
-            setSocialURL={setSocialURL}
-            setGoogleMapsURL={setGoogleMapsURL}
+    <>
+      {loader && (
+        <div className="admin-form__loader">
+          <Loader
+            type='spin'
+            color='#000'
           />
+        </div>
+      )}
 
-          <Features cfpname={name} />
+      <div className="admin-form-container">
+        <div className="admin-form-container2">
+          <h1 className="admin-form-heading">
+            Створити кавʼярню
+          </h1>
 
-          <fieldset className="cfp-products">
-            <h2 className="cfp-products__title">
-              {'Продукти кав’ярні '}
-              {name.length > 0 && name}
-            </h2>
-
-            <AddProducts
-              product={product}
-              productPrice={productPrice}
-              onAdd={addProduct}
-              onAddButton={addProductWithButton}
-              setProduct={setProduct}
-              setProductPrice={setProductPrice}
-              productList={productList}
-              onDelete={deleteProduct}
-              productsTest={productsTest}
+          <form
+            className="admin-form"
+            name="admin-form"
+            action="/"
+            method="get"
+            key={count}
+            onSubmit={handleSubmit}
+          >
+            <InputField
+              name="city"
+              label="Назва Міста"
+              value={city}
+              dataAPI={cities}
+              onChange={setCity}
+              selecting
+              required
             />
 
-            <input
-              type="hidden"
-              name="product-list"
-              value={JSON.stringify(productList)}
+            <Contacts
+              logoURL={logoURL}
+              photosURL={photosURL}
+              name={name}
+              description={description}
+              socialURL={socialURL}
+              googleMapsURL={googleMapsURL}
+              setName={setName}
+              setLogoURL={setLogoURL}
+              setPhotosURL={setPhotosURL}
+              setDescription={setDescription}
+              setSocialURL={setSocialURL}
+              setGoogleMapsURL={setGoogleMapsURL}
             />
-          </fieldset>
 
-          <div className="">
-            <button
-              type="submit"
-              className="add-cfp__button button is-link"
-              disabled={!fieldsFilledIn}
-            >
-              Створити кавʼярню
-            </button>
-          </div>
-        </form>
+            <Features cfpname={name} />
+
+            <fieldset className="cfp-products">
+              <h2 className="cfp-products__title">
+                {'Продукти кав’ярні '}
+                {name.length > 0 && name}
+              </h2>
+
+              <AddProducts
+                product={product}
+                productPrice={productPrice}
+                onAdd={addProduct}
+                onAddButton={addProductWithButton}
+                setProduct={setProduct}
+                setProductPrice={setProductPrice}
+                productList={productList}
+                onDelete={deleteProduct}
+                data={products}
+              />
+
+              <input
+                type="hidden"
+                name="product-list"
+                value={JSON.stringify(productList)}
+              />
+            </fieldset>
+
+            <div className="">
+              <button
+                type="submit"
+                className="add-cfp__button button is-link"
+                disabled={!fieldsFilledIn}
+                style={{ backgroundColor: '#000' }}
+              >
+                Створити кавʼярню
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };

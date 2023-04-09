@@ -4,8 +4,10 @@ import classNames from 'classnames';
 import { getRandomDigits } from '../../_tools/Tools';
 import { priceRegex } from '../../_tools/Regex';
 import { Product } from '../../../types/Product';
+// import { Loader } from '../../Loader';
 
 type Props = {
+  placeHolderName?: string,
   name: string,
   value?: string,
   label?: string,
@@ -15,10 +17,11 @@ type Props = {
   onAddButton?: (event: React.KeyboardEvent, productPress: string) => void,
   onChange: (newValue: string) => void
   selecting?: boolean,
-  productsAPI?: Product[],
+  dataAPI?: Product[] | null,
 };
 
 export const InputField: React.FC<Props> = ({
+  placeHolderName,
   name,
   label = '',
   value,
@@ -28,7 +31,7 @@ export const InputField: React.FC<Props> = ({
   onAddButton = null,
   onChange,
   selecting,
-  productsAPI,
+  dataAPI,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
@@ -40,21 +43,18 @@ export const InputField: React.FC<Props> = ({
   const priceError = name === 'price' && !value?.match(priceRegex);
   const productNameError = name === 'product' && value?.length === 30;
   const descriptionError = name === 'cfp-contacts-description' && value?.length === 400;
+  const fieldError = ('cfp-contacts-name' === name) && value?.length === 30;
 
   const upperCaseLabel = label.slice(0, 1).toUpperCase() + label.slice(1);
-  const firstWordLabel = label.split(' ')[0];
-  const restWordsLabel = label.split(' ').slice(1);
-  const labelDeclension = firstWordLabel.slice(-1) === 'а'
-    ? `${firstWordLabel.slice(0, firstWordLabel.length - 1)}у ${restWordsLabel}`
-    : label;
 
   return (
     <div
       className="field"
-      // style={{ display: 'flex', alignItems: 'center'}}
+      // style={ { width: 'max-content', display: 'flex', flexDirection: 'column'}}
     >
       <label className="label" htmlFor={id}>
         {upperCaseLabel}
+
         {required && <span className="required-field">*</span>}
       </label>
 
@@ -66,7 +66,7 @@ export const InputField: React.FC<Props> = ({
               'is-danger': hasError && required,
               'admin-form__price': name === 'price',
             })}
-            placeholder={`Введіть ${labelDeclension}`}
+            placeholder={`Введіть ${placeHolderName}`}
             value={value}
             maxLength={maxLength}
             onChange={event => onChange(event.target.value)}
@@ -84,7 +84,7 @@ export const InputField: React.FC<Props> = ({
             className={classNames('input', {
               'is-danger': hasError,
             })}
-            placeholder={`Введіть ${labelDeclension}`}
+            placeholder={`Введіть ${placeHolderName}`}
             value={value}
             maxLength={400}
             onChange={event => onChange(event.target.value)}
@@ -97,27 +97,37 @@ export const InputField: React.FC<Props> = ({
             }}
           />)}
 
-        {(selecting && productsAPI) && (
-          <div className="select">
-            <select
-              onChange={event => onChange(event.target.value)}
-              defaultValue={'DEFAULT'}
-              // style={{ width: '100%'}}
-            >
-              <option disabled value="DEFAULT">
-                Оберіть:
-              </option>
+        {/* {(selecting && !dataAPI) && (
+          <Loader
+            type='spin'
+            color='#000'
+            width='20px'
+            height='20px'
+          />
+        )} */}
 
-              {productsAPI.map((product) =>
-                <option
-                  value={product.value}
-                  key={product.id}
-                >
-                  {product.name}
+        {(selecting && dataAPI) && (
+          <>
+            <div className="select">
+              <select
+                onChange={event => onChange(event.target.value)}
+                defaultValue={'DEFAULT'}
+              >
+                <option disabled value="DEFAULT">
+                  Оберіть
                 </option>
-              )}
-            </select>
-          </div>
+
+                {dataAPI && dataAPI.map((data) =>
+                  <option
+                    value={data.value}
+                    key={data.id}
+                  >
+                    {data.name}
+                  </option>
+                )}
+              </select>
+            </div>
+          </>
         )}
       </div>
 
@@ -125,7 +135,7 @@ export const InputField: React.FC<Props> = ({
         <p className="help is-danger">Максимум - 400 символів </p>
       )}
 
-      {productNameError && (
+      {productNameError || fieldError && (
         <p className="help is-danger">Максимум - 30 символів </p>
       )}
 

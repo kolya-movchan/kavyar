@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 
 type Props = {
   name: string,
-  label: string,
   value: string,
   onChange?: (newValue: string) => void,
 };
@@ -14,7 +13,6 @@ function getRandomDigits() {
 
 export const CheckBox: React.FC<Props> = ({
   name,
-  label,
   value,
   onChange
   = () => null,
@@ -36,7 +34,7 @@ export const CheckBox: React.FC<Props> = ({
         />
 
         <span className="cfp-features__name">
-          {label}
+          {name}
         </span>
       </label>
     </div>

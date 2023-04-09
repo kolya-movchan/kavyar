@@ -14,7 +14,7 @@ export const CoffeeShops: React.FC<Props> = ( { title } ) => {
   const cfp = [
     {
       id: 0,
-      img: '../../sturbucks.png',
+      img: '../sturbucks.png',
       name: 'Український наступ',
       open: '12:00',
       close: '22:00',
@@ -23,7 +23,7 @@ export const CoffeeShops: React.FC<Props> = ( { title } ) => {
 
     {
       id: 1,
-      img: '../../idealist-coffee.jpg',
+      img: '../idealist-coffee.jpg',
       name: 'Idealist',
       open: '12:00',
       close: '22:00',
@@ -32,7 +32,7 @@ export const CoffeeShops: React.FC<Props> = ( { title } ) => {
 
     {
       id: 2,
-      img: '../../idealist-coffee.jpg',
+      img: '../idealist-coffee.jpg',
       name: 'Idealist',
       open: '12:00',
       close: '22:00',
@@ -41,7 +41,7 @@ export const CoffeeShops: React.FC<Props> = ( { title } ) => {
 
     {
       id: 3,
-      img: '../../idealist-coffee.jpg',
+      img: '../idealist-coffee.jpg',
       name: 'Idealist',
       open: '12:00',
       close: '22:00',
@@ -49,7 +49,7 @@ export const CoffeeShops: React.FC<Props> = ( { title } ) => {
     },
     {
       id: 4,
-      img: '../../idealist-coffee.jpg',
+      img: '../idealist-coffee.jpg',
       name: 'Idealist',
       open: '12:00',
       close: '22:00',
@@ -137,11 +137,11 @@ export const CoffeeShops: React.FC<Props> = ( { title } ) => {
               className="pagination-previous cfp__buttons-pagination"
               disabled
             >
-              &lt;
+              Назад
             </button>
 
             <button className="pagination-next cfp__buttons-pagination">
-              &gt;
+              Далі
             </button>
           </div>
         )}

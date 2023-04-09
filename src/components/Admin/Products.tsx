@@ -18,6 +18,9 @@ export const Products: React.FC = ( ) => {
   const [categoriesForProduct, setCategoriesForProduct] = useState<Category[] | null>(null);
   const [newCategoryId, setnewCategoryId] = useState('');
 
+  console.log(Date.now());
+
+
   const getProducts = () => {
     getAllProductsAPI('products')
       .then(categoriesList => setProducts(categoriesList))
@@ -104,25 +107,27 @@ export const Products: React.FC = ( ) => {
               hideMode={hideMode}
             />
 
-            <select
-              className='menus-top__select select'
-              onChange={event => setnewCategoryId(event.target.value)}
-              defaultValue={'DEFAULT'}
-              style={{ width: '100%' }}
-            >
-              <option disabled value="DEFAULT">
-                Оберіть Категорію:
-              </option>
-
-              {categoriesForProduct && categoriesForProduct.map((category) =>
-                <option
-                  value={category.id}
-                  key={category.id}
-                >
-                  {category.name}
+            <div className="select" style={{width: '100%'}}>
+              <select
+                className='select menus-top__select'
+                onChange={event => setnewCategoryId(event.target.value)}
+                defaultValue={'DEFAULT'}
+                style={{ width: '100%' }}
+              >
+                <option disabled value="DEFAULT">
+                  Оберіть Категорію
                 </option>
-              )}
-            </select>
+
+                {categoriesForProduct && categoriesForProduct.map((category) =>
+                  <option
+                    value={category.id}
+                    key={category.id}
+                  >
+                    {category.name}
+                  </option>
+                )}
+              </select>
+            </div>
           </div>
 
           {(query && newCategoryId) && (

@@ -46,3 +46,10 @@ a {
   text-decoration: none;
   color: #fff;
 }
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: '';
+}

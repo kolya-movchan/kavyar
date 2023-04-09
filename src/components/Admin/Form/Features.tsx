@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { getFeaturesAll } from '../../../api/fetch';
+import { Feature } from '../../../types/Feature';
 import { CheckBox } from './CheckBox';
 
 type Props = {
@@ -6,13 +8,20 @@ type Props = {
 };
 
 export const Features: React.FC<Props> = ({ cfpname }) => {
-  const [istakeAway, setIstakeAway] = useState('false');
-  const [isCoffeIn, setIsCoffeIn] = useState('false');
-  const [sellsGrains, setSellsGrains] = useState('false');
-  const [hasCoworking, setHasCoworking] = useState('false');
-  const [hasGenerator, setHasGenerator] = useState('false');
-  const [hasShelter, setHasShelter] = useState('false');
-  const [petsFriendly, setPetsFriendly] = useState('false');
+  const [features, setFeatures] = useState<Feature[] | null>(null);
+
+  const getAllFeatures = () => {
+    getFeaturesAll('features')
+      .then(featuresList => setFeatures(featuresList))
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  useEffect(() => {
+    getAllFeatures();
+  }, []);
+
 
   return (
 
@@ -23,54 +32,14 @@ export const Features: React.FC<Props> = ({ cfpname }) => {
       </h2>
 
       <div className="cfp-features__wrapper">
-        <CheckBox
-          name="takeAway"
-          label="Кава на виніс"
-          value={istakeAway}
-          onChange={setIstakeAway}
-        />
+        {features?.map(feature => (
+          <CheckBox
+            key={feature.id}
+            name={feature.name}
+            value={feature.name}
+          />
+        ))}
 
-        <CheckBox
-          name="isCoffeIn"
-          label="Кава всередині"
-          value={isCoffeIn}
-          onChange={setIsCoffeIn}
-        />
-
-        <CheckBox
-          name="sellsGrains"
-          label="Продає зерна"
-          value={sellsGrains}
-          onChange={setSellsGrains}
-        />
-
-        <CheckBox
-          name="hasCoworking"
-          label="Місце для коворкінгу"
-          value={hasCoworking}
-          onChange={setHasCoworking}
-        />
-
-        <CheckBox
-          name="hasGenerator"
-          label="Має генератор"
-          value={hasGenerator}
-          onChange={setHasGenerator}
-        />
-
-        <CheckBox
-          name="hasShelter"
-          label="Має укриття"
-          value={hasShelter}
-          onChange={setHasShelter}
-        />
-
-        <CheckBox
-          name="petsFriendly"
-          label="Можна з тваринами"
-          value={petsFriendly}
-          onChange={setPetsFriendly}
-        />
       </div>
     </fieldset>
   );

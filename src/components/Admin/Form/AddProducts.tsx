@@ -12,7 +12,7 @@ type Props = {
   setProductPrice: (value: string) => void,
   productList: Product[],
   onDelete: (value: number) => void,
-  productsTest: Product[],
+  data: Product[] | null,
 };
 
 export const AddProducts: React.FC<Props> = ({
@@ -24,9 +24,11 @@ export const AddProducts: React.FC<Props> = ({
   setProductPrice,
   productList,
   onDelete,
-  productsTest,
+  data,
 }) => {
   const disabledAdd = !product || !productPrice || !productPrice.match(priceRegex);
+
+  console.log(productList);
 
   return (
     <>
@@ -42,6 +44,7 @@ export const AddProducts: React.FC<Props> = ({
               </th>
             </tr>
           </thead>
+
           <tbody>
             {productList.map(productItem => {
               const { id, name, price } = productItem;
@@ -51,9 +54,11 @@ export const AddProducts: React.FC<Props> = ({
                   <td className="products-table__item products-table__slot">
                     {name}
                   </td>
+
                   <td className="products-table__item products-table__slot">
                     {price}
                   </td>
+
                   <td className="products-table__item products-table__slot">
                     <button
                       type="button"
@@ -75,9 +80,9 @@ export const AddProducts: React.FC<Props> = ({
           name="product"
           label="продукт"
           // array of products from API
-          productsAPI={productsTest}
+          dataAPI={data}
           onChange={setProduct}
-          // onAddButton={onAddButton}
+          onAddButton={onAddButton}
           selecting
         />
 
@@ -87,6 +92,7 @@ export const AddProducts: React.FC<Props> = ({
           value={productPrice}
           onChange={setProductPrice}
           onAddButton={onAddButton}
+          placeHolderName="ціну"
         />
 
         <button
@@ -94,6 +100,7 @@ export const AddProducts: React.FC<Props> = ({
           type="button"
           onClick={onAdd}
           disabled={disabledAdd}
+          style={{ backgroundColor: '#000' }}
         >
           Додати
         </button>
