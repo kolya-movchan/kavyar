@@ -3,9 +3,10 @@ import React from 'react';
 type Props = {
   title: string,
   styling?: string,
+  text?: string,
 };
 
-export const NotFound: React.FC<Props> = ( { title, styling } ) => {
+export const NotFound: React.FC<Props> = ( { title, styling, text } ) => {
   return (
     <div className={`not-found not-found--${styling}`}>
       <img
@@ -14,7 +15,7 @@ export const NotFound: React.FC<Props> = ( { title, styling } ) => {
         alt="sad-coffee"
       />
 
-      <span className="not-found__text">
+      <span className={`not-found__text not-found--${text}`}>
         {`${title} Не Знайдено`}
       </span>
     </div>

@@ -3,23 +3,20 @@ import React from 'react';
 
 type Props = {
   value: string,
-  styling: string,
-  stylingLink: string,
+  styling?: string,
+  stylingLink?: string,
   stylingColor?: string,
   id?: number,
   onDelete?: (id: number) => void,
-  // categoryName?: Category
 };
 
 export const DynamicField: React.FC<Props> = ({
   value,
   styling,
   stylingLink,
-  stylingColor = '',
   id = 0,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onDelete = () => {},
-  // categoryName,
 }) => {
   return (
     <>
@@ -28,24 +25,34 @@ export const DynamicField: React.FC<Props> = ({
           {value}
         </div>
 
-        {/* {categoryName && (
-          <div className="filters__category">
-            {categoryName.name}
+        {!stylingLink && (
+          <div className="filters__switch-container">
+            <button
+              className={`filters__picture`}
+            >
+              <img
+                className=''
+                src='../checkmark.svg.png'
+                alt="checkmark"
+              />
+            </button>
           </div>
-        )} */}
+        )}
 
-        <div className="filters__switch-container">
-          <button
-            className={`filters__toggle ${stylingColor}`}
-            onClick={() => onDelete(id)}
-          >
-            <img
-              className={`filters__img ${styling}`}
-              src={stylingLink}
-              alt="switch-off-filter"
-            />
-          </button>
-        </div>
+        {stylingLink && (
+          <div className="filters__switch-container">
+            <button
+              className='filters__picture filters__picture--black'
+              onClick={() => onDelete(id)}
+            >
+              <img
+                className={`filters__img ${styling}`}
+                src={stylingLink}
+                alt="switch-off-filter"
+              />
+            </button>
+          </div>
+        )}
       </li>
     </>
   );

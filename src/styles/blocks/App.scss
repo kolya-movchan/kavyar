@@ -33,6 +33,10 @@ body {
   &--page {
     height: 100vh;
   }
+
+  &--filters {
+    font-size: 25px;
+  }
 }
 
 .loader {

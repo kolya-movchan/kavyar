@@ -28,8 +28,6 @@ export const AddProducts: React.FC<Props> = ({
 }) => {
   const disabledAdd = !product || !productPrice || !productPrice.match(priceRegex);
 
-  console.log(productList);
-
   return (
     <>
       {productList.length > 0 && (

@@ -22,7 +22,7 @@
 .filters {
   @extend %flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 40px;
   font-family: $title-heavy;
   color: $main-color;
 
@@ -39,8 +39,6 @@
   }
 
   &__add-button {
-    // margin-left: 10px;
-    // background-color: red;
     align-self: center;
   }
 
@@ -57,17 +55,23 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-family: $title-light;
 
+    font-family: $title-light;
     width: 250px;
     font-size: 20px;
     margin-bottom: 10px;
     padding: 10px 15px;
     border-radius: 4px;
     word-wrap: break-word;
+
+    &:last-child {
+      margin: 0;
+    }
   }
 
   &__item-text {
+    display: flex;
+    text-align: left;
     max-width: 80%;
   }
 
@@ -79,36 +83,40 @@
   }
 
   &__active-item {
+    // justify-content: center;
     background-color: $main-color-2;
   }
 
   &__active-list {
-    margin-bottom: 50px;
+    // margin-bottom: 50px;
+  }
+
+  &__inactive {
+    margin-bottom: 20px;
   }
 
   &__inactive-item {
-    color: grey;
-    background-color: $main-color;
+    // justify-content: space-between;
+    // color: grey;
+    background-color: #A0A0A0;
   }
 
   &__switch-container {
     width: 34px;
   }
 
-  &__toggle {
+  &__picture {
     min-width: 34px;
     @extend %flex;
-
     max-width: 100%;
     max-height: 100%;
-
     border: none;
     background-color: $main-color-2;
-    cursor: pointer;
 
     &--black {
       width: 29px;
-      background-color: $main-color;
+      background-color: #A0A0A0;
+      cursor: pointer;
     }
   }
 
@@ -120,7 +128,7 @@
   &__categoryName {
     font-family: $title-light;
     margin-bottom: 10px;
-    font-size: 30px;
+    font-size: 23px;
     color: grey;
   }
 

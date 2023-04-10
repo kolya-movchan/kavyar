@@ -165,7 +165,6 @@ export const Form: React.FC = () => {
   };
 
   const alertUser = (event: BeforeUnloadEvent) => {
-    event.preventDefault();
     event.returnValue = "";
   };
 

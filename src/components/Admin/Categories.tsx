@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { deleteCategoryAPI, getAllCategoriesAPI, postNewCategoryAPI } from '../../api/fetch';
 import { Category } from '../../types/Category';
 import { Loader } from '../Loader';
+import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
 import { DynamicAddButton } from './DynamicAddButton';
 import { DynamicField } from './DynamicField';
@@ -36,7 +37,7 @@ export const Categories: React.FC = ( ) => {
           getCategories();
         }, 100))
         .catch((e) => {
-          console.log(e);
+          (e);
           setLoader(false);
         });
 
@@ -57,11 +58,15 @@ export const Categories: React.FC = ( ) => {
   };
 
   const categoriesSorted = categories?.sort((category1, category2) => category2.id - category1.id);
+  const categoriesSearch = categoriesSorted?.filter(
+    category => category.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
+  );
 
   useEffect(() => {
     getCategories();
   }, []);
 
+  const test2 = ['TestInactive1', 'TestInactive2'];
 
   return (
     <>
@@ -91,16 +96,19 @@ export const Categories: React.FC = ( ) => {
 
           {loader && <Loader type='bubbles' color='#000' />}
 
+          {categoriesSearch && categoriesSearch.length < 1 && (
+            <NotFound title='Категорій' text='filters'/>
+          )}
+
           <ul
             className="filters__active-list"
             style={ loader ? {marginTop: '20px'}: {}}
           >
-            {categoriesSorted && categoriesSorted.map(category => (
+            {categoriesSearch && categoriesSearch.map(category => (
               <DynamicField
                 key={category.id}
                 value={category.name}
                 styling="filters__active-item"
-                stylingLink="../power_cfp.svg"
                 id={category.id}
                 onDelete={deleteCategory}
               />
@@ -108,23 +116,23 @@ export const Categories: React.FC = ( ) => {
           </ul>
         </div>
 
-        {/* <div className="filters__inactive">
+        <div className="filters__inactive">
           <h2 className="filters__title">
             Неактивні
           </h2>
 
           <ul className="filters__inactive-list">
-            {test2.map(city => (
+            {test2.map(category => (
               <DynamicField
-                key={city}
-                value={city}
+                key={category}
+                value={category}
                 styling="filters__inactive-item"
-                stylingLink="../power_cfp-white.svg"
+                stylingLink="../power_cfp.svg"
                 stylingColor="filters__toggle--black"
               />
             ))}
           </ul>
-        </div> */}
+        </div>
       </div>
     </>
   );

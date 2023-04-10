@@ -10,8 +10,6 @@ type Props = {
 };
 
 export const DynamicAddButton: React.FC<Props> = ({
-  // input,
-  // showInput,
   onQuery,
   query,
   hideMode,
@@ -20,18 +18,6 @@ export const DynamicAddButton: React.FC<Props> = ({
 }) => {
   return (
     <div className="filters__add">
-      {/* {!input && (
-        <div className="filters__add-wrapper">
-          <button
-            className="filters__create-button button is-link"
-            onClick={() => showInput(!input)}
-            style={{ backgroundColor: '#000' }}
-          >
-            +
-          </button>
-        </div>
-      )} */}
-
       <div className="filters__add-container">
         <input
           type="text"
@@ -40,6 +26,7 @@ export const DynamicAddButton: React.FC<Props> = ({
           onChange={(event) => onQuery(event.target.value)}
           value={query}
           style={hideMode ? {marginBottom: '10px'} : {}}
+          maxLength={20}
         />
 
         {!hideMode && (

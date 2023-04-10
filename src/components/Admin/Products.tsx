@@ -3,10 +3,10 @@ import { deleteProductAPI, getAllCategoriesAPI, getAllProductsAPI, postNewProduc
 import { Category } from '../../types/Category';
 import { Product } from '../../types/Product';
 import { Loader } from '../Loader';
+import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
 import { DynamicAddButton } from './DynamicAddButton';
 import { DynamicField } from './DynamicField';
-// import { InputField } from './Form/InputField';
 
 export const Products: React.FC = ( ) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -17,9 +17,6 @@ export const Products: React.FC = ( ) => {
   const [hideMode, setHideMode] = useState(false);
   const [categoriesForProduct, setCategoriesForProduct] = useState<Category[] | null>(null);
   const [newCategoryId, setnewCategoryId] = useState('');
-
-  console.log(Date.now());
-
 
   const getProducts = () => {
     getAllProductsAPI('products')
@@ -42,9 +39,6 @@ export const Products: React.FC = ( ) => {
       };
 
       postNewProductAPI(newProduct)
-        // .then(() => setTimeout(() => {
-        //   getCategories();
-        // }, 100))
         .then(() => setTimeout(() => {
           getProducts();
         }, 300))
@@ -81,15 +75,21 @@ export const Products: React.FC = ( ) => {
 
   const productsSorted = products?.sort((product1, product2) => (product2.id - product1.id));
 
+  const productsSearch = productsSorted?.filter(
+    product => product.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
+  );
+
   useEffect(() => {
     setHideMode(true);
     getCategories();
     getProducts();
   }, []);
 
+  const test2 = ['TestInactive1', 'TestInactive2'];
+
   return (
     <>
-      <div className="menus-top">
+      <div className="menus-top" style={{ margin: '0'}}>
         <SearchPannel
           value={searchQuery}
           onChange={setSearchQuery}
@@ -144,33 +144,36 @@ export const Products: React.FC = ( ) => {
 
       <div className="filters">
         <div className="filters__active">
-          {/* <h2 className="filters__title">
+          <h2 className="filters__title">
             Активні
-          </h2> */}
+          </h2>
 
           {!products && <Loader type='spin' color='#000' />}
 
           {loader && <Loader type='bubbles' color='#000' />}
 
+          {productsSearch && productsSearch.length < 1 && (
+            <NotFound title='Продуктів' text='filters'/>
+          )}
+
           <ul className="filters__active-list">
             {categoriesForProduct?.map(category => {
               return (
                 <div key={category.id}>
-                  {productsSorted?.some(product => product.category?.id === category.id) && (
+                  {productsSearch?.some(product => product.category?.id === category.id) && (
                     <h2 className="filters__categoryName" key={category.id}>
                       {category.name}
                     </h2>
                   )}
 
-                  <div>
-                    {productsSorted && productsSorted.map(product => {
+                  <div style={{marginBottom: '15px' }}>
+                    {productsSearch && productsSearch.map(product => {
                       if (product.category?.name === category.name) {
                         return (
                           <DynamicField
                             key={product.id}
                             value={product.name}
                             styling="filters__active-item"
-                            stylingLink="../power_cfp.svg"
                             id={product.id}
                             onDelete={deleteProduct}
                           />
@@ -184,7 +187,7 @@ export const Products: React.FC = ( ) => {
           </ul>
         </div>
 
-        {/* <div className="filters__inactive">
+        <div className="filters__inactive">
           <h2 className="filters__title">
             Неактивні
           </h2>
@@ -195,12 +198,12 @@ export const Products: React.FC = ( ) => {
                 key={city}
                 value={city}
                 styling="filters__inactive-item"
-                stylingLink="../power_cfp-white.svg"
+                stylingLink="../power_cfp.svg"
                 stylingColor="filters__toggle--black"
               />
             ))}
           </ul>
-        </div> */}
+        </div>
       </div>
     </>
   );
