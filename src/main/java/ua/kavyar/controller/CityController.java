@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ua.kavyar.dto.CityRequestDto;
 import ua.kavyar.dto.CityResponseDto;
@@ -58,8 +60,9 @@ public class CityController {
             content = {@Content(mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(
                             implementation = CityResponseDto.class)))})
-    public List<CityResponseDto> getAll() {
-        return cityService.findAll().stream()
+    public List<CityResponseDto> getAll(
+            @RequestParam Map<String, String> params) {
+        return cityService.findAll(params).stream()
                 .map(dtoMapper::mapToDto)
                 .collect(Collectors.toList());
     }

@@ -18,8 +18,8 @@ public class CoffeeShopCityFilterSpecificationProvider
     @Override
     public Specification<CoffeeShop> getSpecification(String[] cityIds) {
         return (root, query, cb) -> {
-            Join<CoffeeShop, City> featuresJoin = root.join(FIELD_NAME, JoinType.LEFT);
-            CriteriaBuilder.In<Long> predicate = cb.in(featuresJoin.get("id"));
+            Join<CoffeeShop, City> citiesJoin = root.join(FIELD_NAME, JoinType.LEFT);
+            CriteriaBuilder.In<Long> predicate = cb.in(citiesJoin.get("id"));
             for (String cityId : cityIds) {
                 predicate.value(Long.valueOf(cityId));
             }
