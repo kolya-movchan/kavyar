@@ -27,24 +27,6 @@
   margin-bottom: 30px;
   overflow-y: hidden;
 
-
-  &__loader {
-    margin-top: -25px;
-    height: 100%;
-    width: 100%;
-    @extend %flex;
-    z-index: 1;
-    position: absolute;
-    background-color: #747474;
-    opacity: 0.5;
-    pointer-events: none;
-    // overflow: hidden;
-
-    overflow-y: hidden;
-    // top: calc(50% - 25px);
-    // left: calc(50% - 25px);
-  }
-
   .cfp-contacts {
     margin-bottom: 40px;
 

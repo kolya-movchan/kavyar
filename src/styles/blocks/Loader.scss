@@ -1,0 +1,19 @@
+.loading {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  @extend %flex;
+
+  z-index: 1;
+  background-color: #747474;
+  opacity: 0.5;
+  pointer-events: none;
+
+  // &--form {
+  // }
+
+  // &--filters {
+   
+  // }
+}

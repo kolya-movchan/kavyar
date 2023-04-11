@@ -4,6 +4,7 @@ import { Feature } from '../../types/Feature';
 import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
+import { scrollTop } from '../_tools/Tools';
 import { DynamicAddButton } from './DynamicAddButton';
 import { DynamicField } from './DynamicField';
 
@@ -12,19 +13,38 @@ export const Features: React.FC = ( ) => {
   const [query, setQuery] = useState('');
   const [input, setInput] = useState(false);
   const [features, setFeatures] = useState<Feature[] | null>(null);
+  const [featuresInactive, setFeaturesInactive] = useState<Feature[] | null>(null);
   const [loader, setLoader] = useState(false);
 
-  const getFeatures = () => {
-    getFeaturesAll('features')
+  const htmlElement = document.getElementById("html");
+
+  const getFeaturesActive = () => {
+    getFeaturesAll('features?usable=true')
       .then(featuresList => setFeatures(featuresList))
       .catch(e => {
         console.log(e);
       })
-      .finally(() => setLoader(false));
+      .finally(() => {
+        setLoader(false);
+        htmlElement?.classList.remove('hidden');
+      });
+  };
+
+  const getInactiveFeatures = () => {
+    getFeaturesAll('features?usable=false')
+      .then(featuresList => setFeaturesInactive(featuresList))
+      .catch(e => {
+        console.log(e);
+      })
+      .finally(() => {
+        setLoader(false);
+        htmlElement?.classList.remove('hidden');
+      });
   };
 
   const addFeatures = () => {
     setInput(false);
+    scrollTop();
 
     if (query) {
       const newFeature = {
@@ -35,7 +55,8 @@ export const Features: React.FC = ( ) => {
 
       postNewFeature(newFeature)
         .then(() => setTimeout(() => {
-          getFeatures();
+          getFeaturesActive();
+          getInactiveFeatures();
         }, 100))
         .catch((e) => {
           console.log(e);
@@ -47,11 +68,15 @@ export const Features: React.FC = ( ) => {
     }
   };
 
-  const deleteFeature = (id: number) => {
+  const handleFeatureDeletion = (id: number) => {
     setLoader(true);
+    scrollTop();
 
     deleteFeatureAPI(id)
-      .then(() => getFeatures())
+      .then(() => {
+        getFeaturesActive();
+        getInactiveFeatures();
+      })
       .catch((e) => {
         console.log(e);
         setLoader(false);
@@ -62,20 +87,53 @@ export const Features: React.FC = ( ) => {
     return feature2.id - feature1.id;
   });
 
+  const featuresSortedInactive = featuresInactive?.sort((feature1, feature2) => {
+    return feature2.id - feature1.id;
+  });
+
   const featuresSearch = featuresSorted?.filter(
     feature => feature.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
   );
 
-  const test2 = ['TestInactive1', 'TestInactive2'];
+  const featuresInactiveSearch = featuresSortedInactive?.filter(
+    feature => feature.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
+  );
+
+  const isAnyFeatureFound = () => {
+    if (featuresSearch && featuresInactiveSearch) {
+      return [...featuresSearch, ...featuresInactiveSearch].length;
+    }
+
+    return true;
+  };
 
   useEffect(() => {
-    getFeatures();
+    htmlElement?.classList.add('hidden');
+    setLoader(true);
+
+    getFeaturesActive();
+    getInactiveFeatures();
   }, []);
 
+  useEffect(() => {
+    window.addEventListener("unload", scrollTop);
+    return () => {
+      window.removeEventListener("unload", scrollTop);
+    };
+  }, []);
 
   return (
     <>
       <div className="menus-top">
+        {loader && (
+          <div className="loading">
+            <Loader
+              type={features ? 'bubbles' : 'spin'}
+              color='#000'
+            />
+          </div>
+        )}
+
         <SearchPannel
           value={searchQuery}
           onChange={setSearchQuery}
@@ -92,17 +150,15 @@ export const Features: React.FC = ( ) => {
       </div>
 
       <div className="filters">
-        <div className="filters__active">
-          <h2 className="filters__title">
-            Активні
-          </h2>
+        {!isAnyFeatureFound() && (
+          <NotFound title='Особливостей' text='filters'/>
+        )}
 
-          {!features && <Loader type='spin' color='#000' />}
-
-          {loader && <Loader type='bubbles' color='#000' />}
-
-          {featuresSearch && featuresSearch.length < 1 && (
-            <NotFound title='Особливостей' text='filters'/>
+        <div className="filters__active filters__allLists">
+          {(featuresSearch && featuresSearch.length > 0) && (
+            <h2 className="filters__title">
+              Активні
+            </h2>
           )}
 
           <ul
@@ -114,26 +170,27 @@ export const Features: React.FC = ( ) => {
                 key={feature.id}
                 value={feature.name}
                 styling="filters__active-item"
-                id={feature.id}
-                onDelete={deleteFeature}
               />
             )))}
           </ul>
         </div>
 
-        <div className="filters__inactive">
-          <h2 className="filters__title">
+        <div className="filters__inactive filters__allLists">
+          {(featuresInactiveSearch && featuresInactiveSearch.length > 0) && (
+            <h2 className="filters__title">
             Неактивні
-          </h2>
+            </h2>
+          )}
 
           <ul className="filters__inactive-list">
-            {test2.map(feature => (
+            {featuresInactiveSearch && featuresInactiveSearch.map(feature => (
               <DynamicField
-                key={feature}
-                value={feature}
+                key={feature.id}
+                value={feature.name}
+                id={feature.id}
                 styling="filters__inactive-item"
                 stylingLink="../power_cfp.svg"
-                stylingColor="filters__toggle--black"
+                onDelete={handleFeatureDeletion}
               />
             ))}
           </ul>

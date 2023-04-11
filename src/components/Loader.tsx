@@ -9,5 +9,10 @@ type Props = {
 };
 
 export const Loader: React.FC<Props> = ({ type, color, height = 50, width = 50 }) => (
-  <ReactLoading type={type} color={color} height={height} width={width} />
+  <ReactLoading
+    type={type}
+    color={color}
+    height={height}
+    width={width}
+  />
 );

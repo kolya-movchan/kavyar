@@ -4,6 +4,7 @@ import { City } from '../../types/City';
 import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
+import { scrollTop } from '../_tools/Tools';
 import { DynamicAddButton } from './DynamicAddButton';
 import { DynamicField } from './DynamicField';
 
@@ -12,19 +13,38 @@ export const Cities: React.FC = ( ) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [input, setInput] = useState(false);
   const [cities, setCities] = useState<City[] | null>(null);
+  const [citiesInactive, setCitiesInactive] = useState<City[] | null>(null);
   const [loader, setLoader] = useState(false);
 
-  const getCities = () => {
-    getCitiesAll('cities')
+  const htmlElement = document.getElementById("html");
+
+  const getActiveCities = () => {
+    getCitiesAll('cities?usable=true')
       .then(cityList => setCities(cityList))
       .catch(e => {
         console.log(e);
       })
-      .finally(() => setLoader(false));
+      .finally(() => {
+        setLoader(false);
+        htmlElement?.classList.remove('hidden');
+      });
+  };
+
+  const getInactiveCities = () => {
+    getCitiesAll('cities?usable=false')
+      .then(cityList => setCitiesInactive(cityList))
+      .catch(e => {
+        console.log(e);
+      })
+      .finally(() => {
+        setLoader(false);
+        htmlElement?.classList.remove('hidden');
+      });
   };
 
   const addCity = () => {
     setInput(false);
+    scrollTop();
 
     if (query) {
       const newCity = {
@@ -34,7 +54,8 @@ export const Cities: React.FC = ( ) => {
 
       postNewCity(newCity)
         .then(() => setTimeout(() => {
-          getCities();
+          getActiveCities();
+          getInactiveCities();
         }, 100))
         .catch((e) => {
           console.log(e);
@@ -48,16 +69,23 @@ export const Cities: React.FC = ( ) => {
 
   const handleCityDeletion = (id: number) => {
     setLoader(true);
+    scrollTop();
 
     deleteCity(id)
-      .then(() => getCities())
+      .then(() => getInactiveCities())
       .catch((e) => {
         console.log(e);
         setLoader(false);
-      });
+      })
+      .finally(() => console.log(2)
+      );
   };
 
   const citiesSorted = cities?.sort((city1, city2) => {
+    return city2.id - city1.id;
+  });
+
+  const citiesSortedInactive = citiesInactive?.sort((city1, city2) => {
     return city2.id - city1.id;
   });
 
@@ -65,15 +93,45 @@ export const Cities: React.FC = ( ) => {
     city => city.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
   );
 
-  const test2 = ['TestInactive1', 'TestInactive2'];
-  
+  const citiesInactiveSearch = citiesSortedInactive?.filter(
+    city => city.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
+  );
+
+  const isAnyCityFound = () => {
+    if (citiesSearch && citiesInactiveSearch) {
+      return [...citiesSearch, ...citiesInactiveSearch].length;
+    }
+
+    return true;
+  };
+
   useEffect(() => {
-    getCities();
+    htmlElement?.classList.add('hidden');
+    setLoader(true);
+
+    getActiveCities();
+    getInactiveCities();
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("unload", scrollTop);
+    return () => {
+      window.removeEventListener("unload", scrollTop);
+    };
   }, []);
 
   return (
     <>
       <div className="menus-top">
+        {loader && (
+          <div className="loading">
+            <Loader
+              type={cities ? 'bubbles' : 'spin'}
+              color='#000'
+            />
+          </div>
+        )}
+
         <div>
           <SearchPannel
             value={searchQuery}
@@ -92,53 +150,51 @@ export const Cities: React.FC = ( ) => {
       </div>
 
       <div className="filters">
-        <>
-          <div className="filters__active">
+        {!isAnyCityFound() && (
+          <NotFound title='Міст' text='filters'/>
+        )}
+
+        <div className="filters__active filters__allLists">
+          {(citiesSearch && citiesSearch.length > 0) && (
             <h2 className="filters__title">
               Активні
             </h2>
+          )}
 
-            {!cities && <Loader type='spin' color='#000' />}
+          <ul
+            className="filters__active-list"
+            style={ loader ? {marginTop: '20px'}: {}}
+          >
+            {citiesSearch && citiesSearch.map(city => (
+              <DynamicField
+                key={city.id}
+                value={city.name}
+                styling="filters__active-item"
+              />
+            ))}
+          </ul>
+        </div>
 
-            {loader && <Loader type='bubbles' color='#000' />}
-
-            {citiesSearch && citiesSearch.length < 1 && (
-              <NotFound title='Міст' text='filters'/>
-            )}
-
-            <ul
-              className="filters__active-list"
-              style={ loader ? {marginTop: '20px'}: {}}
-            >
-              {citiesSearch && citiesSearch.map(city => (
-                <DynamicField
-                  key={city.id}
-                  value={city.name}
-                  styling="filters__active-item"
-                  id={city.id}
-                  onDelete={handleCityDeletion}
-                />
-              ))}
-            </ul>
-          </div>
-
-          <div className="filters__inactive">
+        <div className="filters__inactive filters__allLists">
+          {(citiesInactiveSearch && citiesInactiveSearch.length > 0) && (
             <h2 className="filters__title">
-              Неактивні
+            Неактивні
             </h2>
+          )}
 
-            <ul className="filters__inactive-list">
-              {test2.map(city => (
-                <DynamicField
-                  key={city}
-                  value={city}
-                  styling="filters__inactive-item"
-                  stylingLink="../power_cfp.svg"
-                />
-              ))}
-            </ul>
-          </div>
-        </>
+          <ul className="filters__inactive-list">
+            {citiesInactiveSearch && citiesInactiveSearch.map(city => (
+              <DynamicField
+                key={city.id}
+                value={city.name}
+                id={city.id}
+                styling="filters__inactive-item"
+                stylingLink="../power_cfp.svg"
+                onDelete={handleCityDeletion}
+              />
+            ))}
+          </ul>
+        </div>
       </div>
     </>
   );

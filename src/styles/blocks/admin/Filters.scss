@@ -20,6 +20,7 @@
 }
 
 .filters {
+  height: inherit;
   @extend %flex;
   flex-direction: column;
   gap: 40px;
@@ -75,20 +76,21 @@
     max-width: 80%;
   }
 
-  &__active {
-    display: flex;
+  &__allLists {
+    @extend %flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  }
+
+  &__active {
+    // display: flex;
+    // justify-content: center;
+    // flex-direction: column;
+    // align-items: center;
   }
 
   &__active-item {
     // justify-content: center;
     background-color: $main-color-2;
-  }
-
-  &__active-list {
-    // margin-bottom: 50px;
   }
 
   &__inactive {

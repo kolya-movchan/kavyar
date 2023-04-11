@@ -4,6 +4,7 @@ import { Category } from '../../types/Category';
 import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
+import { scrollTop } from '../_tools/Tools';
 import { DynamicAddButton } from './DynamicAddButton';
 import { DynamicField } from './DynamicField';
 
@@ -12,19 +13,38 @@ export const Categories: React.FC = ( ) => {
   const [query, setQuery] = useState('');
   const [input, setInput] = useState(false);
   const [categories, setCategories] = useState<Category[] | null>(null);
+  const [categoriesInactive, setCategoriesInactive] = useState<Category[] | null>(null);
   const [loader, setLoader] = useState(false);
 
-  const getCategories = () => {
-    getAllCategoriesAPI('categories')
+  const htmlElement = document.getElementById("html");
+
+  const getCategoriesActive = () => {
+    getAllCategoriesAPI('categories?usable=true')
       .then(categoriesList => setCategories(categoriesList))
       .catch(e => {
         console.log(e);
       })
-      .finally(() => setLoader(false));
+      .finally(() => {
+        setLoader(false);
+        htmlElement?.classList.remove('hidden');
+      });
+  };
+
+  const getCategoriesInactive = () => {
+    getAllCategoriesAPI('categories?usable=false')
+      .then(categoriesList => setCategoriesInactive(categoriesList))
+      .catch(e => {
+        console.log(e);
+      })
+      .finally(() => {
+        setLoader(false);
+        htmlElement?.classList.remove('hidden');
+      });
   };
 
   const addCategory = () => {
     setInput(false);
+    scrollTop();
 
     if (query) {
       const newCategory = {
@@ -34,7 +54,8 @@ export const Categories: React.FC = ( ) => {
 
       postNewCategoryAPI(newCategory)
         .then(() => setTimeout(() => {
-          getCategories();
+          getCategoriesActive();
+          getCategoriesInactive();
         }, 100))
         .catch((e) => {
           (e);
@@ -46,11 +67,15 @@ export const Categories: React.FC = ( ) => {
     }
   };
 
-  const deleteCategory = (id: number) => {
+  const handleCategoryDeletion = (id: number) => {
     setLoader(true);
+    scrollTop();
 
     deleteCategoryAPI(id)
-      .then(() => getCategories())
+      .then(() => {
+        getCategoriesActive();
+        getCategoriesInactive();
+      })
       .catch((e) => {
         console.log(e);
         setLoader(false);
@@ -58,19 +83,52 @@ export const Categories: React.FC = ( ) => {
   };
 
   const categoriesSorted = categories?.sort((category1, category2) => category2.id - category1.id);
+  const categoriesSortedInactive = categoriesInactive?.sort((category1, category2) => {
+    return category2.id - category1.id;
+  });
+
   const categoriesSearch = categoriesSorted?.filter(
     category => category.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
   );
+  const categoriesInactiveSearch = categoriesSortedInactive?.filter(
+    category => category.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
+  );
+
+  const isAnyCategoryFound = () => {
+    if (categoriesSearch && categoriesInactiveSearch) {
+      return [...categoriesSearch, ...categoriesInactiveSearch].length;
+    }
+
+    return true;
+  };
 
   useEffect(() => {
-    getCategories();
+    htmlElement?.classList.add('hidden');
+    setLoader(true);
+
+    getCategoriesActive();
+    getCategoriesInactive();
   }, []);
 
-  const test2 = ['TestInactive1', 'TestInactive2'];
+  useEffect(() => {
+    window.addEventListener("unload", scrollTop);
+    return () => {
+      window.removeEventListener("unload", scrollTop);
+    };
+  }, []);
 
   return (
     <>
       <div className="menus-top">
+        {loader && (
+          <div className="loading">
+            <Loader
+              type={categories ? 'bubbles' : 'spin'}
+              color='#000'
+            />
+          </div>
+        )}
+
         <SearchPannel
           value={searchQuery}
           onChange={setSearchQuery}
@@ -87,17 +145,15 @@ export const Categories: React.FC = ( ) => {
       </div>
 
       <div className="filters">
-        <div className="filters__active">
-          <h2 className="filters__title">
-            Активні
-          </h2>
+        {!isAnyCategoryFound() && (
+          <NotFound title='Категорій' text='filters'/>
+        )}
 
-          {!categories && <Loader type='spin' color='#000' />}
-
-          {loader && <Loader type='bubbles' color='#000' />}
-
-          {categoriesSearch && categoriesSearch.length < 1 && (
-            <NotFound title='Категорій' text='filters'/>
+        <div className="filters__active filters__allLists">
+          {(categoriesSearch && categoriesSearch.length > 0) && (
+            <h2 className="filters__title">
+              Активні
+            </h2>
           )}
 
           <ul
@@ -109,26 +165,27 @@ export const Categories: React.FC = ( ) => {
                 key={category.id}
                 value={category.name}
                 styling="filters__active-item"
-                id={category.id}
-                onDelete={deleteCategory}
               />
             ))}
           </ul>
         </div>
 
-        <div className="filters__inactive">
-          <h2 className="filters__title">
+        <div className="filters__inactive filters__allLists">
+          {(categoriesInactiveSearch && categoriesInactiveSearch.length > 0) && (
+            <h2 className="filters__title">
             Неактивні
-          </h2>
+            </h2>
+          )}
 
           <ul className="filters__inactive-list">
-            {test2.map(category => (
+            {categoriesInactive && categoriesInactive.map(category => (
               <DynamicField
-                key={category}
-                value={category}
+                key={category.id}
+                value={category.name}
                 styling="filters__inactive-item"
                 stylingLink="../power_cfp.svg"
-                stylingColor="filters__toggle--black"
+                id={category.id}
+                onDelete={handleCategoryDeletion}
               />
             ))}
           </ul>

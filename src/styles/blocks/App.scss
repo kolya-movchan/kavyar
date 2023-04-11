@@ -3,6 +3,7 @@
 
 .hidden {
   overflow: hidden;
+  pointer-events: none;
 }
 
 #root {
@@ -16,9 +17,7 @@ body {
 .not-found {
   height: 100%;
   @extend %flex;
-  // display: flex;
   flex-direction: column;
-  height: 100%;
   gap: 50px;
 
   &__photo {
@@ -39,6 +38,6 @@ body {
   }
 }
 
-.loader {
-  margin-bottom: 10px;
-}
+// .loader {
+//   margin-bottom: 10px;
+// }

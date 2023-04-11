@@ -6,6 +6,7 @@ import { City } from '../../../types/City';
 import { Product } from '../../../types/Product';
 import { Loader } from '../../Loader';
 import { emailRegex, priceRegex } from '../../_tools/Regex';
+import { scrollTop } from '../../_tools/Tools';
 import { AddProducts } from './AddProducts';
 import { Contacts } from './Contacts';
 import { Features } from './Features';
@@ -160,10 +161,6 @@ export const Form: React.FC = () => {
 
   }, []);
 
-  const scrollTop = () => {
-    document.documentElement.scrollTop = 0;
-  };
-
   const alertUser = (event: BeforeUnloadEvent) => {
     event.returnValue = "";
   };
@@ -185,7 +182,7 @@ export const Form: React.FC = () => {
   return (
     <>
       {loader && (
-        <div className="admin-form__loader">
+        <div className="loading">
           <Loader
             type='spin'
             color='#000'
