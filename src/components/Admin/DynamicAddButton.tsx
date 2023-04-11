@@ -26,7 +26,7 @@ export const DynamicAddButton: React.FC<Props> = ({
           onChange={(event) => onQuery(event.target.value)}
           value={query}
           style={hideMode ? {marginBottom: '10px'} : {}}
-          maxLength={20}
+          maxLength={30}
         />
 
         {!hideMode && (

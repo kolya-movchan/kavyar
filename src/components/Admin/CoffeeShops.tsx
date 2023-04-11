@@ -30,24 +30,30 @@ export const CoffeeShops: React.FC = () => {
   
   const getAllCFP = (link: string) => {
     getAllCFPAPI(link)
-      .then(cfpsList => setCfps(cfpsList))
+      .then(cfpsList => {
+        setCfps(cfpsList);
+        getFeaturesActive();
+      })
       .catch(e => {
         console.log(e);
       })
       .finally(() => {
-        setLoader(false);
+        // setLoader(false);
         htmlElement?.classList.remove('hidden');
       });
   };
 
   const getFeaturesActive = () => {
     getFeaturesAll('features?usable=true')
-      .then(featuresList => setFeatures(featuresList))
+      .then(featuresList => {
+        setFeatures(featuresList);
+        getActiveCities();
+      })
       .catch(e => {
         console.log(e);
       })
       .finally(() => {
-        setLoader(false);
+        // setLoader(false);
         htmlElement?.classList.remove('hidden');
       });
   };
@@ -178,13 +184,20 @@ export const CoffeeShops: React.FC = () => {
     getActiveCities();
   };
 
+
   useEffect(() => {
     htmlElement?.classList.add('hidden');
     setLoader(true);
 
     getAllCFP('coffee-shops?count=8');
-    getFeaturesActive();
-    getActiveCities();
+    // getFeaturesActive();
+    // getActiveCities();
+
+    // Promise.all(
+    //   [getAllCFP('coffee-shops?count=8'),
+    //     getFeaturesActive(),
+    //     getActiveCities()],
+    // ).then(() => console.log('GoodTOGO')).then(() => setLoader(false));
   }, []);
   
   return (
