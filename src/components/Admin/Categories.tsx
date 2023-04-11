@@ -42,9 +42,23 @@ export const Categories: React.FC = ( ) => {
       });
   };
 
+  const findDuplicate = () => {
+    if (categoriesInactive && categories) {
+      console.log('DUPLICATE');
+      
+      return [...categoriesInactive, ...categories].some(city => city.name.toLowerCase() === query.toLowerCase());
+    }
+
+    return false;
+  };
+
   const addCategory = () => {
     setInput(false);
     scrollTop();
+
+    if (findDuplicate()) {
+      return;
+    }
 
     if (query) {
       const newCategory = {
@@ -178,7 +192,7 @@ export const Categories: React.FC = ( ) => {
           )}
 
           <ul className="filters__inactive-list">
-            {categoriesInactive && categoriesInactive.map(category => (
+            {categoriesInactiveSearch && categoriesInactiveSearch.map(category => (
               <DynamicField
                 key={category.id}
                 value={category.name}

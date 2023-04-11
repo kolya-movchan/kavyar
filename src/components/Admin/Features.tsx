@@ -42,9 +42,23 @@ export const Features: React.FC = ( ) => {
       });
   };
 
+  const findDuplicate = () => {
+    if (featuresInactive && features) {
+      console.log('DUPLICATE');
+      
+      return [...featuresInactive, ...features].some(city => city.name.toLowerCase() === query.toLowerCase());
+    }
+
+    return false;
+  };
+
   const addFeatures = () => {
     setInput(false);
     scrollTop();
+
+    if (findDuplicate()) {
+      return;
+    }
 
     if (query) {
       const newFeature = {

@@ -15,6 +15,7 @@ export const Cities: React.FC = ( ) => {
   const [cities, setCities] = useState<City[] | null>(null);
   const [citiesInactive, setCitiesInactive] = useState<City[] | null>(null);
   const [loader, setLoader] = useState(false);
+  // const [error, setError] = useState(false);
 
   const htmlElement = document.getElementById("html");
 
@@ -42,9 +43,23 @@ export const Cities: React.FC = ( ) => {
       });
   };
 
+  const findDuplicate = () => {
+    if (citiesInactive && cities) {
+      console.log('DUPLICATE');
+      
+      return [...citiesInactive, ...cities].some(city => city.name.toLowerCase() === query.toLowerCase());
+    }
+
+    return false;
+  };
+
   const addCity = () => {
     setInput(false);
     scrollTop();
+
+    if (findDuplicate()) {
+      return;
+    }
 
     if (query) {
       const newCity = {
@@ -119,7 +134,7 @@ export const Cities: React.FC = ( ) => {
       window.removeEventListener("unload", scrollTop);
     };
   }, []);
-
+  
   return (
     <>
       <div className="menus-top">

@@ -1,8 +1,8 @@
 import { Category } from '../types/Category';
+import { CFP } from '../types/CFP';
 import { City } from '../types/City';
 import { Feature } from '../types/Feature';
 import { Product } from '../types/Product';
-// import { User } from '../types/User';
 import { item } from './fetch-extended';
 
 export const getAdminByEmail = async (email: string) => {
@@ -11,6 +11,21 @@ export const getAdminByEmail = async (email: string) => {
 
   return user || null;
 };
+
+// CFP
+export const getAllCFPAPI = async (value: string) => {
+  const cfps = await item.get<CFP[]>(`/${value}`);
+
+  return cfps || null;
+};
+
+// export const postNewCity = async (data: City) => {
+//   return item.post<City>('/cities', data);
+// };
+
+// export const deleteCity = async (cityId: number) => {
+//   return item.delete(`/cities/${cityId}`);
+// };
 
 // City
 export const getCitiesAll = async (value: string) => {

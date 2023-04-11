@@ -3,7 +3,6 @@ import { deleteProductAPI, getAllCategoriesAPI, getAllProductsAPI, postNewProduc
 import { Category } from '../../types/Category';
 import { Product } from '../../types/Product';
 import { Loader } from '../Loader';
-import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
 import { DynamicAddButton } from './DynamicAddButton';
 import { DynamicField } from './DynamicField';
@@ -18,13 +17,18 @@ export const Products: React.FC = ( ) => {
   const [categoriesForProduct, setCategoriesForProduct] = useState<Category[] | null>(null);
   const [newCategoryId, setnewCategoryId] = useState('');
 
+  const htmlElement = document.getElementById("html");
+
   const getProducts = () => {
     getAllProductsAPI('products')
       .then(categoriesList => setProducts(categoriesList))
       .catch(e => {
         console.log(e);
       })
-      .finally(() => setLoader(false));
+      .finally(() => {
+        setLoader(false);
+        htmlElement?.classList.remove('hidden');
+      });
   };
 
   const addProducts = () => {
@@ -70,7 +74,10 @@ export const Products: React.FC = ( ) => {
       .catch(e => {
         console.log(e);
       })
-      .finally(() => setLoader(false));
+      .finally(() => {
+        setLoader(false);
+        htmlElement?.classList.remove('hidden');
+      });
   };
 
   const productsSorted = products?.sort((product1, product2) => (product2.id - product1.id));
@@ -80,6 +87,8 @@ export const Products: React.FC = ( ) => {
   );
 
   useEffect(() => {
+    htmlElement?.classList.add('hidden');
+    setLoader(true);
     setHideMode(true);
     getCategories();
     getProducts();
@@ -90,6 +99,15 @@ export const Products: React.FC = ( ) => {
   return (
     <>
       <div className="menus-top" style={{ margin: '0'}}>
+        {loader && (
+          <div className="loading">
+            <Loader
+              type={products ? 'bubbles' : 'spin'}
+              color='#000'
+            />
+          </div>
+        )}
+
         <SearchPannel
           value={searchQuery}
           onChange={setSearchQuery}
@@ -142,19 +160,11 @@ export const Products: React.FC = ( ) => {
         </div>
       </div>
 
-      <div className="filters">
+      <div className="filters" style={{visibility: 'hidden'}}>
         <div className="filters__active">
           <h2 className="filters__title">
             Активні
           </h2>
-
-          {!products && <Loader type='spin' color='#000' />}
-
-          {loader && <Loader type='bubbles' color='#000' />}
-
-          {productsSearch && productsSearch.length < 1 && (
-            <NotFound title='Продуктів' text='filters'/>
-          )}
 
           <ul className="filters__active-list">
             {categoriesForProduct?.map(category => {
@@ -174,8 +184,6 @@ export const Products: React.FC = ( ) => {
                             key={product.id}
                             value={product.name}
                             styling="filters__active-item"
-                            id={product.id}
-                            onDelete={deleteProduct}
                           />
                         );
                       }
@@ -187,7 +195,7 @@ export const Products: React.FC = ( ) => {
           </ul>
         </div>
 
-        <div className="filters__inactive">
+        <div className="filters__inactive filters__allLists">
           <h2 className="filters__title">
             Неактивні
           </h2>
@@ -197,9 +205,10 @@ export const Products: React.FC = ( ) => {
               <DynamicField
                 key={city}
                 value={city}
+                // id={product.id}
                 styling="filters__inactive-item"
                 stylingLink="../power_cfp.svg"
-                stylingColor="filters__toggle--black"
+                onDelete={deleteProduct}
               />
             ))}
           </ul>

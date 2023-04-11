@@ -31,7 +31,7 @@ const hashRouter = () => (
           <Route index element={<HomePageLogo />}/>
           <Route path="admin/home" element={<Navigate to="/admin" replace />}/>
           <Route path="*" element={<NotFound title={'Сторінку'} styling={'page'} />}/>
-          <Route path="coffeeshops" element={<CoffeeShops title={'Ваші кав’ярні'} />} />
+          <Route path="coffeeshops" element={<CoffeeShops />} />
           <Route path="cities" element={(<Cities />)}/>
           <Route path="features" element={(<Features />)}/>
           <Route path="categories" element={(<Categories />)}/>
