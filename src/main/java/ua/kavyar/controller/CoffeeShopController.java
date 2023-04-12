@@ -7,9 +7,12 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -94,11 +97,19 @@ public class CoffeeShopController {
     @Parameter(name = "search",
             description = "",
             schema = @Schema(implementation = String.class))
-    public List<CoffeeShopSimpleResponseDto> getAll(
+    public Map<String, Object> getAll(
             @RequestParam Map<String, String> params) {
-        return coffeeShopService.findAll(params).stream()
+        Map<String, Object> map = new HashMap<>();
+        Page<CoffeeShop> allCoffeeShopsPage = coffeeShopService.findAll(params);
+        boolean hasNextCoffeeShop = allCoffeeShopsPage.hasNext();
+        map.put("hasNextPage", hasNextCoffeeShop);
+        List<CoffeeShopSimpleResponseDto> allCoffeeShopsPageList
+                = allCoffeeShopsPage.stream()
                 .map(simpleResponseDtoMapper::mapToDto)
                 .collect(Collectors.toList());
+        map.put("coffeeShops",allCoffeeShopsPageList);
+        return
+                map;
     }
 
     @GetMapping("/get/{id}")
