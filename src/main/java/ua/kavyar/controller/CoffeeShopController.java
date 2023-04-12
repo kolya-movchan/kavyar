@@ -1,5 +1,9 @@
 package ua.kavyar.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -7,11 +11,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -107,7 +106,7 @@ public class CoffeeShopController {
                 = allCoffeeShopsPage.stream()
                 .map(simpleResponseDtoMapper::mapToDto)
                 .collect(Collectors.toList());
-        map.put("coffeeShops",allCoffeeShopsPageList);
+        map.put("coffeeShops", allCoffeeShopsPageList);
         return
                 map;
     }
