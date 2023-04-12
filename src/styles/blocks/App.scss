@@ -8,6 +8,7 @@
 
 #root {
   min-height: 100vh;
+  // background-color: $bg-style;
 }
 
 body {
@@ -35,6 +36,12 @@ body {
 
   &--filters {
     font-size: 25px;
+  }
+
+  &__cfp {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
 }
 

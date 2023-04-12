@@ -18,6 +18,7 @@ export const SelectFilters: React.FC<Props> = ({
   return (
     <div className="select">
       <select
+        className='cfp__select'
         onChange={event => onSelect(event.target.value)}
         defaultValue={'DEFAULT'}
       >

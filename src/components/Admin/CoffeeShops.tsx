@@ -6,39 +6,45 @@ import { City } from '../../types/City';
 import { SortByProperty, Activity } from '../../types/enums/SortByProperty';
 import { Feature } from '../../types/Feature';
 import { Loader } from '../Loader';
+import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
 import { SelectFilters } from './SelectFilters';
 
 export const CoffeeShops: React.FC = () => {
   const [cfps, setCfps] = useState<CFP[]>();
   const [features, setFeatures]= useState<Feature[]>();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cities, setCities]= useState<City[]>();
   const [showEditId, setShowEditId] = useState(0);
   const [loader, setLoader] = useState(false);
 
   const [searchInTitle, setSearchInTitle] = useState<string>('');
-  const [count, setCount] = useState('8');
-  // const [page, setPage]= useState(1);
-  const [asc, setAsc] = useState('ASC');
-  const [sort, setSort] = useState('title');
+  const [count, setCount] = useState('');
+  const [page, setPage]= useState(1);
+  const [asc, setAsc] = useState('');
+  const [sort, setSort] = useState('');
   const [feature, setFeature] = useState(0);
   const [cityId, setCityId] = useState(0);
-  const [isActive, setIsActive] = useState('true, false');
+  const [isActive, setIsActive] = useState('');
+  // const [currentLink, setCurrentLink] = useState('coffee-shops?count=8');
+
+  // const [noMoreLeft, setNoMoreLeft] = useState(false);
 
   const htmlElement = document.getElementById("html");
-  
+
   const getAllCFP = (link: string) => {
     getAllCFPAPI(link)
       .then(cfpsList => {
+        // (cfpsList.length > +count - 1) ? setAreMoreLeft(true) : setAreMoreLeft(false);
+        // const newCFPs = cfpsList.length === +count ? cfpsList.slice(0, cfpsList.length - 1) : cfpsList;
+
+        // setCfps(newCFPs);
         setCfps(cfpsList);
-        getFeaturesActive();
       })
       .catch(e => {
         console.log(e);
       })
       .finally(() => {
-        // setLoader(false);
+        setLoader(false);
         htmlElement?.classList.remove('hidden');
       });
   };
@@ -47,14 +53,15 @@ export const CoffeeShops: React.FC = () => {
     getFeaturesAll('features?usable=true')
       .then(featuresList => {
         setFeatures(featuresList);
-        getActiveCities();
       })
       .catch(e => {
         console.log(e);
       })
       .finally(() => {
         // setLoader(false);
-        htmlElement?.classList.remove('hidden');
+        getActiveCities();
+
+        // htmlElement?.classList.remove('hidden');
       });
   };
 
@@ -65,8 +72,9 @@ export const CoffeeShops: React.FC = () => {
         console.log(e);
       })
       .finally(() => {
-        setLoader(false);
-        htmlElement?.classList.remove('hidden');
+        getAllCFP('coffee-shops?count=8');
+        // setLoader(false);
+        // htmlElement?.classList.remove('hidden');
       });
   };
 
@@ -150,54 +158,122 @@ export const CoffeeShops: React.FC = () => {
       break;
 
     default:
-      setIsActive('true, false');
+      setIsActive('true,false');
 
       break;
     }
   };
 
-  const applyAllFilters = (event: React.FormEvent) => {
-    event.preventDefault();
+  const updateURL = (pageNumber: number | null = null) => {
+    if (!pageNumber) {
+      setPage(1);
+    }
 
     const url = 'coffee-shops?';
     const countP = count ? `count=${count}` : '';
-    const pageP = `page=1`;
+    const pageP = `page=${pageNumber ? pageNumber : 1}`;
     const searchP = searchInTitle ? `searchInTitle=${searchInTitle}` : '';
-    const sortP = `sortBy=${sort}:${asc}`;
+    const sortP = sort ? `sortBy=${sort}:${asc}` : '';
     const featuresP = feature ? `filter=${feature}` : '';
     const cityP = cityId ? `city=${cityId}` : '';
     const activeP = isActive ? `isActive=${isActive}` : '';
   
-    const paramsURL = `${url}${countP}&${pageP}&${searchP}&${sortP}&${featuresP}&${cityP}&${activeP}`;
+    const paramsURL = `${url}${countP}&${searchP}&${sortP}&${featuresP}&${cityP}&${activeP}&${pageP}`;
 
     console.log(paramsURL);
+
+    // setCurrentLink(paramsURL);
 
     setLoader(true);
     getAllCFP(paramsURL);
   };
 
+  const applyAllFilters = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    updateURL();
+  };
+
   const resetAllFilters = () => {
     setLoader(true);
+    setSearchInTitle('');
+    setCount('8');
+    setPage(1);
+    setAsc('ASC');
+    setSort('');
+    setFeature(0);
+    setCityId(0);
+    setIsActive('');
 
-    getAllCFP('coffee-shops?count=8');
+    getAllCFP('coffee-shops?');
     getFeaturesActive();
     getActiveCities();
   };
 
+  const goBack = () => {
+    const pageNumber = page - 1;
+    
+    setPage(pageNumber);
+    updateURL(pageNumber);
+    // setNoMoreLeft(false);
+    
+    // const checkIfMore = `coffee-shops?page=${page + 1}`;
+
+    // getAllCFPAPI(checkIfMore)
+    //   .then((coffeshop) => {
+    //     if (coffeshop.length) {
+    //       console.log(coffeshop);
+    //       console.log('HASMORE');
+
+    //       setNoMoreLeft(false);
+          
+    //       return;
+    //     } else {
+    //       console.log('NO-MORE');
+    //       setNoMoreLeft(true);
+    //     }
+    //   })
+    //   .catch((e) => {
+    //     console.log(e);
+    //   });
+  };
+
+  const goForward = async () => {
+    const pageNumber = page + 1;
+    const checkIfMore = `coffee-shops?page=${page + 1}`;
+
+    console.log(checkIfMore);
+    
+
+    setPage(pageNumber);
+    updateURL(pageNumber);
+
+    // getAllCFPAPI(checkIfMore)
+    //   .then((coffeshop) => {
+    //     if (coffeshop.length) {
+    //       console.log(coffeshop);
+    //       console.log('HASMORE');
+
+    //       setNoMoreLeft(false);
+          
+    //       return;
+    //     } else {
+    //       console.log('NO-MORE');
+    //       setNoMoreLeft(true);
+    //     }
+    //   })
+    //   .catch((e) => {
+    //     console.log(e);
+    //   });
+  };
 
   useEffect(() => {
     htmlElement?.classList.add('hidden');
     setLoader(true);
 
-    getAllCFP('coffee-shops?count=8');
-    // getFeaturesActive();
+    getFeaturesActive();
+    // getAllCFP('coffee-shops?count=8');
     // getActiveCities();
-
-    // Promise.all(
-    //   [getAllCFP('coffee-shops?count=8'),
-    //     getFeaturesActive(),
-    //     getActiveCities()],
-    // ).then(() => console.log('GoodTOGO')).then(() => setLoader(false));
   }, []);
   
   return (
@@ -212,62 +288,84 @@ export const CoffeeShops: React.FC = () => {
       )}
 
       <form className="cfp__top-menu">
-        <SearchPannel
-          value={searchInTitle}
-          onChange={setSearchInTitle}
-          decoration="search-input--cfp"
-        />
+        <div className="cfp__filters">
+          <SearchPannel
+            value={searchInTitle}
+            onChange={setSearchInTitle}
+            decoration="search-input--cfp"
+          />
+          <SelectFilters
+            text='Показати'
+            data={sortByCount}
+            onSelect={setCount}
+          />
+          <SelectFilters
+            text='Сортувати за'
+            data={sortByProperties}
+            onSelect={handleSortByProperties}
+          />
+          <SelectFilters
+            text='Фільтрувати за'
+            complexData={features}
+            onSelect={handleFeatureSort}
+          />
 
-        <SelectFilters
-          text='Показати'
-          data={sortByCount}
-          onSelect={setCount}
-        />
+          <SelectFilters
+            text='Місто'
+            complexData={cities}
+            onSelect={handleCitiesSort}
+          />
+          <SelectFilters
+            text='Активність'
+            data={sortByActivity}
+            onSelect={handleActivitySort}
+          />
 
-        <SelectFilters
-          text='Сортувати за'
-          data={sortByProperties}
-          onSelect={handleSortByProperties}
-        />
+          {/* {features?.map(featureElement => (
+            <CheckBox
+              key={featureElement.id}
+              name={featureElement.name}
+              value={featureElement.name}
+            />
+          ))} */}
+        </div>
 
-        <SelectFilters
-          text='Фільтрувати за'
-          complexData={features}
-          onSelect={handleFeatureSort}
-        />
-
-        <SelectFilters
-          text='Місто'
-          complexData={cities}
-          onSelect={handleCitiesSort}
-        />
-
-        <SelectFilters
-          text='Активність'
-          data={sortByActivity}
-          onSelect={handleActivitySort}
-        />
-
-        <button
-          type='submit'
-          className="button is-black"
-          onClick={applyAllFilters}
-        >
-          Застосувати
-        </button>
-        
-        <button
-          type='reset'
-          className="button is-black"
-          onClick={resetAllFilters}
-        >
-          Скинути
-        </button>
+        <div className="cfp__Applybuttons">
+          <button
+            type='submit'
+            className="button is-black"
+            onClick={applyAllFilters}
+          >
+            Застосувати
+          </button>
+          
+          <button
+            type='reset'
+            className="button is-black"
+            onClick={resetAllFilters}
+          >
+            Скинути
+          </button>
+        </div>
       </form>
 
       <div className="cfp__wrapper">
         <div className="cfp-card-container">
           <ul className="cfp-card__list">
+            
+            {(cfps && !cfps?.length) && (
+              <div className="not-found--cfp">
+                <NotFound title={'Кавʼярень'} />
+
+                <button
+                  className="pagination-previous cfp__buttons-pagination"
+                  onClick={() => goBack()}
+                >
+                  Повернутися
+                </button>
+              </div>
+            )}
+
             {cfps && cfps.map(cfpItem => {
               const {id, title, open, close, location, logo } = cfpItem;
               // const {hour: hourOpen, minute: minuteOpen } = open;
@@ -329,20 +427,25 @@ export const CoffeeShops: React.FC = () => {
           </ul>
         </div>
 
-        {/* {!cfpFiltered.length && <NotFound title={title} />} */}
+        {cfps && (cfps?.length) > 0 && (
+          <div className="cfp__buttons">
+            <button
+              className="pagination-previous cfp__buttons-pagination"
+              onClick={() => goBack()}
+              disabled={page <= 1}
+            >
+              Назад
+            </button>
 
-        {/* <div className="cfp__buttons">
-          <button
-            className="pagination-previous cfp__buttons-pagination"
-            disabled
-          >
-            Назад
-          </button>
-
-          <button className="pagination-next cfp__buttons-pagination">
-            Далі
-          </button>
-        </div> */}
+            <button
+              className="pagination-next cfp__buttons-pagination"
+              // disabled={noMoreLeft}
+              onClick={() => goForward()}
+            >
+              Далі
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
