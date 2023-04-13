@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAllProductsAPI, getCitiesAll } from '../../../api/fetch';
+import { getAllProductsAPI, getCitiesAll, postNewCFPAPI } from '../../../api/fetch';
 
 import '../../../styles/blocks/admin/Form.scss';
 import { City } from '../../../types/City';
@@ -12,23 +12,29 @@ import { Contacts } from './Contacts';
 import { Features } from './Features';
 import { InputField } from './InputField';
 
+
 export const Form: React.FC = () => {
+  const [loader, setLoader] = useState(false);
+  const [products, setProducts] = useState<Product[] | null>(null);
+
   const [logoURL, setLogoURL] = useState('');
   const [photosURL, setPhotosURL] = useState('');
   const [name, setName] = useState('');
   const [cities, setCities] = useState<City[]>();
-  const [city, setCity] = useState('');
-  const [products, setProducts] = useState<Product[] | null>(null);
+  const [cityId, setCityId] = useState('');
   const [description, setDescription] = useState('');
   const [socialURL, setSocialURL] = useState('');
   const [googleMapsURL, setGoogleMapsURL] = useState('');
   const [product, setProduct] = useState('');
   const [productPrice, setProductPrice] = useState('');
   const [count, addCount] = useState(0);
+  const [timeOpen, setTimeOpen] = useState('07:00');
+  const [timeClose, setTimeClose] = useState('23:00');
   const [productList, setProductList] = useState<Product[]>([]);
-  const [loader, setLoader] = useState(false);
+  const [featureList, setFeatureList] = useState<number[]>([]);
+  const [phoneNumber, setPhoneNumber] = useState('+380');
 
-  const unique_id = Date.now();
+  // const unique_id = Date.now();
   
   const fieldsFilledIn = logoURL && name && description && socialURL;
 
@@ -58,13 +64,17 @@ export const Form: React.FC = () => {
     }
 
     const productListItem = {
+      id: +product,
       name: product,
       price: productPrice,
-      id: unique_id,
     };
 
     setProductList([...productList, productListItem]);
     resetProductFields();
+  };
+
+  const addFeatureList = (id: number) => {
+    setFeatureList([...featureList, id]);
   };
 
   const addProduct = () => {
@@ -90,36 +100,6 @@ export const Form: React.FC = () => {
     const filtered = productList.filter(productItem => productItem.id !== id);
 
     setProductList(filtered);
-  };
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    if (!logoURL.match(emailRegex)) {
-      setLogoURL('');
-
-      return;
-    }
-
-    // if (!photosURL.match(emailRegex) && photosURL) {
-    //   setPhotosURL('');
-
-    //   return;
-    // }
-
-    if (!socialURL.match(emailRegex)) {
-      setSocialURL('');
-
-      return;
-    }
-
-    // if (!googleMapsURL.match(emailRegex) && googleMapsURL) {
-    //   setGoogleMapsURL('');
-
-    //   return;
-    // }
-
-    reset();
   };
 
   const getAllCities = () => {
@@ -153,6 +133,11 @@ export const Form: React.FC = () => {
     getAllProducts();
   };
 
+  const handlePhoneNumber = (value: string) => {
+    if (value.match(/^[0-9+]*$/))
+      setPhoneNumber(value);
+  };
+
   useEffect(() => {
     htmlElement?.classList.add('hidden');
 
@@ -161,9 +146,9 @@ export const Form: React.FC = () => {
 
   }, []);
 
-  const alertUser = (event: BeforeUnloadEvent) => {
-    event.returnValue = "";
-  };
+  // const alertUser = (event: BeforeUnloadEvent) => {
+  //   event.returnValue = "";
+  // };
 
   useEffect(() => {
     window.addEventListener("unload", scrollTop);
@@ -172,12 +157,61 @@ export const Form: React.FC = () => {
     };
   }, []);
 
-  useEffect(() => {
-    window.addEventListener("beforeunload", alertUser);
-    return () => {
-      window.removeEventListener("beforeunload", alertUser);
+  // useEffect(() => {
+  //   window.addEventListener("beforeunload", alertUser);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", alertUser);
+  //   };
+  // }, []);
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!logoURL.match(emailRegex)) {
+      setLogoURL('');
+
+      return;
+    }
+
+    if (!socialURL.match(emailRegex)) {
+      setSocialURL('');
+
+      return;
+    }
+
+    const productPricesForAPI = productList.map(productElement => (
+      {
+        id: productElement.id,
+        price: productElement.price,
+      }
+    ));
+      
+    const newCFP = {
+      cityId: +cityId,
+      title: name,
+      description: description,
+      phone: phoneNumber,
+      open: timeOpen,
+      close: timeClose,
+      url: socialURL,
+      logo: {url: logoURL},
+      photo: {url: photosURL},
+      location: googleMapsURL,
+      features: featureList,
+      productPrices: productPricesForAPI,
     };
-  }, []);
+
+    console.log(newCFP);
+
+    postNewCFPAPI(newCFP)
+      .catch((e) => console.log(e))
+      .finally(() => {
+        reset();
+      });
+  };
+
+
+  console.log(timeOpen);
   
   return (
     <>
@@ -205,11 +239,11 @@ export const Form: React.FC = () => {
             onSubmit={handleSubmit}
           >
             <InputField
-              name="city"
+              name="cityId"
               label="Назва Міста"
-              value={city}
+              value={cityId}
               dataAPI={cities}
-              onChange={setCity}
+              onChange={setCityId}
               selecting
               required
             />
@@ -229,7 +263,49 @@ export const Form: React.FC = () => {
               setGoogleMapsURL={setGoogleMapsURL}
             />
 
-            <Features cfpname={name} />
+            <label className='cfp-phone'>
+              <div>
+              Номер Кавʼярні
+              </div>
+
+              <input
+                className="input admin-form__phone-input"
+                type="tel"
+                placeholder='Введіть Номер Телефону'
+                value={phoneNumber}
+                maxLength={13}
+                onChange={event => handlePhoneNumber(event.target.value)}
+              />
+            </label>
+
+            <div className='cfp-time'>
+              <label className="cfp-time__container">
+                Час Відкриття:
+                <input
+                  className="cfp-time__input"
+                  type="time"
+                  name="appt"
+                  value={timeOpen}
+                  onChange={(event) => setTimeOpen(event.target.value)}
+                />
+              </label>
+
+              <label className="cfp-time__container">
+                Час Закриття:
+                <input
+                  className="cfp-time__input"
+                  type="time"
+                  name="appt"
+                  value={timeClose}
+                  onChange={(event) => setTimeClose(event.target.value)}
+                />
+              </label>
+            </div>
+
+            <Features
+              cfpname={name}
+              onCheck={addFeatureList}
+            />
 
             <fieldset className="cfp-products">
               <h2 className="cfp-products__title">

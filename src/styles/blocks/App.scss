@@ -8,15 +8,16 @@
 
 #root {
   min-height: 100vh;
-  // background-color: $bg-style;
-}
-
-body {
   background-color: $bg-style;
 }
 
+body {
+  // width: 100%;
+  // height: 100vh;
+  // background-color: $bg-style;
+}
+
 .not-found {
-  height: 100%;
   @extend %flex;
   flex-direction: column;
   gap: 50px;
@@ -31,20 +32,6 @@ body {
   }
 
   &--page {
-    height: 100vh;
-  }
-
-  &--filters {
-    font-size: 25px;
-  }
-
-  &__cfp {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    height: 85vh;
   }
 }
-
-// .loader {
-//   margin-bottom: 10px;
-// }

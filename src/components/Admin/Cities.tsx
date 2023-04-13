@@ -68,10 +68,14 @@ export const Cities: React.FC = ( ) => {
       };
 
       postNewCity(newCity)
-        .then(() => setTimeout(() => {
+        .then(() => {
           getActiveCities();
           getInactiveCities();
-        }, 100))
+        })
+        // .then(() => setTimeout(() => {
+        //   getActiveCities();
+        //   getInactiveCities();
+        // }, 300))
         .catch((e) => {
           console.log(e);
           setLoader(false);

@@ -8,7 +8,7 @@ type Props = {
 
 export const NotFound: React.FC<Props> = ( { title, styling, text } ) => {
   return (
-    <div className={`not-found not-found--${styling}`}>
+    <div className={`not-found ${styling ? `not-found--${styling}` : ''}`}>
       <img
         className="not-found__photo"
         src="../sad-coffee.png"

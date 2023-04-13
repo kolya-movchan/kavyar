@@ -77,7 +77,6 @@ export const AddProducts: React.FC<Props> = ({
         <InputField
           name="product"
           label="продукт"
-          // array of products from API
           dataAPI={data}
           onChange={setProduct}
           onAddButton={onAddButton}

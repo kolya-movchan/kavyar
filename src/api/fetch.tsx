@@ -1,5 +1,5 @@
 import { Category } from '../types/Category';
-import { CFP } from '../types/CFP';
+import { CFP, CFPforPOST } from '../types/CFP';
 import { City } from '../types/City';
 import { Feature } from '../types/Feature';
 import { Product } from '../types/Product';
@@ -14,14 +14,14 @@ export const getAdminByEmail = async (email: string) => {
 
 // CFP
 export const getAllCFPAPI = async (value: string) => {
-  const cfps = await item.get<CFP[]>(`/${value}`);
+  const cfps = await item.get<CFP>(`/${value}`);
 
   return cfps || null;
 };
 
-// export const postNewCity = async (data: City) => {
-//   return item.post<City>('/cities', data);
-// };
+export const postNewCFPAPI = async (data: CFPforPOST) => {
+  return item.post<CFPforPOST>('/coffee-shops', data);
+};
 
 // export const deleteCity = async (cityId: number) => {
 //   return item.delete(`/cities/${cityId}`);

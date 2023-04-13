@@ -62,10 +62,12 @@ export const InputField: React.FC<Props> = ({
         {(!textarea && !selecting) && (
           <input
             id={id}
-            className={classNames('input', {
-              'is-danger': hasError && required,
-              'admin-form__price': name === 'price',
-            })}
+            className={classNames(
+              'input', {
+                'is-danger': hasError && required,
+                'admin-form__price': name === 'price',
+              }
+            )}
             placeholder={`Введіть ${placeHolderName}`}
             value={value}
             maxLength={maxLength}
@@ -97,19 +99,11 @@ export const InputField: React.FC<Props> = ({
             }}
           />)}
 
-        {/* {(selecting && !dataAPI) && (
-          <Loader
-            type='spin'
-            color='#000'
-            width='20px'
-            height='20px'
-          />
-        )} */}
-
         {(selecting && dataAPI) && (
           <>
             <div className="select">
               <select
+                className="cfp-products__select"
                 onChange={event => onChange(event.target.value)}
                 defaultValue={'DEFAULT'}
               >
@@ -119,7 +113,7 @@ export const InputField: React.FC<Props> = ({
 
                 {dataAPI && dataAPI.map((data) =>
                   <option
-                    value={data.value}
+                    value={data.id}
                     key={data.id}
                   >
                     {data.name}

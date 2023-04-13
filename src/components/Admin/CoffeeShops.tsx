@@ -1,7 +1,8 @@
+import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAllCFPAPI, getCitiesAll, getFeaturesAll } from '../../api/fetch';
-import { CFP } from '../../types/CFP';
+import { CFPlist } from '../../types/CFP';
 import { City } from '../../types/City';
 import { SortByProperty, Activity } from '../../types/enums/SortByProperty';
 import { Feature } from '../../types/Feature';
@@ -11,9 +12,11 @@ import { SearchPannel } from '../SearchPannel';
 import { SelectFilters } from './SelectFilters';
 
 export const CoffeeShops: React.FC = () => {
-  const [cfps, setCfps] = useState<CFP[]>();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [cfps, setCfps] = useState<CFPlist[]>();
   const [features, setFeatures]= useState<Feature[]>();
   const [cities, setCities]= useState<City[]>();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [showEditId, setShowEditId] = useState(0);
   const [loader, setLoader] = useState(false);
 
@@ -29,16 +32,15 @@ export const CoffeeShops: React.FC = () => {
 
   // const [noMoreLeft, setNoMoreLeft] = useState(false);
 
+  // console.log(cfps);
+  
+
   const htmlElement = document.getElementById("html");
 
   const getAllCFP = (link: string) => {
     getAllCFPAPI(link)
       .then(cfpsList => {
-        // (cfpsList.length > +count - 1) ? setAreMoreLeft(true) : setAreMoreLeft(false);
-        // const newCFPs = cfpsList.length === +count ? cfpsList.slice(0, cfpsList.length - 1) : cfpsList;
-
-        // setCfps(newCFPs);
-        setCfps(cfpsList);
+        setCfps(cfpsList.coffeeShops);
       })
       .catch(e => {
         console.log(e);
@@ -349,23 +351,25 @@ export const CoffeeShops: React.FC = () => {
         </div>
       </form>
 
-      <div className="cfp__wrapper">
-        <div className="cfp-card-container">
+      <div className={classNames(
+        "cfp__wrapper ",
+        {['cfp__wrapper--not-found']: cfps && !cfps?.length}
+      )}>
+
+        <div
+          // className="cfp-card-container"
+          className={classNames(
+            "cfp-card-container",
+            {['cfp-card-container--not-found']: cfps && !cfps?.length}
+          )}
+        >
+          {(cfps && !cfps?.length) && (
+            <div className="not-found--cfp">
+              <NotFound title={'Кавʼярень'} styling='--cfp' />
+            </div>
+          )}
           <ul className="cfp-card__list">
-            
-            {(cfps && !cfps?.length) && (
-              <div className="not-found--cfp">
-                <NotFound title={'Кавʼярень'} />
-
-                <button
-                  className="pagination-previous cfp__buttons-pagination"
-                  onClick={() => goBack()}
-                >
-                  Повернутися
-                </button>
-              </div>
-            )}
-
+          
             {cfps && cfps.map(cfpItem => {
               const {id, title, open, close, location, logo } = cfpItem;
               // const {hour: hourOpen, minute: minuteOpen } = open;

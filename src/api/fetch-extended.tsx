@@ -1,4 +1,5 @@
 import { Category } from '../types/Category';
+import { CFPforPOST } from '../types/CFP';
 import { City } from '../types/City';
 import { Feature } from '../types/Feature';
 import { Product } from '../types/Product';
@@ -16,7 +17,7 @@ type RequestMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE';
 function request<T>(
   url: string,
   method: RequestMethod = 'GET',
-  data: | City | Feature | Product | Category | null = null,
+  data: | City | Feature | Product | Category | CFPforPOST | null = null,
 ): Promise<T> {
   const options: RequestInit = { method };
 
@@ -47,7 +48,7 @@ export const item = {
     return request<T>(url);
   },
 
-  post: function <T>(url: string, data: City | Feature | Product | Category) {
+  post: function <T>(url: string, data: City | Feature | Product | Category | CFPforPOST) {
     request<T>(url, 'POST', data);
   },
 

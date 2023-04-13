@@ -4,6 +4,10 @@
 .cfp-products {
   margin-bottom: 80px;
 
+  &__select {
+    width: 175px;
+  }
+
   &__title {
     @extend %form-title
   }

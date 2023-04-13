@@ -33,14 +33,16 @@
     margin-bottom: 50px;
     display: inline-block;
     width: 85%;
-    // padding: 20px 95px 60px;
   }
 
   &-card-container {
     margin: 0 auto;
     @extend %flex;
-    // height: 100%;
     flex-wrap: wrap;
+
+    &--not-found {
+      height: 100%;
+    }
   }
 
   .cfp-card__list {

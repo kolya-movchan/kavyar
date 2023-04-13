@@ -5,9 +5,10 @@ import { CheckBox } from './CheckBox';
 
 type Props = {
   cfpname: string
+  onCheck: (value: number) => void,
 };
 
-export const Features: React.FC<Props> = ({ cfpname }) => {
+export const Features: React.FC<Props> = ({ cfpname, onCheck }) => {
   const [features, setFeatures] = useState<Feature[] | null>(null);
 
   const getAllFeatures = () => {
@@ -36,7 +37,9 @@ export const Features: React.FC<Props> = ({ cfpname }) => {
           <CheckBox
             key={feature.id}
             name={feature.name}
-            value={feature.name}
+            value={feature.id.toString()}
+            id={feature.id}
+            onCheck={onCheck}
           />
         ))}
 
