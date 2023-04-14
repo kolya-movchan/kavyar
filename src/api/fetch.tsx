@@ -1,5 +1,5 @@
 import { Category } from '../types/Category';
-import { CFP, CFPforPOST } from '../types/CFP';
+import { CFP } from '../types/CFP';
 import { City } from '../types/City';
 import { Feature } from '../types/Feature';
 import { Product } from '../types/Product';
@@ -19,13 +19,18 @@ export const getAllCFPAPI = async (value: string) => {
   return cfps || null;
 };
 
-export const postNewCFPAPI = async (data: CFPforPOST) => {
-  return item.post<CFPforPOST>('/coffee-shops', data);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const postNewCFPAPI = async (data: any) => {
+  return item.post('/coffee-shops', data);
 };
 
-// export const deleteCity = async (cityId: number) => {
-//   return item.delete(`/cities/${cityId}`);
-// };
+export const deleteCFPAPI = async (cfpId: number) => {
+  return item.delete(`/coffee-shops/delete/${cfpId}`);
+};
+
+export const restoreCFPAPI = async (cfpId: number) => {
+  return item.put(`/coffee-shops/restore/${cfpId}`);
+};
 
 // City
 export const getCitiesAll = async (value: string) => {

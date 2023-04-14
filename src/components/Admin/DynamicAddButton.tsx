@@ -7,6 +7,7 @@ type Props = {
   onQuery: (value: string) => void,
   onAdd?: () => void,
   hideMode?: boolean,
+  onKey?: (event: React.KeyboardEvent) => void,
 };
 
 export const DynamicAddButton: React.FC<Props> = ({
@@ -15,6 +16,8 @@ export const DynamicAddButton: React.FC<Props> = ({
   hideMode,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onAdd = () => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onKey = () => {},
 }) => {
   return (
     <div className="filters__add">
@@ -24,6 +27,7 @@ export const DynamicAddButton: React.FC<Props> = ({
           className="filters__input input"
           placeholder="Введіть назву"
           onChange={(event) => onQuery(event.target.value)}
+          onKeyDown={(event) => onKey(event)}
           value={query}
           style={hideMode ? {marginBottom: '10px'} : {}}
           maxLength={30}

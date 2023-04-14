@@ -4,6 +4,7 @@ import { Category } from '../../types/Category';
 import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
+import { validateInput } from '../_tools/Regex';
 import { scrollTop } from '../_tools/Tools';
 import { DynamicAddButton } from './DynamicAddButton';
 import { DynamicField } from './DynamicField';
@@ -70,7 +71,7 @@ export const Categories: React.FC = ( ) => {
         .then(() => setTimeout(() => {
           getCategoriesActive();
           getCategoriesInactive();
-        }, 100))
+        }, 300))
         .catch((e) => {
           (e);
           setLoader(false);
@@ -116,6 +117,22 @@ export const Categories: React.FC = ( ) => {
     return true;
   };
 
+  const handleCategoryInput = (value: string) => {
+    const inputText = validateInput(value);
+
+    setQuery(inputText);
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      setQuery('');
+    }
+
+    if (event.key === 'Enter' && query) {
+      addCategory();
+    }
+  };
+
   useEffect(() => {
     htmlElement?.classList.add('hidden');
     setLoader(true);
@@ -152,9 +169,10 @@ export const Categories: React.FC = ( ) => {
         <DynamicAddButton
           input={input}
           showInput={setInput}
-          onQuery={setQuery}
+          onQuery={handleCategoryInput}
           query={query}
           onAdd={addCategory}
+          onKey={handleKeyPress}
         />
       </div>
 
@@ -197,7 +215,7 @@ export const Categories: React.FC = ( ) => {
                 key={category.id}
                 value={category.name}
                 styling="filters__inactive-item"
-                stylingLink="../power_cfp.svg"
+                stylingLink="../delete-icon.png"
                 id={category.id}
                 onDelete={handleCategoryDeletion}
               />

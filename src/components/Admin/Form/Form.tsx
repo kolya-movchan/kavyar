@@ -7,6 +7,7 @@ import { Product } from '../../../types/Product';
 import { Loader } from '../../Loader';
 import { emailRegex, priceRegex } from '../../_tools/Regex';
 import { scrollTop } from '../../_tools/Tools';
+import { convertGoogleDrive } from '../CoffeeShops';
 import { AddProducts } from './AddProducts';
 import { Contacts } from './Contacts';
 import { Features } from './Features';
@@ -40,6 +41,7 @@ export const Form: React.FC = () => {
 
   const htmlElement = document.getElementById("html");
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const reset = () => {
     setLogoURL('');
     setPhotosURL('');
@@ -181,8 +183,8 @@ export const Form: React.FC = () => {
 
     const productPricesForAPI = productList.map(productElement => (
       {
-        id: productElement.id,
-        price: productElement.price,
+        productId: productElement.id,
+        price: productElement.price ? +productElement.price : '',
       }
     ));
       
@@ -194,24 +196,25 @@ export const Form: React.FC = () => {
       open: timeOpen,
       close: timeClose,
       url: socialURL,
-      logo: {url: logoURL},
+      logo: {url: convertGoogleDrive(logoURL)},
       photo: {url: photosURL},
       location: googleMapsURL,
       features: featureList,
       productPrices: productPricesForAPI,
     };
 
-    console.log(newCFP);
+    console.log(JSON.stringify(newCFP));
+
+    setLoader(true);
+    scrollTop(); 
 
     postNewCFPAPI(newCFP)
       .catch((e) => console.log(e))
       .finally(() => {
-        reset();
+        setLoader(false);
+        // reset();
       });
   };
-
-
-  console.log(timeOpen);
   
   return (
     <>

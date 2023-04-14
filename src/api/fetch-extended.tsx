@@ -12,7 +12,7 @@ function wait(delay: number) {
   });
 }
 
-type RequestMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE';
+type RequestMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE' | 'PUT';
 
 function request<T>(
   url: string,
@@ -57,4 +57,5 @@ export const item = {
   // );},
 
   delete: (url: string) => request(url, 'DELETE'),
+  put: (url: string) => request(url, 'PUT'),
 };

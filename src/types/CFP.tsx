@@ -1,4 +1,4 @@
-import { Product } from "./Product";
+// import { Product } from "./Product";
 
 export interface CFPlist {
   id: number,
@@ -37,5 +37,5 @@ export interface CFPforPOST {
   photo: {url: string},
   location: string,
   features: number[],
-  productPrices: Pick<Product, "id" | "price">[],
+  productPrices: {productId: number, price: number}[],
 }

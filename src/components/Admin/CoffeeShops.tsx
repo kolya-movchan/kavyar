@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getAllCFPAPI, getCitiesAll, getFeaturesAll } from '../../api/fetch';
+import { deleteCFPAPI, getAllCFPAPI, getCitiesAll, getFeaturesAll, restoreCFPAPI } from '../../api/fetch';
 import { CFPlist } from '../../types/CFP';
 import { City } from '../../types/City';
 import { SortByProperty, Activity } from '../../types/enums/SortByProperty';
@@ -9,15 +9,26 @@ import { Feature } from '../../types/Feature';
 import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
+import { scrollTop } from '../_tools/Tools';
+import { CheckBoxCFP } from './CheckBoxCFP';
 import { SelectFilters } from './SelectFilters';
 
+export const convertGoogleDrive = (link: string) => {
+  if (link.startsWith('https://drive')) {
+    const startIndex = link.indexOf('/d/');
+    const endIndex = link.indexOf('/view');
+
+    return `https://drive.google.com/uc?export=view&id=${link.slice((startIndex + 3), endIndex)}`;
+  }
+
+  return link;
+};
+
 export const CoffeeShops: React.FC = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [showEditId, setShowEditId] = useState(0);
   const [cfps, setCfps] = useState<CFPlist[]>();
   const [features, setFeatures]= useState<Feature[]>();
   const [cities, setCities]= useState<City[]>();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [showEditId, setShowEditId] = useState(0);
   const [loader, setLoader] = useState(false);
 
   const [searchInTitle, setSearchInTitle] = useState<string>('');
@@ -25,29 +36,39 @@ export const CoffeeShops: React.FC = () => {
   const [page, setPage]= useState(1);
   const [asc, setAsc] = useState('');
   const [sort, setSort] = useState('');
-  const [feature, setFeature] = useState(0);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [featureList, setFeatureList] = useState<string[]>([]);
   const [cityId, setCityId] = useState(0);
   const [isActive, setIsActive] = useState('');
-  // const [currentLink, setCurrentLink] = useState('coffee-shops?count=8');
 
-  // const [noMoreLeft, setNoMoreLeft] = useState(false);
-
-  // console.log(cfps);
-  
+  const [noMoreLeft, setNoMoreLeft] = useState<boolean | undefined>(false);
 
   const htmlElement = document.getElementById("html");
 
   const getAllCFP = (link: string) => {
     getAllCFPAPI(link)
       .then(cfpsList => {
-        setCfps(cfpsList.coffeeShops);
+        console.log(cfpsList.coffeeShops);
+        
+        const cfpWithRightLogos = cfpsList.coffeeShops.map(cfpItem => {
+          const logoCFP = convertGoogleDrive(cfpItem.logo);
+
+          return {
+            ...cfpItem,
+            logo: logoCFP,
+          };
+        });
+        
+        setCfps(cfpWithRightLogos);
+        setNoMoreLeft(!cfpsList.hasNextPage);
       })
       .catch(e => {
         console.log(e);
       })
       .finally(() => {
         setLoader(false);
-        htmlElement?.classList.remove('hidden');
+        // htmlElement?.classList.remove('hidden');
+        getFeaturesActive();
       });
   };
 
@@ -74,9 +95,11 @@ export const CoffeeShops: React.FC = () => {
         console.log(e);
       })
       .finally(() => {
-        getAllCFP('coffee-shops?count=8');
-        // setLoader(false);
-        // htmlElement?.classList.remove('hidden');
+        // getAllCFP('coffee-shops?count=4');
+        // getAllCFP('coffee-shops?count=8');
+        // deleteCFPAPI(6);
+        setLoader(false);
+        htmlElement?.classList.remove('hidden');
       });
   };
 
@@ -133,13 +156,6 @@ export const CoffeeShops: React.FC = () => {
     }
   };
 
-  const handleFeatureSort = (value: string) => {
-    const featureTarget = features?.find(featureItem => featureItem.name === value);
-    const featureId = featureTarget?.id || 0;
-
-    setFeature(featureId);
-  };
-
   const handleCitiesSort = (value: string) => {
     const cityTarget = cities?.find(cityItem => cityItem.name === value);
     const cityTargetId = cityTarget?.id || 0;
@@ -176,7 +192,7 @@ export const CoffeeShops: React.FC = () => {
     const pageP = `page=${pageNumber ? pageNumber : 1}`;
     const searchP = searchInTitle ? `searchInTitle=${searchInTitle}` : '';
     const sortP = sort ? `sortBy=${sort}:${asc}` : '';
-    const featuresP = feature ? `filter=${feature}` : '';
+    const featuresP = featureList.length > 0 ? `filter=${featureList.join(',')}` : '';
     const cityP = cityId ? `city=${cityId}` : '';
     const activeP = isActive ? `isActive=${isActive}` : '';
   
@@ -184,14 +200,13 @@ export const CoffeeShops: React.FC = () => {
 
     console.log(paramsURL);
 
-    // setCurrentLink(paramsURL);
-
     setLoader(true);
     getAllCFP(paramsURL);
   };
 
   const applyAllFilters = (event: React.FormEvent) => {
     event.preventDefault();
+    scrollTop();
 
     updateURL();
   };
@@ -203,7 +218,7 @@ export const CoffeeShops: React.FC = () => {
     setPage(1);
     setAsc('ASC');
     setSort('');
-    setFeature(0);
+    setFeatureList([]);
     setCityId(0);
     setIsActive('');
 
@@ -217,27 +232,6 @@ export const CoffeeShops: React.FC = () => {
     
     setPage(pageNumber);
     updateURL(pageNumber);
-    // setNoMoreLeft(false);
-    
-    // const checkIfMore = `coffee-shops?page=${page + 1}`;
-
-    // getAllCFPAPI(checkIfMore)
-    //   .then((coffeshop) => {
-    //     if (coffeshop.length) {
-    //       console.log(coffeshop);
-    //       console.log('HASMORE');
-
-    //       setNoMoreLeft(false);
-          
-    //       return;
-    //     } else {
-    //       console.log('NO-MORE');
-    //       setNoMoreLeft(true);
-    //     }
-    //   })
-    //   .catch((e) => {
-    //     console.log(e);
-    //   });
   };
 
   const goForward = async () => {
@@ -249,32 +243,88 @@ export const CoffeeShops: React.FC = () => {
 
     setPage(pageNumber);
     updateURL(pageNumber);
+  };
 
-    // getAllCFPAPI(checkIfMore)
-    //   .then((coffeshop) => {
-    //     if (coffeshop.length) {
-    //       console.log(coffeshop);
-    //       console.log('HASMORE');
+  cfps?.sort((cfp1, cfp2) => {
+    if (cfp1.isDisable) {
+      return 1;
+    }
 
-    //       setNoMoreLeft(false);
-          
-    //       return;
-    //     } else {
-    //       console.log('NO-MORE');
-    //       setNoMoreLeft(true);
-    //     }
-    //   })
-    //   .catch((e) => {
-    //     console.log(e);
-    //   });
+    if (cfp2.isDisable) {
+      return -1;
+    }
+
+    return 0;
+  });
+
+  const deactivateCFP = (id: number, status: boolean) => {
+    const notificationDelete = "Підтвердіть Видалення";
+    const notificationRestore = "Підтвердіть Реактивацію";
+
+    switch (status) {
+    case false: {
+      if (confirm(notificationDelete) == true) {
+        htmlElement?.classList.add('hidden');
+        setLoader(true);
+        scrollTop();
+
+        deleteCFPAPI(id)
+          .then(() => {
+            getAllCFP('coffee-shops?count=8');
+          })
+          .catch((e) => console.log(e))
+          .finally(() => {
+            setLoader(false);
+            htmlElement?.classList.remove('hidden');
+          });
+
+      } else {
+        return;
+      }
+    }
+      break;
+
+    case true: {
+      if (confirm(notificationRestore) == true) {
+        htmlElement?.classList.add('hidden');
+        setLoader(true);
+        scrollTop();
+        
+        restoreCFPAPI(id)
+          .then(() => {
+            getAllCFP('coffee-shops?count=8');
+          })
+          .catch((e) => console.log(e))
+          .finally(() => {
+            setLoader(false);
+            htmlElement?.classList.remove('hidden');
+          });
+      } else {
+        return;
+      }
+
+      break;
+    }
+
+    default: break;
+    }
+  };
+
+  const handleCheckboxes = (id: string, checked: boolean) => {
+    if (checked) {
+      setFeatureList([...featureList, id]);
+
+      return;
+    }
+
+    setFeatureList(featureList.filter(featureId => featureId !== id));
   };
 
   useEffect(() => {
     htmlElement?.classList.add('hidden');
     setLoader(true);
 
-    getFeaturesActive();
-    // getAllCFP('coffee-shops?count=8');
+    getAllCFP('coffee-shops?count=8');
     // getActiveCities();
   }, []);
   
@@ -306,11 +356,11 @@ export const CoffeeShops: React.FC = () => {
             data={sortByProperties}
             onSelect={handleSortByProperties}
           />
-          <SelectFilters
+          {/* <SelectFilters
             text='Фільтрувати за'
             complexData={features}
             onSelect={handleFeatureSort}
-          />
+          /> */}
 
           <SelectFilters
             text='Місто'
@@ -323,13 +373,23 @@ export const CoffeeShops: React.FC = () => {
             onSelect={handleActivitySort}
           />
 
-          {/* {features?.map(featureElement => (
-            <CheckBox
-              key={featureElement.id}
-              name={featureElement.name}
-              value={featureElement.name}
-            />
-          ))} */}
+          <fieldset className="cfp-features__container">
+            <legend className="cfp-features__legend">
+              Фільтрувати
+            </legend>
+
+            {features?.map(featureElement => {
+              const {id, name} = featureElement;
+              return (
+                <CheckBoxCFP
+                  key={id}
+                  id={id}
+                  name={name}
+                  onCheck={handleCheckboxes}
+                />
+              );
+            })}
+          </fieldset>
         </div>
 
         <div className="cfp__Applybuttons">
@@ -357,7 +417,6 @@ export const CoffeeShops: React.FC = () => {
       )}>
 
         <div
-          // className="cfp-card-container"
           className={classNames(
             "cfp-card-container",
             {['cfp-card-container--not-found']: cfps && !cfps?.length}
@@ -371,21 +430,22 @@ export const CoffeeShops: React.FC = () => {
           <ul className="cfp-card__list">
           
             {cfps && cfps.map(cfpItem => {
-              const {id, title, open, close, location, logo } = cfpItem;
-              // const {hour: hourOpen, minute: minuteOpen } = open;
-              // const {hour: hourClose, minute: minuteClose } = close;
+              const {id, isDisable, title, open, close, location, logo } = cfpItem;
 
               return (
                 <li
-                  className="cfp-card"
+                  className={classNames(
+                    "cfp-card",
+                    {'cfp-card--deactivated': isDisable}
+                  )}
                   id={id.toString()}
                   key={id}
                   onMouseEnter={() => setShowEditId(id)}
-                  onMouseLeave={() => setShowEditId(-1)}
+                  onMouseLeave={() => setShowEditId(0)}
                 >
                   <div className="cfp-card__logo-container">
                     <img
-                      src={logo.startsWith('http') ? logo : '../default-cfp.png'}
+                      src={logo}
                       alt="coffeeshop logo"
                       className="cpf__card-logo"
                       style={{ borderRadius: '10px'}}
@@ -397,7 +457,7 @@ export const CoffeeShops: React.FC = () => {
                   </div>
 
                   {showEditId === id && (
-                    <div hidden>
+                    <div>
                       <Link to='/admin/form'>
                         <img
                           src="../edit.png"
@@ -405,6 +465,18 @@ export const CoffeeShops: React.FC = () => {
                           className='cfp-card__edit'
                         />
                       </Link>
+
+                      <button
+                        className="cfp-card__delete"
+                        onClick={() => deactivateCFP(id, isDisable)}
+                      >
+                        <img
+                          src="../power.svg"
+                          alt="delete-coffeeshop"
+                          className="cfp-card__delete-img"
+                          // onClick={() => deactivateCFP(id)}
+                        />
+                      </button>
                     </div>
                   )}
 
@@ -443,8 +515,8 @@ export const CoffeeShops: React.FC = () => {
 
             <button
               className="pagination-next cfp__buttons-pagination"
-              // disabled={noMoreLeft}
               onClick={() => goForward()}
+              disabled={noMoreLeft}
             >
               Далі
             </button>

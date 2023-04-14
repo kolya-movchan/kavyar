@@ -4,6 +4,7 @@ import { Feature } from '../../types/Feature';
 import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
+import { validateInput } from '../_tools/Regex';
 import { scrollTop } from '../_tools/Tools';
 import { DynamicAddButton } from './DynamicAddButton';
 import { DynamicField } from './DynamicField';
@@ -71,7 +72,7 @@ export const Features: React.FC = ( ) => {
         .then(() => setTimeout(() => {
           getFeaturesActive();
           getInactiveFeatures();
-        }, 100))
+        }, 300))
         .catch((e) => {
           console.log(e);
           setLoader(false);
@@ -121,6 +122,22 @@ export const Features: React.FC = ( ) => {
     return true;
   };
 
+  const handleFeatureInput = (value: string) => {
+    const inputText = validateInput(value);
+
+    setQuery(inputText);
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      setQuery('');
+    }
+
+    if (event.key === 'Enter' && query) {
+      addFeatures();
+    }
+  };
+
   useEffect(() => {
     htmlElement?.classList.add('hidden');
     setLoader(true);
@@ -157,9 +174,10 @@ export const Features: React.FC = ( ) => {
         <DynamicAddButton
           input={input}
           showInput={setInput}
-          onQuery={setQuery}
+          onQuery={handleFeatureInput}
           query={query}
           onAdd={addFeatures}
+          onKey={handleKeyPress}
         />
       </div>
 
@@ -203,7 +221,7 @@ export const Features: React.FC = ( ) => {
                 value={feature.name}
                 id={feature.id}
                 styling="filters__inactive-item"
-                stylingLink="../power_cfp.svg"
+                stylingLink="../delete-icon.png"
                 onDelete={handleFeatureDeletion}
               />
             ))}

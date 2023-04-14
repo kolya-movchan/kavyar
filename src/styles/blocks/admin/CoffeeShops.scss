@@ -31,11 +31,14 @@
 
   &__wrapper {
     margin-bottom: 50px;
-    display: inline-block;
+    // display: flex;
+    // flex-wrap: wrap;
+    // display: inline-block;
     width: 85%;
   }
 
   &-card-container {
+    padding: 0 40px;
     margin: 0 auto;
     @extend %flex;
     flex-wrap: wrap;
@@ -45,27 +48,61 @@
     }
   }
 
+  &-features__container {
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid $main-color;
+  }
+
+  &-features__wrapper {
+    width: 100%;
+    padding: 3px;
+  }
+
+  &-features__checkBox {
+    margin-right: 10px;
+    font-size: 25px;
+  }
+
+  // &-features-name {
+  // }
+
+  &-features__legend {
+    text-align: center;
+  }
+
+  legend {
+    width: 80%;
+    padding: 5px;
+    color: #fff;
+    background-color: #000;
+  }
+
   .cfp-card__list {
+    max-width: 1040px;
     margin-bottom: 20px;
     width: max-content;
     display: flex;
-    justify-content: center;
+    // justify-content: center;
     flex-wrap: wrap;
 
-    @media (min-width: 700px) {
-      & {
-        justify-content: flex-start;
-      }
-    }
+    // @media (min-width: 300px) {
+    //   & {
+    //     justify-content: center;
+    //     align-items: center;
+    //   }
+    // }
   }
 
   .cfp-card {
     @extend %flex;
     margin: 5px;
     flex-basis: 20%;
+    height: 380px;
     min-width: 250px;
-    max-width: 300px;
-    flex-grow: 1;
+    max-width: 280px;
+    // flex-grow: 1;
     flex-direction: column;
 
     overflow: hidden;
@@ -77,34 +114,39 @@
     border-radius: 50px;
     border: 1px solid #d2d3d4;
 
-    // & * {
-    //   box-sizing: border-box;
-    //   transition: all 0.45s ease;
-    // }
+    &--deactivated {
+      opacity: 0.5;
+      // background-color: grey;
+    }
+
+    & * {
+      box-sizing: border-box;
+      transition: all 0.45s ease;
+    }
     
-    // &::before,
-    // &::after {
-    //   @extend %flex;
-    //   background-color: rgba(0, 0, 0, 0.6);
-    //   position: absolute;
-    //   top: 0;
-    //   bottom: 0;
-    //   left: 0;
-    //   right: 0;
-    //   content: '';
-    //   // content: url(../../../../public/edit.png);
-    //   // content:"<a href='mailto:info@site.com'>info@site.com</a>";
-    //   transition: all 0.3s ease;
-    //   z-index: 1;
-    //   opacity: 0;
-    //   transform: scaleY(2);
-    // }
+    &::before,
+    &::after {
+      @extend %flex;
+      background-color: rgba(0, 0, 0, 0.6);
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      content: '';
+      // content: url(../../../../public/edit.png);
+      // content:"<a href='mailto:info@site.com'>info@site.com</a>";
+      transition: all 0.3s ease;
+      z-index: 1;
+      opacity: 0;
+      transform: scaleY(2);
+    }
     
-    // &:hover::before,
-    // &:hover::after {
-    //   transform: scale(1);
-    //   opacity: 1;
-    // }
+    &:hover::before,
+    &:hover::after {
+      transform: scale(1);
+      opacity: 1;
+    }
 
     &__logo-container {
       @extend %flex;
@@ -157,7 +199,29 @@
       z-index: 2;
       top: calc(50% - 15px);
       left: calc(50% - 15px);
-      width: 30px;
+      width: 40px;
+      height: 40px;
+    }
+
+    &__delete {
+      position: absolute;
+      top: calc(30%);
+      left: calc(50% - 15px);
+      width: 40px;
+      border: none;
+      cursor: pointer;
+      appearance: none;
+      background-color: inherit;
+    }
+
+    &__delete-img {
+      // background-color: #ff;
+      position: absolute;
+      z-index: 2;
+      top: calc(30%);
+      left: calc(50% - 15px);
+      width: 40px;
+      cursor: pointer;
     }
   }
 
@@ -168,9 +232,11 @@
   }
 
   &__buttons-pagination {
-    min-width: 10em;
+    max-width: 10em;
+    min-width: 8em;
     opacity: 1;
   }
+
 
   .pagination {
     &__image {

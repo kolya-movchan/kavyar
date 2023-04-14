@@ -5,6 +5,7 @@ import { Product } from '../../types/Product';
 import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
+import { validateInput } from '../_tools/Regex';
 import { scrollTop } from '../_tools/Tools';
 import { DynamicAddButton } from './DynamicAddButton';
 import { DynamicField } from './DynamicField';
@@ -139,6 +140,22 @@ export const Products: React.FC = ( ) => {
     return true;
   };
 
+  const handleProductsInput = (value: string) => {
+    const inputText = validateInput(value);
+
+    setQuery(inputText);
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      setQuery('');
+    }
+
+    if (event.key === 'Enter' && query) {
+      addProducts();
+    }
+  };
+
   useEffect(() => {
     htmlElement?.classList.add('hidden');
     setLoader(true);
@@ -170,10 +187,11 @@ export const Products: React.FC = ( ) => {
             <DynamicAddButton
               input={input}
               showInput={setInput}
-              onQuery={setQuery}
+              onQuery={handleProductsInput}
               query={query}
               onAdd={addProducts}
               hideMode={hideMode}
+              onKey={handleKeyPress}
             />
 
             <div className="select" style={{width: '100%'}}>
@@ -278,7 +296,7 @@ export const Products: React.FC = ( ) => {
                             key={product.id}
                             value={product.name}
                             styling="filters__inactive-item"
-                            stylingLink="../power_cfp.svg"
+                            stylingLink="../delete-icon.png"
                             onDelete={deleteProduct}
                           />
                         );

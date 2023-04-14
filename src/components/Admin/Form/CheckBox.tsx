@@ -4,14 +4,10 @@ import React from 'react';
 type Props = {
   name: string,
   value: string,
-  onChange?: (newValue: string) => void,
-  onCheck: (value: number) => void,
+  // onChange?: (newValue: string) => void,
+  onCheck?: (value: number) => void,
   id: number,
 };
-
-// function getRandomDigits() {
-//   return Math.random().toString().slice(2);
-// }
 
 export const CheckBox: React.FC<Props> = ({
   name,
@@ -20,7 +16,6 @@ export const CheckBox: React.FC<Props> = ({
   onCheck = () => null,
   id,
 }) => {
-  // const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
   return (
     <div className="cfp-features__container">

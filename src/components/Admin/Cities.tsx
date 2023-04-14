@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { deleteCity, getCitiesAll, postNewCity } from '../../api/fetch';
 import { City } from '../../types/City';
 import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
+import { validateInput } from '../_tools/Regex';
 import { scrollTop } from '../_tools/Tools';
 import { DynamicAddButton } from './DynamicAddButton';
 import { DynamicField } from './DynamicField';
@@ -54,8 +56,9 @@ export const Cities: React.FC = ( ) => {
   };
 
   const addCity = () => {
+    setQuery('');
     setInput(false);
-    scrollTop();
+
 
     if (findDuplicate()) {
       return;
@@ -67,22 +70,20 @@ export const Cities: React.FC = ( ) => {
         name: query,
       };
 
+      htmlElement?.classList.add('hidden');
+      setLoader(true);
+      scrollTop();
+
       postNewCity(newCity)
-        .then(() => {
+        .then(() => setTimeout(() => {
           getActiveCities();
           getInactiveCities();
-        })
-        // .then(() => setTimeout(() => {
-        //   getActiveCities();
-        //   getInactiveCities();
-        // }, 300))
+        }, 300))
         .catch((e) => {
           console.log(e);
           setLoader(false);
+          htmlElement?.classList.remove('hidden');
         });
-
-      setQuery('');
-      setLoader(true);
     }
   };
 
@@ -115,6 +116,22 @@ export const Cities: React.FC = ( ) => {
   const citiesInactiveSearch = citiesSortedInactive?.filter(
     city => city.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
   );
+
+  const handleKeyPress = (event: React.KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      setQuery('');
+    }
+
+    if (event.key === 'Enter' && query) {
+      addCity();
+    }
+  };
+
+  const handleCityInput = (value: string) => {
+    const inputText = validateInput(value);
+
+    setQuery(inputText);
+  };
 
   const isAnyCityFound = () => {
     if (citiesSearch && citiesInactiveSearch) {
@@ -162,9 +179,10 @@ export const Cities: React.FC = ( ) => {
         <DynamicAddButton
           input={input}
           showInput={setInput}
-          onQuery={setQuery}
+          onQuery={handleCityInput}
           query={query}
           onAdd={addCity}
+          onKey={handleKeyPress}
         />
       </div>
 
@@ -208,7 +226,7 @@ export const Cities: React.FC = ( ) => {
                 value={city.name}
                 id={city.id}
                 styling="filters__inactive-item"
-                stylingLink="../power_cfp.svg"
+                stylingLink="../delete-icon.png"
                 onDelete={handleCityDeletion}
               />
             ))}
