@@ -21,6 +21,7 @@ export interface CFPlist {
 }
 
 export interface CFP {
+  json(): any;
   hasNextPage?: boolean,
   coffeeShops: CFPlist[],
 }

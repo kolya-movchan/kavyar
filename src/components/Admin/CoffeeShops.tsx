@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { deleteCFPAPI, getAllCFPAPI, getCitiesAll, getFeaturesAll, restoreCFPAPI } from '../../api/fetch';
-import { CFPlist } from '../../types/CFP';
+import { CFP, CFPlist } from '../../types/CFP';
 import { City } from '../../types/City';
 import { SortByProperty, Activity } from '../../types/enums/SortByProperty';
 import { Feature } from '../../types/Feature';
@@ -25,18 +25,17 @@ export const convertGoogleDrive = (link: string) => {
 };
 
 export const CoffeeShops: React.FC = () => {
-  const [showEditId, setShowEditId] = useState(0);
-  const [cfps, setCfps] = useState<CFPlist[]>();
   const [features, setFeatures]= useState<Feature[]>();
   const [cities, setCities]= useState<City[]>();
+  const [cfps, setCfps] = useState<CFPlist[]>();
+  
+  const [showEditId, setShowEditId] = useState(0);
   const [loader, setLoader] = useState(false);
-
   const [searchInTitle, setSearchInTitle] = useState<string>('');
   const [count, setCount] = useState('');
   const [page, setPage]= useState(1);
   const [asc, setAsc] = useState('');
   const [sort, setSort] = useState('');
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [featureList, setFeatureList] = useState<string[]>([]);
   const [cityId, setCityId] = useState(0);
   const [isActive, setIsActive] = useState('');
@@ -44,64 +43,6 @@ export const CoffeeShops: React.FC = () => {
   const [noMoreLeft, setNoMoreLeft] = useState<boolean | undefined>(false);
 
   const htmlElement = document.getElementById("html");
-
-  const getAllCFP = (link: string) => {
-    getAllCFPAPI(link)
-      .then(cfpsList => {
-        // console.log(cfpsList.coffeeShops);
-        
-        const cfpWithRightLogos = cfpsList.coffeeShops.map(cfpItem => {
-          const logoCFP = convertGoogleDrive(cfpItem.logo);
-
-          return {
-            ...cfpItem,
-            logo: logoCFP,
-          };
-        });
-        
-        setCfps(cfpWithRightLogos);
-        setNoMoreLeft(!cfpsList.hasNextPage);
-      })
-      .catch(e => {
-        console.log(e);
-      })
-      .finally(() => {
-        setLoader(false);
-        // htmlElement?.classList.remove('hidden');
-        getFeaturesActive();
-      });
-  };
-
-  const getFeaturesActive = () => {
-    getFeaturesAll('features?usable=true')
-      .then(featuresList => {
-        setFeatures(featuresList);
-      })
-      .catch(e => {
-        console.log(e);
-      })
-      .finally(() => {
-        // setLoader(false);
-        getActiveCities();
-
-        // htmlElement?.classList.remove('hidden');
-      });
-  };
-
-  const getActiveCities = () => {
-    getCitiesAll('cities?usable=true')
-      .then(cityList => setCities(cityList))
-      .catch(e => {
-        console.log(e);
-      })
-      .finally(() => {
-        // getAllCFP('coffee-shops?count=4');
-        // getAllCFP('coffee-shops?count=8');
-        // deleteCFPAPI(6);
-        setLoader(false);
-        htmlElement?.classList.remove('hidden');
-      });
-  };
 
   const sortByCount = [1, 2, 3, 4, 8];
 
@@ -198,15 +139,15 @@ export const CoffeeShops: React.FC = () => {
   
     const paramsURL = `${url}${countP}&${searchP}&${sortP}&${featuresP}&${cityP}&${activeP}&${pageP}`;
 
-    console.log(paramsURL);
+    // console.log(paramsURL);
 
-    setLoader(true);
-    getAllCFP(paramsURL);
+    activateLoading();
+    getAllData(paramsURL);
   };
 
   const applyAllFilters = (event: React.FormEvent) => {
     event.preventDefault();
-    scrollTop();
+    activateLoading();
 
     updateURL();
   };
@@ -222,12 +163,13 @@ export const CoffeeShops: React.FC = () => {
     setCityId(0);
     setIsActive('');
 
-    getAllCFP('coffee-shops?');
-    getFeaturesActive();
-    getActiveCities();
+    activateLoading();
+    getAllData('coffee-shops?count=8');
   };
 
   const goBack = () => {
+    activateLoading();
+
     const pageNumber = page - 1;
     
     setPage(pageNumber);
@@ -235,11 +177,9 @@ export const CoffeeShops: React.FC = () => {
   };
 
   const goForward = async () => {
-    const pageNumber = page + 1;
-    const checkIfMore = `coffee-shops?page=${page + 1}`;
+    activateLoading();
 
-    console.log(checkIfMore);
-    
+    const pageNumber = page + 1;
 
     setPage(pageNumber);
     updateURL(pageNumber);
@@ -265,17 +205,14 @@ export const CoffeeShops: React.FC = () => {
     case false: {
       if (confirm(notificationDelete) == true) {
         htmlElement?.classList.add('hidden');
-        setLoader(true);
-        scrollTop();
+        activateLoading();
 
         deleteCFPAPI(id)
           // .then(() => {
           // })
           .catch((e) => console.log(e))
           .finally(() => {
-            getAllCFP('coffee-shops?count=8');
-            // setLoader(false);
-            // htmlElement?.classList.remove('hidden');
+            getAllData('coffee-shops?count=8');
           });
 
       } else {
@@ -295,10 +232,7 @@ export const CoffeeShops: React.FC = () => {
           // })
           .catch((e) => console.log(e))
           .finally(() => {
-            getAllCFP('coffee-shops?count=8');
-
-            // setLoader(false);
-            // htmlElement?.classList.remove('hidden');
+            getAllData('coffee-shops?count=8');
           });
       } else {
         return;
@@ -321,13 +255,47 @@ export const CoffeeShops: React.FC = () => {
     setFeatureList(featureList.filter(featureId => featureId !== id));
   };
 
-  useEffect(() => {
-    htmlElement?.classList.add('hidden');
+  const getPromises: (link: string) => [Promise<CFP>, Promise<Feature[]>, Promise<City[]>] = (link: string) => {
+    return [
+      getAllCFPAPI(link),
+      getFeaturesAll('features?usable=true'),
+      getCitiesAll('cities?usable=true')
+    ];
+  };
+
+  const getAllData = async (link: string) => {
+    const result = await Promise.all(getPromises(link))
+      .finally(() => {
+        setLoader(false);
+        htmlElement?.classList.remove('hidden');
+      });
+
+    const [cfpsAPI, featuresAPI, citiesAPI] = result;
+
+    const cfpWithRightLogos = cfpsAPI.coffeeShops.map((cfpItem) => {
+      const logoCFP = convertGoogleDrive(cfpItem.logo);
+
+      return {
+        ...cfpItem,
+        logo: logoCFP,
+      };
+    });
+
+    setCfps(cfpWithRightLogos);
+    setNoMoreLeft(!cfpsAPI.hasNextPage);
+    setFeatures(featuresAPI);
+    setCities(citiesAPI);
+  };
+
+  const activateLoading = () => {
+    scrollTop();
     setLoader(true);
+    htmlElement?.classList.add('hidden');
+  };
 
-
-    const promise1 = getAllCFP('coffee-shops?count=8');
-    Promise.all([promise1]).then(response => console.log('response', response));
+  useEffect(() => {
+    activateLoading();
+    getAllData('coffee-shops?count=8');
   }, []);
   
   return (
@@ -358,11 +326,6 @@ export const CoffeeShops: React.FC = () => {
             data={sortByProperties}
             onSelect={handleSortByProperties}
           />
-          {/* <SelectFilters
-            text='Фільтрувати за'
-            complexData={features}
-            onSelect={handleFeatureSort}
-          /> */}
 
           <SelectFilters
             text='Місто'
@@ -375,23 +338,25 @@ export const CoffeeShops: React.FC = () => {
             onSelect={handleActivitySort}
           />
 
-          <fieldset className="cfp-features__container">
-            <legend className="cfp-features__legend">
-              Фільтрувати
-            </legend>
+          {features && (
+            <fieldset className="cfp-features__container">
+              <legend className="cfp-features__legend">
+                Фільтрувати
+              </legend>
 
-            {features?.map(featureElement => {
-              const {id, name} = featureElement;
-              return (
-                <CheckBoxCFP
-                  key={id}
-                  id={id}
-                  name={name}
-                  onCheck={handleCheckboxes}
-                />
-              );
-            })}
-          </fieldset>
+              {features?.map(featureElement => {
+                const {id, name} = featureElement;
+                return (
+                  <CheckBoxCFP
+                    key={id}
+                    id={id}
+                    name={name}
+                    onCheck={handleCheckboxes}
+                  />
+                );
+              })}
+            </fieldset>
+          )}
         </div>
 
         <div className="cfp__Applybuttons">
