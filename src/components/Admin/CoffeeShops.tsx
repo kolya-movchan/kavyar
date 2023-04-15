@@ -14,7 +14,9 @@ import { CheckBoxCFP } from './CheckBoxCFP';
 import { SelectFilters } from './SelectFilters';
 
 export const convertGoogleDrive = (link: string) => {
-  if (link.startsWith('https://drive')) {
+  if (link.startsWith('https://drive') && link.includes('/d/')) {
+    console.log(link);
+    
     const startIndex = link.indexOf('/d/');
     const endIndex = link.indexOf('/view');
 
@@ -48,7 +50,7 @@ export const CoffeeShops: React.FC = () => {
   const getAllCFP = (link: string) => {
     getAllCFPAPI(link)
       .then(cfpsList => {
-        console.log(cfpsList.coffeeShops);
+        // console.log(cfpsList.coffeeShops);
         
         const cfpWithRightLogos = cfpsList.coffeeShops.map(cfpItem => {
           const logoCFP = convertGoogleDrive(cfpItem.logo);
@@ -269,13 +271,13 @@ export const CoffeeShops: React.FC = () => {
         scrollTop();
 
         deleteCFPAPI(id)
-          .then(() => {
-            getAllCFP('coffee-shops?count=8');
-          })
+          // .then(() => {
+          // })
           .catch((e) => console.log(e))
           .finally(() => {
-            setLoader(false);
-            htmlElement?.classList.remove('hidden');
+            getAllCFP('coffee-shops?count=8');
+            // setLoader(false);
+            // htmlElement?.classList.remove('hidden');
           });
 
       } else {
@@ -291,13 +293,14 @@ export const CoffeeShops: React.FC = () => {
         scrollTop();
         
         restoreCFPAPI(id)
-          .then(() => {
-            getAllCFP('coffee-shops?count=8');
-          })
+          // .then(() => {
+          // })
           .catch((e) => console.log(e))
           .finally(() => {
-            setLoader(false);
-            htmlElement?.classList.remove('hidden');
+            getAllCFP('coffee-shops?count=8');
+
+            // setLoader(false);
+            // htmlElement?.classList.remove('hidden');
           });
       } else {
         return;
@@ -323,6 +326,14 @@ export const CoffeeShops: React.FC = () => {
   useEffect(() => {
     htmlElement?.classList.add('hidden');
     setLoader(true);
+
+    // const fetchContent = async () => {
+    //   try {
+    //     //...
+    //     return responseData.content;
+    //   } catch (err) {}
+    // };
+  
 
     getAllCFP('coffee-shops?count=8');
     // getActiveCities();

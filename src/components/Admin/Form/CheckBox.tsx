@@ -18,7 +18,7 @@ export const CheckBox: React.FC<Props> = ({
 }) => {
 
   return (
-    <div className="cfp-features__container">
+    <div className="">
       <label htmlFor={id.toString()}>
         <input
           type="checkbox"

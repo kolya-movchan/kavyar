@@ -49,6 +49,7 @@
   }
 
   &-features__container {
+    margin-top: 20px;
     padding: 5px;
     display: flex;
     flex-direction: column;
@@ -58,6 +59,7 @@
   &-features__wrapper {
     width: 100%;
     padding: 3px;
+    
   }
 
   &-features__checkBox {
@@ -77,6 +79,7 @@
     padding: 5px;
     color: #fff;
     background-color: #000;
+    border-radius: 4px;
   }
 
   .cfp-card__list {
