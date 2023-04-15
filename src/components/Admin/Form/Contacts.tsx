@@ -46,16 +46,6 @@ export const Contacts: React.FC<Props> = ({
         required
       />
 
-      {/* <InputField
-        name="cfp-contacts-сityName"
-        label="назва міста"
-        placeHolderName="назву міста (макс. 30 симв.)"
-        value={city}
-        onChange={setCity}
-        maxLength={30}
-        required
-      /> */}
-
       <InputField
         name="cfp-logo-link"
         label="посилання на логотип кавʼярні"
@@ -71,7 +61,7 @@ export const Contacts: React.FC<Props> = ({
         placeHolderName="посилання на фото кавʼярні"
         value={photosURL}
         onChange={setPhotosURL}
-        // required
+        required
       />
 
       <InputField
@@ -89,7 +79,7 @@ export const Contacts: React.FC<Props> = ({
         placeHolderName="посилання на адресу з Google Maps"
         value={googleMapsURL}
         onChange={setGoogleMapsURL}
-        // required
+        required
       />
 
       <InputField
@@ -98,8 +88,8 @@ export const Contacts: React.FC<Props> = ({
         placeHolderName="короткий опис (макс. 400 симв.)"
         value={description}
         onChange={setDescription}
-        required
         textarea
+        required
       />
     </fieldset>
   );

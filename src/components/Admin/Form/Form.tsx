@@ -241,15 +241,17 @@ export const Form: React.FC = () => {
             key={count}
             onSubmit={handleSubmit}
           >
-            <InputField
-              name="cityId"
-              label="Назва Міста"
-              value={cityId}
-              dataAPI={cities}
-              onChange={setCityId}
-              selecting
-              required
-            />
+            {cities && (
+              <InputField
+                name="cityId"
+                label="Назва Міста"
+                value={cityId}
+                dataAPI={cities}
+                onChange={setCityId}
+                selecting
+                required
+              />
+            )}
 
             <Contacts
               logoURL={logoURL}
@@ -283,24 +285,26 @@ export const Form: React.FC = () => {
 
             <div className='cfp-time'>
               <label className="cfp-time__container">
-                Час Відкриття:
+                Час Відкриття
                 <input
-                  className="cfp-time__input"
+                  className="cfp-time__input input"
                   type="time"
                   name="appt"
                   value={timeOpen}
                   onChange={(event) => setTimeOpen(event.target.value)}
+                  // step="3600"
                 />
               </label>
 
               <label className="cfp-time__container">
-                Час Закриття:
+                Час Закриття
                 <input
-                  className="cfp-time__input"
+                  className="cfp-time__input input"
                   type="time"
                   name="appt"
                   value={timeClose}
                   onChange={(event) => setTimeClose(event.target.value)}
+                  // step="3600"
                 />
               </label>
             </div>
