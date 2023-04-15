@@ -5,7 +5,6 @@ import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
 import { validateInput } from '../_tools/Regex';
-import { scrollTop } from '../_tools/Tools';
 import { DynamicAddButton } from './DynamicAddButton';
 import { DynamicField } from './DynamicField';
 
@@ -58,7 +57,6 @@ export const Features: React.FC = ( ) => {
 
   const handleFeatureDeletion = (id: number) => {
     setLoader(true);
-    scrollTop();
 
     deleteFeatureAPI(id)
       .then(() => getAllData())
@@ -127,7 +125,6 @@ export const Features: React.FC = ( ) => {
   };
 
   const activateLoading = () => {
-    scrollTop();
     setLoader(true);
     htmlElement?.classList.add('hidden');
   };
@@ -140,13 +137,6 @@ export const Features: React.FC = ( ) => {
   useEffect(() => {
     activateLoading();
     getAllData();
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener("unload", scrollTop);
-    return () => {
-      window.removeEventListener("unload", scrollTop);
-    };
   }, []);
 
   return (

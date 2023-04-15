@@ -5,7 +5,6 @@ import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
 import { validateInput } from '../_tools/Regex';
-import { scrollTop } from '../_tools/Tools';
 import { DynamicAddButton } from './DynamicAddButton';
 import { DynamicField } from './DynamicField';
 
@@ -57,7 +56,6 @@ export const Categories: React.FC = ( ) => {
 
   const handleCategoryDeletion = (id: number) => {
     setLoader(true);
-    scrollTop();
 
     deleteCategoryAPI(id)
       .then(() => getAllData())
@@ -122,7 +120,6 @@ export const Categories: React.FC = ( ) => {
   };
 
   const activateLoading = () => {
-    scrollTop();
     setLoader(true);
     htmlElement?.classList.add('hidden');
   };
@@ -136,13 +133,6 @@ export const Categories: React.FC = ( ) => {
     activateLoading();
 
     getAllData();
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener("unload", scrollTop);
-    return () => {
-      window.removeEventListener("unload", scrollTop);
-    };
   }, []);
 
   return (

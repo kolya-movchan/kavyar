@@ -1,0 +1,49 @@
+@import '../_utils/variables.scss';
+@import '../_utils/extends.scss';
+
+.notification {
+  position: fixed;
+  @extend %flex;
+  flex-direction: column;
+  width: 300px;
+  min-height: 150px;
+  padding: 15px;
+  box-sizing: border-box;
+  text-align: center;
+  border-radius: 10px;
+  background: rgba(132, 132, 132, 0.3);
+  z-index: 2;
+  bottom: 10px;
+  right: 10px;
+  gap: 15px;
+  animation: showBlock 5s;
+  // white-space: pre-wrap;
+
+  &__title {
+    display: block;
+    font-size: 20px;
+    font-weight: 900;
+  }
+
+  &__message {
+    font-family: $title-light;
+    text-align: left;
+  }
+
+  &.warning {
+    background: rgba(255, 212, 39, 0.3);
+  }
+
+  &.success {
+    background: rgba(10, 189, 0, 0.3);
+  }
+
+  &.error {
+    background: rgba(253, 0, 0, 0.3);
+  }
+}
+
+@keyframes showBlock {
+  0% {opacity: 0; }
+  100% {opacity: 1;}
+}

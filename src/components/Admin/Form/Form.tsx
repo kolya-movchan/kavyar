@@ -4,7 +4,9 @@ import { getAllProductsAPI, getCitiesAll, postNewCFPAPI } from '../../../api/fet
 import '../../../styles/blocks/admin/Form.scss';
 import { City } from '../../../types/City';
 import { Product } from '../../../types/Product';
+import { ErrorMessage } from '../../ErrorMessage';
 import { Loader } from '../../Loader';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { emailRegex, priceRegex } from '../../_tools/Regex';
 import { scrollTop } from '../../_tools/Tools';
 import { convertGoogleDrive } from '../CoffeeShops';
@@ -27,7 +29,7 @@ export const Form: React.FC = () => {
   const [photosURL, setPhotosURL] = useState('');
   const [name, setName] = useState('');
   const [cities, setCities] = useState<City[]>();
-  const [cityId, setCityId] = useState('');
+  const [cityId, setCityId] = useState('2');
   const [description, setDescription] = useState('');
   const [socialURL, setSocialURL] = useState('');
   const [googleMapsURL, setGoogleMapsURL] = useState('');
@@ -42,7 +44,7 @@ export const Form: React.FC = () => {
   const [phoneNumber, setPhoneNumber] = useState('+380');
   const [apiID, setApiID] = useState('');
   const [nameForUser, setNameForUser] = useState('');
-
+  const [notification, setNotification] = useState<null | string>('');
 
   const unique_id = Date.now();
   
@@ -50,12 +52,6 @@ export const Form: React.FC = () => {
 
   const htmlElement = document.getElementById("html");
 
-  // console.log(products);
-
-  // console.log(productPrice);
-  
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const reset = () => {
     setLogoURL('');
     setPhotosURL('');
@@ -103,67 +99,10 @@ export const Form: React.FC = () => {
     setProductList(filtered);
   };
 
-  const getAllCities = () => {
-    getCitiesAll('cities')
-      .then(cityList => setCities(cityList))
-      .catch(e => {
-        console.log(e);
-      })
-      .finally(() => {
-        setLoader(false);
-        htmlElement?.classList.remove('hidden');
-      });
-  };
-
-  const getAllProducts = () => {
-    getAllProductsAPI('products')
-      .then(categoriesList => setProducts(categoriesList))
-      .catch(e => {
-        console.log(e);
-      })
-      .finally(() => {
-        setLoader(false);
-        setTimeout(() => {
-          htmlElement?.classList.remove('hidden');
-        }, 300);
-      });
-  };
-
-  const getData = () => {
-    getAllCities();
-    getAllProducts();
-  };
-
   const handlePhoneNumber = (value: string) => {
     if (value.match(/^[0-9+]*$/))
       setPhoneNumber(value);
   };
-
-  useEffect(() => {
-    htmlElement?.classList.add('hidden');
-
-    setLoader(true);
-    getData();
-
-  }, []);
-
-  // const alertUser = (event: BeforeUnloadEvent) => {
-  //   event.returnValue = "";
-  // };
-
-  useEffect(() => {
-    window.addEventListener("unload", scrollTop);
-    return () => {
-      window.removeEventListener("unload", scrollTop);
-    };
-  }, []);
-
-  // useEffect(() => {
-  //   window.addEventListener("beforeunload", alertUser);
-  //   return () => {
-  //     window.removeEventListener("beforeunload", alertUser);
-  //   };
-  // }, []);
 
   const createNewProduct = () => {
     if (!productPrice.match(priceRegex)) {
@@ -197,22 +136,31 @@ export const Form: React.FC = () => {
   const handleCitySelect = (cityIdValue: string) => {
     setCityId(cityIdValue);
   };
-  
+
+  const hideNotification = () => {
+    setNotification('');
+  };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    activateLoading();
 
     if (!logoURL.match(emailRegex)) {
       setLogoURL('');
+      removeLoading();
+      scrollTop();
 
       return;
     }
 
     if (!socialURL.match(emailRegex)) {
       setSocialURL('');
+      removeLoading();
+      scrollTop();
 
       return;
     }
+
    
     const newCFP = {
       cityId: +cityId,
@@ -229,19 +177,64 @@ export const Form: React.FC = () => {
       productPrices: productPricesForAPI,
     };
 
-    console.log(newCFP);
-    
-
-    // setLoader(true);
-    // scrollTop();
-    // reset();
+    const hideNotifications = () => setNotification('');
 
     postNewCFPAPI(newCFP)
-      .catch((e) => console.log(e))
+      .then(() => {
+        setNotification('success');
+        reset();
+      })
+      .catch(() => setNotification('error'))
       .finally(() => {
-        setLoader(false);
+        removeLoading();
+        setTimeout(() => hideNotifications);
       });
   };
+
+  const getPromises: () => [Promise<City[]>, Promise<Product[]>] = () => {
+    return [
+      getCitiesAll('cities?usable=true'),
+      getAllProductsAPI('products'),
+    ];
+  };
+
+  const getAllData = async () => {
+    const result = await Promise.all(getPromises())
+      .finally(() => removeLoading());
+
+    const [citiesAPI, productsAPI] = result;
+
+    setCities(citiesAPI);
+    setProducts(productsAPI);
+  };
+
+  const activateLoading = () => {
+    setLoader(true);
+    htmlElement?.classList.add('hidden');
+  };
+
+  const removeLoading = () => {
+    setLoader(false);
+    htmlElement?.classList.remove('hidden');
+  };
+
+  useEffect(() => {
+    activateLoading();
+    getAllData();
+
+  }, []);
+
+  // const alertUser = (event: BeforeUnloadEvent) => {
+  //   event.returnValue = "";
+  // };
+
+  // useEffect(() => {
+  //   window.addEventListener("beforeunload", alertUser);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", alertUser);
+  //   };
+  // }, []);
+
   
   return (
     <>
@@ -253,6 +246,26 @@ export const Form: React.FC = () => {
           />
         </div>
       )}
+
+      {notification === 'success' && (
+        <ErrorMessage
+          title='Запит виконано 😎☕'
+          description='Нова кавʼярня створена, вітаю!Тепер ви можете переглянути її в розділі "Кавʼярні"'
+          type='success'
+          link='/admin/coffeeshops'
+          onExit={hideNotification}
+        />
+      )}
+
+      {notification === 'error' && (
+        <ErrorMessage
+          title='Упс, щось пішло не так 😔'
+          description='Перегляньте уважно заповнені поля та спробуйте ще раз'
+          type='error'
+          onExit={hideNotification}
+        />
+      )}
+
 
       <div className="admin-form-container">
         <div className="admin-form-container2">

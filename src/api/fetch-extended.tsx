@@ -32,12 +32,10 @@ function request<T>(
     .then(() => fetch(BASE_URL + url, options))
     .then(response => {
       if (!response.ok) {
+        // console.log(response);
+        
         throw new Error();
       }
-
-      // if (response.ok && method === 'DELETE') {
-      //   return response;
-      // }
 
       return response.json();
     });
@@ -49,8 +47,9 @@ export const item = {
   },
 
   post: function <T>(url: string, data: City | Feature | Product | Category | CFPforPOST) {
-    request<T>(url, 'POST', data);
+    return request<T>(url, 'POST', data);
   },
+
 
   // patch: function <T>(url: string, data: UserData) {(
   //   request(url, 'PATCH', data)

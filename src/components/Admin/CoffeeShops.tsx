@@ -9,7 +9,6 @@ import { Feature } from '../../types/Feature';
 import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
-import { scrollTop } from '../_tools/Tools';
 import { CheckBoxCFP } from './CheckBoxCFP';
 import { SelectFilters } from './SelectFilters';
 
@@ -225,7 +224,6 @@ export const CoffeeShops: React.FC = () => {
       if (confirm(notificationRestore) == true) {
         htmlElement?.classList.add('hidden');
         setLoader(true);
-        scrollTop();
         
         restoreCFPAPI(id)
           // .then(() => {
@@ -288,7 +286,6 @@ export const CoffeeShops: React.FC = () => {
   };
 
   const activateLoading = () => {
-    scrollTop();
     setLoader(true);
     htmlElement?.classList.add('hidden');
   };

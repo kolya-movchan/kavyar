@@ -21,7 +21,9 @@ export const getAllCFPAPI = async (value: string) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const postNewCFPAPI = async (data: any) => {
-  return item.post('/coffee-shops', data);
+  const response = await item.post('/coffee-shops', data);
+
+  return response;
 };
 
 export const deleteCFPAPI = async (cfpId: number) => {
@@ -40,7 +42,9 @@ export const getCitiesAll = async (value: string) => {
 };
 
 export const postNewCity = async (data: City) => {
-  return item.post<City>('/cities', data);
+  const response = await item.post<City>('/cities', data);
+
+  return response;
 };
 
 export const deleteCity = async (cityId: number) => {
@@ -55,7 +59,9 @@ export const getFeaturesAll = async (value: string) => {
 };
 
 export const postNewFeature = async (data: Feature) => {
-  return item.post<Feature>('/features', data);
+  const response = await item.post<Feature>('/features', data);
+
+  return response;
 };
 
 export const deleteFeatureAPI = async (featureId: number) => {
@@ -70,7 +76,9 @@ export const getAllCategoriesAPI = async (value: string) => {
 };
 
 export const postNewCategoryAPI = async (data: Category) => {
-  return item.post<Category>('/categories', data);
+  const response = await item.post<Category>('/categories', data);
+
+  return response;
 };
 
 export const deleteCategoryAPI = async (categoryId: number) => {
@@ -85,7 +93,9 @@ export const getAllProductsAPI = async (value: string) => {
 };
 
 export const postNewProductAPI = async (data: Product) => {
-  return item.post<Product>('/products', data);
+  const response = await item.post<Product>('/products', data);
+
+  return response;
 };
 
 export const deleteProductAPI = async (productId: number) => {
