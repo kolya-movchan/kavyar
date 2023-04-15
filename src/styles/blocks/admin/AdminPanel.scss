@@ -13,8 +13,9 @@
   }
 
   &__image {
-    min-width: 200px;
-    height: 250px;
+    object-fit: cover;
+    width: 300px;
+    height: 200px;
   }
 
   &__menu-item {

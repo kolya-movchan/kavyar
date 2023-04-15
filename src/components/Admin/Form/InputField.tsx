@@ -15,7 +15,8 @@ type Props = {
   textarea?: boolean,
   maxLength?: number,
   onAddButton?: (event: React.KeyboardEvent, productPress: string) => void,
-  onChange: (newValue: string) => void
+  onSelect?: (idForAPI: string, nameForUser: string) => void
+  onChange: (value: string) => void
   selecting?: boolean,
   dataAPI?: Product[] | null,
 };
@@ -30,6 +31,8 @@ export const InputField: React.FC<Props> = ({
   maxLength,
   onAddButton = null,
   onChange,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onSelect = () => {},
   selecting,
   dataAPI,
 }) => {
@@ -46,6 +49,32 @@ export const InputField: React.FC<Props> = ({
   const fieldError = ('cfp-contacts-name' === name) && value?.length === 30;
 
   const upperCaseLabel = label.slice(0, 1).toUpperCase() + label.slice(1);
+
+  // const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   const index = event.target.selectedIndex;
+  //   const el = event.target.childNodes[index] as HTMLInputElement | null;
+  //   const targetId = el?.getAttribute('id') as string;
+
+  //   console.log(targetId);
+  //   // console.log(event.target.value);
+    
+
+  //   // onChange(targetId, event.target.value);
+  // };
+
+  const handleEvent = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    onChange(event.target.value);
+
+    const index = event.target.selectedIndex;
+    const el = event.target.childNodes[index] as HTMLInputElement;
+    const targetId = el?.getAttribute('id') as string;
+
+    if (el && targetId) {
+      onSelect(targetId, event.target.value);
+    }
+
+    console.log(targetId);
+  };
 
   return (
     <div
@@ -103,8 +132,9 @@ export const InputField: React.FC<Props> = ({
           <>
             <div className="select">
               <select
+                id='selectId'
                 className="cfp-products__select"
-                onChange={event => onChange(event.target.value)}
+                onChange={handleEvent}
                 defaultValue={'DEFAULT'}
               >
                 <option disabled value="DEFAULT">
@@ -113,8 +143,9 @@ export const InputField: React.FC<Props> = ({
 
                 {dataAPI && dataAPI.map((data) =>
                   <option
-                    value={data.id}
+                    value={data.name}
                     key={data.id}
+                    id={(data.id).toString()}
                   >
                     {data.name}
                   </option>

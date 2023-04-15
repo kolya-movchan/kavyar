@@ -19,11 +19,11 @@ export const CheckBox: React.FC<Props> = ({
 
   return (
     <div className="">
-      <label htmlFor={id.toString()}>
+      <label>
         <input
           type="checkbox"
           name={name}
-          id={id.toString()}
+          // id={id.toString()}
           className="cfp-features__filter"
           value={value}
           onChange={() => onCheck(id)}

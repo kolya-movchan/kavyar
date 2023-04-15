@@ -8,11 +8,12 @@ type Props = {
   productPrice: string,
   onAdd: () => void,
   onAddButton: (event: React.KeyboardEvent, productPress: string) => void,
-  setProduct: (value: string) => void,
+  onSelect?: (idForAPI: string, nameForUser: string) => void
   setProductPrice: (value: string) => void,
   productList: Product[],
   onDelete: (value: number) => void,
   data: Product[] | null,
+  onChange: (value: string) => void,
 };
 
 export const AddProducts: React.FC<Props> = ({
@@ -20,13 +21,17 @@ export const AddProducts: React.FC<Props> = ({
   productPrice,
   onAdd,
   onAddButton,
-  setProduct,
+  onSelect,
   setProductPrice,
   productList,
   onDelete,
+  onChange,
   data,
 }) => {
   const disabledAdd = !product || !productPrice || !productPrice.match(priceRegex);
+
+  // console.log(product, 'product');
+  
 
   return (
     <>
@@ -78,7 +83,8 @@ export const AddProducts: React.FC<Props> = ({
           name="product"
           label="продукт"
           dataAPI={data}
-          onChange={setProduct}
+          onSelect={onSelect}
+          onChange={onChange}
           onAddButton={onAddButton}
           selecting
         />

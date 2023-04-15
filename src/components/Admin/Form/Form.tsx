@@ -16,7 +16,12 @@ import { InputField } from './InputField';
 
 export const Form: React.FC = () => {
   const [loader, setLoader] = useState(false);
-  const [products, setProducts] = useState<Product[] | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+
+  interface ProductForAPI {
+    productId: number;
+    price: number;
+  }
 
   const [logoURL, setLogoURL] = useState('');
   const [photosURL, setPhotosURL] = useState('');
@@ -32,14 +37,23 @@ export const Form: React.FC = () => {
   const [timeOpen, setTimeOpen] = useState('07:00');
   const [timeClose, setTimeClose] = useState('23:00');
   const [productList, setProductList] = useState<Product[]>([]);
+  const [productPricesForAPI, setProductPricesForAPI] = useState<ProductForAPI[]>([]);
   const [featureList, setFeatureList] = useState<number[]>([]);
   const [phoneNumber, setPhoneNumber] = useState('+380');
+  const [apiID, setApiID] = useState('');
+  const [nameForUser, setNameForUser] = useState('');
 
-  // const unique_id = Date.now();
+
+  const unique_id = Date.now();
   
   const fieldsFilledIn = logoURL && name && description && socialURL;
 
   const htmlElement = document.getElementById("html");
+
+  // console.log(products);
+
+  // console.log(productPrice);
+  
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const reset = () => {
@@ -58,21 +72,6 @@ export const Form: React.FC = () => {
   const resetProductFields = () => {
     setProduct('');
     setProductPrice('');
-  };
-
-  const createNewProduct = () => {
-    if (!productPrice.match(priceRegex)) {
-      return;
-    }
-
-    const productListItem = {
-      id: +product,
-      name: product,
-      price: productPrice,
-    };
-
-    setProductList([...productList, productListItem]);
-    resetProductFields();
   };
 
   const addFeatureList = (id: number) => {
@@ -166,6 +165,40 @@ export const Form: React.FC = () => {
   //   };
   // }, []);
 
+  const createNewProduct = () => {
+    if (!productPrice.match(priceRegex)) {
+      return;
+    }
+
+    const productListItem = {
+      id: unique_id,
+      name: nameForUser,
+      price: productPrice,
+    };
+
+    const productListForAPI = {
+      productId: +apiID,
+      price: +productPrice,
+    };
+
+    setProductList([...productList, productListItem]);
+    setProductPricesForAPI([...productPricesForAPI, productListForAPI]);
+    resetProductFields();
+
+    console.log(productList, 'productList');
+    console.log(productPricesForAPI, 'productListAPI');
+  };
+
+  const handleSelect = (idForAPI: string, valueName?: string) => {
+    setApiID(idForAPI);
+    setNameForUser(valueName as string);
+  };
+
+  const handleCitySelect = (cityIdValue: string) => {
+    setCityId(cityIdValue);
+  };
+  
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -180,14 +213,7 @@ export const Form: React.FC = () => {
 
       return;
     }
-
-    const productPricesForAPI = productList.map(productElement => (
-      {
-        productId: productElement.id,
-        price: productElement.price ? +productElement.price : '',
-      }
-    ));
-      
+   
     const newCFP = {
       cityId: +cityId,
       title: name,
@@ -203,16 +229,17 @@ export const Form: React.FC = () => {
       productPrices: productPricesForAPI,
     };
 
-    console.log(JSON.stringify(newCFP));
+    console.log(newCFP);
+    
 
-    setLoader(true);
-    scrollTop(); 
+    // setLoader(true);
+    // scrollTop();
+    // reset();
 
     postNewCFPAPI(newCFP)
       .catch((e) => console.log(e))
       .finally(() => {
         setLoader(false);
-        // reset();
       });
   };
   
@@ -248,6 +275,7 @@ export const Form: React.FC = () => {
                 value={cityId}
                 dataAPI={cities}
                 onChange={setCityId}
+                onSelect={handleCitySelect}
                 selecting
                 required
               />
@@ -292,7 +320,7 @@ export const Form: React.FC = () => {
                   name="appt"
                   value={timeOpen}
                   onChange={(event) => setTimeOpen(event.target.value)}
-                  // step="3600"
+                  step="3600"
                 />
               </label>
 
@@ -304,7 +332,7 @@ export const Form: React.FC = () => {
                   name="appt"
                   value={timeClose}
                   onChange={(event) => setTimeClose(event.target.value)}
-                  // step="3600"
+                  step="3600"
                 />
               </label>
             </div>
@@ -323,13 +351,14 @@ export const Form: React.FC = () => {
               <AddProducts
                 product={product}
                 productPrice={productPrice}
-                onAdd={addProduct}
-                onAddButton={addProductWithButton}
-                setProduct={setProduct}
-                setProductPrice={setProductPrice}
                 productList={productList}
-                onDelete={deleteProduct}
                 data={products}
+                onAddButton={addProductWithButton}
+                onAdd={addProduct}
+                setProductPrice={setProductPrice}
+                onChange={setProduct}
+                onDelete={deleteProduct}
+                onSelect={handleSelect}
               />
 
               <input
