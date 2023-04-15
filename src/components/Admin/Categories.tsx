@@ -19,30 +19,6 @@ export const Categories: React.FC = ( ) => {
 
   const htmlElement = document.getElementById("html");
 
-  const getCategoriesActive = () => {
-    getAllCategoriesAPI('categories?usable=true')
-      .then(categoriesList => setCategories(categoriesList))
-      .catch(e => {
-        console.log(e);
-      })
-      .finally(() => {
-        setLoader(false);
-        htmlElement?.classList.remove('hidden');
-      });
-  };
-
-  const getCategoriesInactive = () => {
-    getAllCategoriesAPI('categories?usable=false')
-      .then(categoriesList => setCategoriesInactive(categoriesList))
-      .catch(e => {
-        console.log(e);
-      })
-      .finally(() => {
-        setLoader(false);
-        htmlElement?.classList.remove('hidden');
-      });
-  };
-
   const findDuplicate = () => {
     if (categoriesInactive && categories) {
       console.log('DUPLICATE');
@@ -54,9 +30,6 @@ export const Categories: React.FC = ( ) => {
   };
 
   const addCategory = () => {
-    setInput(false);
-    scrollTop();
-
     if (findDuplicate()) {
       return;
     }
@@ -67,18 +40,18 @@ export const Categories: React.FC = ( ) => {
         name: query,
       };
 
-      postNewCategoryAPI(newCategory)
-        .then(() => setTimeout(() => {
-          getCategoriesActive();
-          getCategoriesInactive();
-        }, 300))
-        .catch((e) => {
-          (e);
-          setLoader(false);
-        });
+      activateLoading();
 
-      setQuery('');
-      setLoader(true);
+      postNewCategoryAPI(newCategory)
+        .then(() => {
+          getAllData();
+          setQuery('');
+        })
+        .catch((e) => {
+          console.log(e);
+          setLoader(false);
+        })
+        .finally(() => removeLoading());
     }
   };
 
@@ -87,14 +60,12 @@ export const Categories: React.FC = ( ) => {
     scrollTop();
 
     deleteCategoryAPI(id)
-      .then(() => {
-        getCategoriesActive();
-        getCategoriesInactive();
-      })
+      .then(() => getAllData())
       .catch((e) => {
         console.log(e);
         setLoader(false);
-      });
+      })
+      .finally(() => removeLoading());
   };
 
   const categoriesSorted = categories?.sort((category1, category2) => category2.id - category1.id);
@@ -133,12 +104,38 @@ export const Categories: React.FC = ( ) => {
     }
   };
 
-  useEffect(() => {
-    htmlElement?.classList.add('hidden');
-    setLoader(true);
+  const getPromises: () => [Promise<Category[]>, Promise<Category[]>] = () => {
+    return [
+      getAllCategoriesAPI('categories?usable=true'),
+      getAllCategoriesAPI('categories?usable=false')
+    ];
+  };
 
-    getCategoriesActive();
-    getCategoriesInactive();
+  const getAllData = async () => {
+    const result = await Promise.all(getPromises())
+      .finally(() => removeLoading());
+
+    const [categoryAPI, categoryInactiveAPI] = result;
+
+    setCategories(categoryAPI);
+    setCategoriesInactive(categoryInactiveAPI);
+  };
+
+  const activateLoading = () => {
+    scrollTop();
+    setLoader(true);
+    htmlElement?.classList.add('hidden');
+  };
+
+  const removeLoading = () => {
+    setLoader(false);
+    htmlElement?.classList.remove('hidden');
+  };
+
+  useEffect(() => {
+    activateLoading();
+
+    getAllData();
   }, []);
 
   useEffect(() => {

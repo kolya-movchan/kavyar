@@ -23,35 +23,9 @@ export const Products: React.FC = ( ) => {
 
   const htmlElement = document.getElementById("html");
 
-  const getProducts = (link: string) => {
-    getAllProductsAPI(link)
-      .then(categoriesList => setProducts(categoriesList))
-      .catch(e => {
-        console.log(e);
-      })
-      .finally(() => {
-        getInactiveProducts();
-        // setLoader(false);
-        // htmlElement?.classList.remove('hidden');
-      });
-  };
-
-  const getInactiveProducts = () => {
-    getAllProductsAPI('products?usable=false')
-      .then(categoriesList => setProductsInactive(categoriesList))
-      .catch(e => {
-        console.log(e);
-      })
-      .finally(() => {
-        setLoader(false);
-        htmlElement?.classList.remove('hidden');
-      });
-  };
 
   const findDuplicate = () => {
     if (productsInactive && products) {
-      console.log('DUPLICATE');
-      
       return [...productsInactive, ...products].some(product => product.name.toLowerCase() === query.toLowerCase());
     }
 
@@ -60,7 +34,6 @@ export const Products: React.FC = ( ) => {
 
   const addProducts = () => {
     setInput(false);
-    scrollTop();
 
     if (findDuplicate()) {
       return;
@@ -74,48 +47,32 @@ export const Products: React.FC = ( ) => {
         id: 0,
       };
 
+      activateLoading();
+
       postNewProductAPI(newProduct)
-        .then(() => setTimeout(() => {
-          getInactiveProducts();
-        }, 300))
+        .then(() => {
+          getAllData();
+          setQuery('');
+        })
         .catch((e) => {
           console.log(e);
-          setLoader(false);
-        });
-
-      setQuery('');
-      setLoader(true);
-      setnewCategoryId('');
+        })
+        .finally(() => removeLoading());
     }
   };
 
   const deleteProduct = (id: number) => {
-    setLoader(true);
-    scrollTop();
-
-    console.log(id);
+    activateLoading();
 
     deleteProductAPI(id)
-      .then(() => setTimeout(() => {
-        getInactiveProducts();
-      }, 300))
+      .then(() => {
+        getAllData();
+        setQuery('');
+      })
       .catch((e) => {
         console.log(e);
-        setLoader(false);
-      });
-  };
-
-  const getCategories = () => {
-    getAllCategoriesAPI('categories')
-      .then(categoriesList => setCategoriesForProduct(categoriesList))
-      .catch(e => {
-        console.log(e);
       })
-      .finally(() => {
-        getProducts('products?usable=true');
-        // setLoader(false);
-        // htmlElement?.classList.remove('hidden');
-      });
+      .finally(() => removeLoading());
   };
 
   const productsSorted = products?.sort((product1, product2) => (product2.id - product1.id));
@@ -156,12 +113,41 @@ export const Products: React.FC = ( ) => {
     }
   };
 
-  useEffect(() => {
-    htmlElement?.classList.add('hidden');
-    setLoader(true);
-    setHideMode(true);
 
-    getCategories();
+  const getPromises: () => [Promise<Product[]>, Promise<Product[]>, Promise<Category[]>] = () => {
+    return [
+      getAllProductsAPI('products?usable=true'),
+      getAllProductsAPI('products?usable=false'),
+      getAllCategoriesAPI('categories')
+    ];
+  };
+
+  const getAllData = async () => {
+    const result = await Promise.all(getPromises())
+      .finally(() => removeLoading());
+
+    const [productsAPI, productsInactiveAPI, categoryAPI] = result;
+
+    setProducts(productsAPI);
+    setProductsInactive(productsInactiveAPI);
+    setCategoriesForProduct(categoryAPI);
+  };
+
+  const activateLoading = () => {
+    scrollTop();
+    setLoader(true);
+    htmlElement?.classList.add('hidden');
+  };
+
+  const removeLoading = () => {
+    setLoader(false);
+    htmlElement?.classList.remove('hidden');
+  };
+
+  useEffect(() => {
+    setHideMode(true);
+    activateLoading();
+    getAllData();
   }, []);
 
   return (

@@ -19,30 +19,6 @@ export const Features: React.FC = ( ) => {
 
   const htmlElement = document.getElementById("html");
 
-  const getFeaturesActive = () => {
-    getFeaturesAll('features?usable=true')
-      .then(featuresList => setFeatures(featuresList))
-      .catch(e => {
-        console.log(e);
-      })
-      .finally(() => {
-        setLoader(false);
-        htmlElement?.classList.remove('hidden');
-      });
-  };
-
-  const getInactiveFeatures = () => {
-    getFeaturesAll('features?usable=false')
-      .then(featuresList => setFeaturesInactive(featuresList))
-      .catch(e => {
-        console.log(e);
-      })
-      .finally(() => {
-        setLoader(false);
-        htmlElement?.classList.remove('hidden');
-      });
-  };
-
   const findDuplicate = () => {
     if (featuresInactive && features) {
       console.log('DUPLICATE');
@@ -54,9 +30,6 @@ export const Features: React.FC = ( ) => {
   };
 
   const addFeatures = () => {
-    setInput(false);
-    scrollTop();
-
     if (findDuplicate()) {
       return;
     }
@@ -68,18 +41,18 @@ export const Features: React.FC = ( ) => {
         description: query,
       };
 
+      activateLoading();
+
+
       postNewFeature(newFeature)
-        .then(() => setTimeout(() => {
-          getFeaturesActive();
-          getInactiveFeatures();
-        }, 300))
+        .then(() => {
+          getAllData();
+          setQuery('');
+        })
         .catch((e) => {
           console.log(e);
-          setLoader(false);
-        });
-
-      setQuery('');
-      setLoader(true);
+        })
+        .finally(() => removeLoading());
     }
   };
 
@@ -88,14 +61,12 @@ export const Features: React.FC = ( ) => {
     scrollTop();
 
     deleteFeatureAPI(id)
-      .then(() => {
-        getFeaturesActive();
-        getInactiveFeatures();
-      })
+      .then(() => getAllData())
       .catch((e) => {
         console.log(e);
         setLoader(false);
-      });
+      })
+      .finally(() => removeLoading());
   };
 
   const featuresSorted = features?.sort((feature1, feature2) => {
@@ -138,12 +109,37 @@ export const Features: React.FC = ( ) => {
     }
   };
 
-  useEffect(() => {
-    htmlElement?.classList.add('hidden');
-    setLoader(true);
+  const getPromises: () => [Promise<Feature[]>, Promise<Feature[]>] = () => {
+    return [
+      getFeaturesAll('features?usable=true'),
+      getFeaturesAll('features?usable=false'),
+    ];
+  };
 
-    getFeaturesActive();
-    getInactiveFeatures();
+  const getAllData = async () => {
+    const result = await Promise.all(getPromises())
+      .finally(() => removeLoading());
+
+    const [featuresAPI, featuresInactiveAPI] = result;
+
+    setFeatures(featuresAPI);
+    setFeaturesInactive(featuresInactiveAPI);
+  };
+
+  const activateLoading = () => {
+    scrollTop();
+    setLoader(true);
+    htmlElement?.classList.add('hidden');
+  };
+
+  const removeLoading = () => {
+    setLoader(false);
+    htmlElement?.classList.remove('hidden');
+  };
+
+  useEffect(() => {
+    activateLoading();
+    getAllData();
   }, []);
 
   useEffect(() => {

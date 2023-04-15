@@ -21,30 +21,6 @@ export const Cities: React.FC = ( ) => {
 
   const htmlElement = document.getElementById("html");
 
-  const getActiveCities = () => {
-    getCitiesAll('cities?usable=true')
-      .then(cityList => setCities(cityList))
-      .catch(e => {
-        console.log(e);
-      })
-      .finally(() => {
-        setLoader(false);
-        htmlElement?.classList.remove('hidden');
-      });
-  };
-
-  const getInactiveCities = () => {
-    getCitiesAll('cities?usable=false')
-      .then(cityList => setCitiesInactive(cityList))
-      .catch(e => {
-        console.log(e);
-      })
-      .finally(() => {
-        setLoader(false);
-        htmlElement?.classList.remove('hidden');
-      });
-  };
-
   const findDuplicate = () => {
     if (citiesInactive && cities) {
       console.log('DUPLICATE');
@@ -70,35 +46,27 @@ export const Cities: React.FC = ( ) => {
         name: query,
       };
 
-      htmlElement?.classList.add('hidden');
-      setLoader(true);
-      scrollTop();
+      activateLoading();
 
       postNewCity(newCity)
-        .then(() => setTimeout(() => {
-          getActiveCities();
-          getInactiveCities();
-        }, 300))
+        .then(() => getAllData())
         .catch((e) => {
           console.log(e);
-          setLoader(false);
-          htmlElement?.classList.remove('hidden');
-        });
+        })
+        .finally(() => removeLoading());
     }
   };
 
   const handleCityDeletion = (id: number) => {
-    setLoader(true);
-    scrollTop();
+    activateLoading();
 
     deleteCity(id)
-      .then(() => getInactiveCities())
+      .then(() => getAllData())
       .catch((e) => {
         console.log(e);
         setLoader(false);
       })
-      .finally(() => console.log(2)
-      );
+      .finally(() => removeLoading());
   };
 
   const citiesSorted = cities?.sort((city1, city2) => {
@@ -141,12 +109,37 @@ export const Cities: React.FC = ( ) => {
     return true;
   };
 
-  useEffect(() => {
-    htmlElement?.classList.add('hidden');
-    setLoader(true);
+  const getPromises: () => [Promise<City[]>, Promise<City[]>] = () => {
+    return [
+      getCitiesAll('cities?usable=true'),
+      getCitiesAll('cities?usable=false')
+    ];
+  };
 
-    getActiveCities();
-    getInactiveCities();
+  const getAllData = async () => {
+    const result = await Promise.all(getPromises())
+      .finally(() => removeLoading());
+
+    const [citiesAPI, citiesInactiveAPI] = result;
+
+    setCities(citiesAPI);
+    setCitiesInactive(citiesInactiveAPI);
+  };
+
+  const activateLoading = () => {
+    scrollTop();
+    setLoader(true);
+    htmlElement?.classList.add('hidden');
+  };
+
+  const removeLoading = () => {
+    setLoader(false);
+    htmlElement?.classList.remove('hidden');
+  };
+
+  useEffect(() => {
+    activateLoading();
+    getAllData();
   }, []);
 
   useEffect(() => {

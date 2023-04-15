@@ -25,7 +25,6 @@ export const Features: React.FC<Props> = ({ cfpname, onCheck }) => {
 
 
   return (
-
     <fieldset className="cfp-features">
       <h2 className="cfp-features__title">
         {'Особливості кав’ярні '}
