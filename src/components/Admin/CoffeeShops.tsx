@@ -15,8 +15,6 @@ import { SelectFilters } from './SelectFilters';
 
 export const convertGoogleDrive = (link: string) => {
   if (link.startsWith('https://drive') && link.includes('/d/')) {
-    console.log(link);
-    
     const startIndex = link.indexOf('/d/');
     const endIndex = link.indexOf('/view');
 
@@ -327,16 +325,9 @@ export const CoffeeShops: React.FC = () => {
     htmlElement?.classList.add('hidden');
     setLoader(true);
 
-    // const fetchContent = async () => {
-    //   try {
-    //     //...
-    //     return responseData.content;
-    //   } catch (err) {}
-    // };
-  
 
-    getAllCFP('coffee-shops?count=8');
-    // getActiveCities();
+    const promise1 = getAllCFP('coffee-shops?count=8');
+    Promise.all([promise1]).then(response => console.log('response', response));
   }, []);
   
   return (
@@ -454,7 +445,12 @@ export const CoffeeShops: React.FC = () => {
                   onMouseEnter={() => setShowEditId(id)}
                   onMouseLeave={() => setShowEditId(0)}
                 >
-                  <div className="cfp-card__logo-container">
+                  {/* <div
+                    // className="cfp-card__hoverBox"
+                  > */}
+                  <div
+                    className="cfp-card__logo-container"
+                  >
                     <img
                       src={logo}
                       alt="coffeeshop logo"
@@ -462,10 +458,10 @@ export const CoffeeShops: React.FC = () => {
                       style={{ borderRadius: '10px'}}
                     />
                   </div>
-
                   <div className="cfp-card__name">
                     {title}
                   </div>
+                  {/* </div> */}
 
                   {showEditId === id && (
                     <div>

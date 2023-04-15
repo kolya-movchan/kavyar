@@ -117,11 +117,6 @@
     border-radius: 50px;
     border: 1px solid #d2d3d4;
 
-    &--deactivated {
-      opacity: 0.5;
-      // background-color: grey;
-    }
-
     & * {
       box-sizing: border-box;
       transition: all 0.45s ease;
@@ -133,12 +128,10 @@
       background-color: rgba(0, 0, 0, 0.6);
       position: absolute;
       top: 0;
-      bottom: 0;
+      bottom: 210px;
       left: 0;
       right: 0;
       content: '';
-      // content: url(../../../../public/edit.png);
-      // content:"<a href='mailto:info@site.com'>info@site.com</a>";
       transition: all 0.3s ease;
       z-index: 1;
       opacity: 0;
@@ -149,6 +142,11 @@
     &:hover::after {
       transform: scale(1);
       opacity: 1;
+    }
+
+    &--deactivated {
+      opacity: 0.5;
+      // background-color: grey;
     }
 
     &__logo-container {
@@ -200,16 +198,16 @@
     &__edit {
       position: absolute;
       z-index: 2;
-      top: calc(50% - 15px);
-      left: calc(50% - 15px);
-      width: 40px;
-      height: 40px;
+      top: 10px;
+      right: 30px;
+      width: 30px;
+      height: 30px;
     }
 
     &__delete {
       position: absolute;
-      top: calc(30%);
-      left: calc(50% - 15px);
+      top: 80px;
+      left: calc(50% - 20px);
       width: 40px;
       border: none;
       cursor: pointer;
@@ -218,14 +216,19 @@
     }
 
     &__delete-img {
-      // background-color: #ff;
       position: absolute;
       z-index: 2;
-      top: calc(30%);
+      top: calc(50% - 15px);
+      bottom: 5px;
       left: calc(50% - 15px);
       width: 40px;
       cursor: pointer;
     }
+
+    // &__hoverBox {
+    //   @extend %flex;
+    //   flex-direction: column;
+
   }
 
   &__buttons {
