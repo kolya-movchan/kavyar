@@ -14,7 +14,8 @@ import ua.kavyar.repository.specification.SpecificationProvider;
 public class CategorySpecificationManager implements SpecificationManager<Category> {
     private final Map<String, SpecificationProvider<Category>> providerMap;
 
-    public CategorySpecificationManager(List<SpecificationProvider<Category>> productSpecifications) {
+    public CategorySpecificationManager(
+            List<SpecificationProvider<Category>> productSpecifications) {
         this.providerMap = productSpecifications.stream()
                 .collect(Collectors.toMap(SpecificationProvider::getFilterKey,
                         Function.identity()));
