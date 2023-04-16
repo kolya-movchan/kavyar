@@ -41,76 +41,76 @@ public class InjectController {
 
     private void injectFeature() {
         Feature bombShelter = new Feature();
-        bombShelter.setName("BombShelter");
-        bombShelter.setDescription("BombShelter");
+        bombShelter.setName("Бомбосховище");
+        bombShelter.setDescription("Бомбосховище");
         featureService.create(bombShelter);
         Feature homePets = new Feature();
-        homePets.setName("Home pets");
-        homePets.setDescription("Home pets");
+        homePets.setName("Можна з тваринками");
+        homePets.setDescription("Можна з тваринками");
         featureService.create(homePets);
         Feature gasGenerator = new Feature();
-        gasGenerator.setName("Gas generator");
-        gasGenerator.setDescription("Gas generator");
+        gasGenerator.setName("Генератор");
+        gasGenerator.setDescription("Генератор");
         featureService.create(gasGenerator);
     }
 
     private void injectCategoryAndProduct() {
         Category coffee = new Category();
-        coffee.setName("Coffee");
+        coffee.setName("Кава");
         categoryService.create(coffee);
 
         Category coffeeToGo = new Category();
-        coffeeToGo.setName("Coffee ToGo");
+        coffeeToGo.setName("Кава з собою");
         categoryService.create(coffeeToGo);
 
         Category coffeeBeans = new Category();
-        coffeeBeans.setName("Coffee Beans");
+        coffeeBeans.setName("Кава у зернах");
         categoryService.create(coffeeBeans);
 
         Category dessert = new Category();
-        dessert.setName("Desserts");
+        dessert.setName("Десерти");
         categoryService.create(dessert);
 
         Product espresso = new Product();
-        espresso.setName("Espresso");
-        espresso.setDescription("Espresso");
+        espresso.setName("Еспресо");
+        espresso.setDescription("Еспресо");
         espresso.setCategory(coffee);
         productService.create(espresso);
 
         Product americano = new Product();
-        americano.setName("Americano");
-        americano.setDescription("Americano");
+        americano.setName("Амерікано");
+        americano.setDescription("Амерікано");
         americano.setCategory(coffee);
         productService.create(americano);
 
         Product cappuccino = new Product();
-        cappuccino.setName("Cappuccino");
-        cappuccino.setDescription("Cappuccino");
+        cappuccino.setName("Капучіно");
+        cappuccino.setDescription("Капучіно");
         cappuccino.setCategory(coffee);
         productService.create(cappuccino);
 
         Product brownie = new Product();
-        brownie.setName("Brownie");
-        brownie.setDescription("Brownie");
+        brownie.setName("Брауні з дор-блю");
+        brownie.setDescription("Брауні з дор-блю");
         brownie.setCategory(dessert);
         productService.create(brownie);
 
         Product cheesecake = new Product();
-        cheesecake.setName("Cheesecake");
-        cheesecake.setDescription("Cheesecake");
+        cheesecake.setName("Чіз-кейк з солоною карамеллю");
+        cheesecake.setDescription("Чіз-кейк з солоною карамеллю");
         cheesecake.setCategory(dessert);
         productService.create(cheesecake);
     }
 
     private void injectCity() {
         City kharkiv = new City();
-        kharkiv.setName("Kharkiv");
+        kharkiv.setName("Харків");
         cityService.create(kharkiv);
         City kyiv = new City();
-        kyiv.setName("Kyiv");
+        kyiv.setName("Київ");
         cityService.create(kyiv);
         City uzhgorod = new City();
-        uzhgorod.setName("Uzhgorod");
+        uzhgorod.setName("Ужгород");
         cityService.create(uzhgorod);
     }
 }
