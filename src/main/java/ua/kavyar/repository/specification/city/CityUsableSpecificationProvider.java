@@ -26,7 +26,6 @@ public class CityUsableSpecificationProvider
             Root<CoffeeShop> subqueryRoot = subquery.from(CoffeeShop.class);
             Join<CoffeeShop, City> cityJoin = subqueryRoot.join(FIELD_NAME);
             subquery.select(cityJoin.get("id")).distinct(true);
-            subquery.where(cb.equal(subqueryRoot.get("isDisable"), false));
             for (String param : params) {
                 if (Boolean.parseBoolean(param)) {
                     predicates.add(cb.in(root.get("id")).value(subquery));
