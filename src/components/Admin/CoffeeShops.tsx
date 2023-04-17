@@ -130,7 +130,7 @@ export const CoffeeShops: React.FC = () => {
     const countP = count ? `count=${count}` : '';
     const pageP = `page=${pageNumber ? pageNumber : 1}`;
     const searchP = searchInTitle ? `searchInTitle=${searchInTitle}` : '';
-    const sortP = sort ? `sortBy=${sort}:${asc}` : '';
+    const sortP = sort ? `sortBy=${sort}:${asc}` : 'sortBy=isDisable:ASC';
     const featuresP = featureList.length > 0 ? `filter=${featureList.join(',')}` : '';
     const cityP = cityId ? `city=${cityId}` : '';
     const activeP = isActive ? `isActive=${isActive}` : '';
@@ -151,6 +151,8 @@ export const CoffeeShops: React.FC = () => {
   };
 
   const resetAllFilters = () => {
+    activateLoading();
+
     setLoader(true);
     setSearchInTitle('');
     setCount('8');
@@ -160,8 +162,6 @@ export const CoffeeShops: React.FC = () => {
     setFeatureList([]);
     setCityId(0);
     setIsActive('');
-
-    activateLoading();
     getAllData('coffee-shops?count=8&sortBy=isDisable:ASC');
   };
 
@@ -345,6 +345,7 @@ export const CoffeeShops: React.FC = () => {
                     id={id}
                     name={name}
                     onCheck={handleCheckboxes}
+                    styling={'cfp-features__wrapper--cfp'}
                   />
                 );
               })}

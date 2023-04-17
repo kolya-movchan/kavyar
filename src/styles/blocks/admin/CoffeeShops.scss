@@ -57,9 +57,11 @@
   }
 
   &-features__wrapper {
-    width: 100%;
-    padding: 3px;
-    
+    padding: 5px;
+  }
+
+  &-features__wrapper--cfp {
+    display: flex;
   }
 
   &-features__checkBox {
@@ -71,12 +73,19 @@
   // }
 
   &-features__legend {
+    font-family: $title-light;
     text-align: center;
   }
 
+  &-features__name {
+    // width: 80%;
+    // display: inline-block;
+    font-family: $title-light;
+  }
+
   legend {
-    width: 80%;
-    padding: 5px;
+    // width: 80%;
+    padding: 10px;
     color: #fff;
     background-color: #000;
     border-radius: 4px;

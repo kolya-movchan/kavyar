@@ -5,12 +5,14 @@ type Props = {
   id: number,
   name: string,
   onCheck: (value: string, status: boolean) => void,
+  styling?: string,
 };
 
 export const CheckBoxCFP: React.FC<Props> = ({
   name,
   onCheck,
   id,
+  styling = '',
 }) => {
 
   const [isChecked, setIsChecked] = useState(false);
@@ -23,7 +25,7 @@ export const CheckBoxCFP: React.FC<Props> = ({
   return (
     <label
       htmlFor={id.toString()}
-      className="cfp-features__wrapper"
+      className={`cfp-features__wrapper ${styling}`}
     >
       <input
         className="cfp-features__checkBox"
