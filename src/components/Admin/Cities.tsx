@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { deleteCity, getCitiesAll, postNewCity } from '../../api/fetch';
 import { City } from '../../types/City';
+import { ErrorMessage } from '../ErrorMessage';
 import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
@@ -16,7 +17,7 @@ export const Cities: React.FC = ( ) => {
   const [cities, setCities] = useState<City[] | null>(null);
   const [citiesInactive, setCitiesInactive] = useState<City[] | null>(null);
   const [loader, setLoader] = useState(false);
-  // const [error, setError] = useState(false);
+  const [notification, setNotification] = useState<null | string>('');
 
   const htmlElement = document.getElementById("html");
 
@@ -31,6 +32,7 @@ export const Cities: React.FC = ( ) => {
   };
 
   const addCity = () => {
+    hideNotification();
     setQuery('');
     setInput(false);
 
@@ -48,24 +50,36 @@ export const Cities: React.FC = ( ) => {
       activateLoading();
 
       postNewCity(newCity)
-        .then(() => getAllData())
+        .then(() => {
+          setNotification('success-add');
+          getAllData();
+        })
         .catch((e) => {
           console.log(e);
+          setNotification('error-add');
         })
-        .finally(() => removeLoading());
+        .finally(() => {
+          removeLoading();
+        });
     }
   };
 
   const handleCityDeletion = (id: number) => {
     activateLoading();
+    hideNotification();
 
     deleteCity(id)
-      .then(() => getAllData())
+      .then(() => {
+        getAllData();
+        setNotification('success-delete');
+      })
       .catch((e) => {
         console.log(e);
-        setLoader(false);
+        setNotification('error-delete');
       })
-      .finally(() => removeLoading());
+      .finally(() => {
+        removeLoading();
+      });
   };
 
   const citiesSorted = cities?.sort((city1, city2) => {
@@ -135,6 +149,10 @@ export const Cities: React.FC = ( ) => {
     htmlElement?.classList.remove('hidden');
   };
 
+  const hideNotification = () => {
+    setNotification('');
+  };
+
   useEffect(() => {
     activateLoading();
     getAllData();
@@ -150,6 +168,46 @@ export const Cities: React.FC = ( ) => {
               color='#000'
             />
           </div>
+        )}
+
+        {(notification === 'success-add') && (
+          <ErrorMessage
+            title='Запит виконано 😎☕'
+            description={
+              `Місто успішно додано, вітаю!`
+            }
+            type='success'
+            onExit={hideNotification}
+          />
+        )}
+
+        {notification === 'error-add' && (
+          <ErrorMessage
+            title='Не вдалось додати 😔'
+            description='Спробуйте ще раз'
+            type='error'
+            onExit={hideNotification}
+          />
+        )}
+
+        {(notification === 'success-delete') && (
+          <ErrorMessage
+            title='Запит виконано 😎☕'
+            description={
+              `Місто успішно видалено, вітаю!`
+            }
+            type='success'
+            onExit={hideNotification}
+          />
+        )}
+
+        {notification === 'error-delete' && (
+          <ErrorMessage
+            title='Не вдалось видалити 😔'
+            description='Спробуйте ще раз'
+            type='error'
+            onExit={hideNotification}
+          />
         )}
 
         <div>

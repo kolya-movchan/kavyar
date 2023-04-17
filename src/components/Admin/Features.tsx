@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { deleteFeatureAPI, getFeaturesAll, postNewFeature } from '../../api/fetch';
 import { Feature } from '../../types/Feature';
+import { ErrorMessage } from '../ErrorMessage';
 import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
@@ -15,13 +16,12 @@ export const Features: React.FC = ( ) => {
   const [features, setFeatures] = useState<Feature[] | null>(null);
   const [featuresInactive, setFeaturesInactive] = useState<Feature[] | null>(null);
   const [loader, setLoader] = useState(false);
+  const [notification, setNotification] = useState<null | string>('');
 
   const htmlElement = document.getElementById("html");
 
   const findDuplicate = () => {
-    if (featuresInactive && features) {
-      console.log('DUPLICATE');
-      
+    if (featuresInactive && features) {      
       return [...featuresInactive, ...features].some(city => city.name.toLowerCase() === query.toLowerCase());
     }
 
@@ -29,6 +29,8 @@ export const Features: React.FC = ( ) => {
   };
 
   const addFeatures = () => {
+    hideNotification();
+
     if (findDuplicate()) {
       return;
     }
@@ -45,10 +47,12 @@ export const Features: React.FC = ( ) => {
 
       postNewFeature(newFeature)
         .then(() => {
+          setNotification('success-add');
           getAllData();
           setQuery('');
         })
         .catch((e) => {
+          setNotification('error-add');
           console.log(e);
         })
         .finally(() => removeLoading());
@@ -56,13 +60,17 @@ export const Features: React.FC = ( ) => {
   };
 
   const handleFeatureDeletion = (id: number) => {
-    setLoader(true);
+    activateLoading();
+    hideNotification();
 
     deleteFeatureAPI(id)
-      .then(() => getAllData())
+      .then(() => {
+        getAllData();
+        setNotification('success-delete');
+      })
       .catch((e) => {
         console.log(e);
-        setLoader(false);
+        setNotification('error-delete');
       })
       .finally(() => removeLoading());
   };
@@ -134,6 +142,10 @@ export const Features: React.FC = ( ) => {
     htmlElement?.classList.remove('hidden');
   };
 
+  const hideNotification = () => {
+    setNotification('');
+  };
+
   useEffect(() => {
     activateLoading();
     getAllData();
@@ -149,6 +161,47 @@ export const Features: React.FC = ( ) => {
               color='#000'
             />
           </div>
+        )}
+
+
+        {(notification === 'success-add') && (
+          <ErrorMessage
+            title='Запит виконано 😎☕'
+            description={
+              `Особливість успішно додано, вітаю!`
+            }
+            type='success'
+            onExit={hideNotification}
+          />
+        )}
+
+        {notification === 'error-add' && (
+          <ErrorMessage
+            title='Не вдалось додати особливість 😔'
+            description='Спробуйте ще раз'
+            type='error'
+            onExit={hideNotification}
+          />
+        )}
+
+        {(notification === 'success-delete') && (
+          <ErrorMessage
+            title='Запит виконано 😎☕'
+            description={
+              `Особливість успішно видалено, вітаю!`
+            }
+            type='success'
+            onExit={hideNotification}
+          />
+        )}
+
+        {notification === 'error-delete' && (
+          <ErrorMessage
+            title='Не вдалось видалити 😔'
+            description='Спробуйте ще раз'
+            type='error'
+            onExit={hideNotification}
+          />
         )}
 
         <SearchPannel

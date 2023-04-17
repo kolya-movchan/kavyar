@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { deleteCategoryAPI, getAllCategoriesAPI, postNewCategoryAPI } from '../../api/fetch';
 import { Category } from '../../types/Category';
+import { ErrorMessage } from '../ErrorMessage';
 import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
@@ -15,6 +16,7 @@ export const Categories: React.FC = ( ) => {
   const [categories, setCategories] = useState<Category[] | null>(null);
   const [categoriesInactive, setCategoriesInactive] = useState<Category[] | null>(null);
   const [loader, setLoader] = useState(false);
+  const [notification, setNotification] = useState<null | string>('');
 
   const htmlElement = document.getElementById("html");
 
@@ -29,6 +31,8 @@ export const Categories: React.FC = ( ) => {
   };
 
   const addCategory = () => {
+    hideNotification();
+
     if (findDuplicate()) {
       return;
     }
@@ -43,12 +47,13 @@ export const Categories: React.FC = ( ) => {
 
       postNewCategoryAPI(newCategory)
         .then(() => {
+          setNotification('success-add');
           getAllData();
           setQuery('');
         })
         .catch((e) => {
           console.log(e);
-          setLoader(false);
+          setNotification('error-add');
         })
         .finally(() => removeLoading());
     }
@@ -56,12 +61,16 @@ export const Categories: React.FC = ( ) => {
 
   const handleCategoryDeletion = (id: number) => {
     setLoader(true);
+    hideNotification();
 
     deleteCategoryAPI(id)
-      .then(() => getAllData())
+      .then(() => {
+        getAllData();
+        setNotification('success-delete');
+      })
       .catch((e) => {
+        setNotification('error-delete');
         console.log(e);
-        setLoader(false);
       })
       .finally(() => removeLoading());
   };
@@ -129,6 +138,10 @@ export const Categories: React.FC = ( ) => {
     htmlElement?.classList.remove('hidden');
   };
 
+  const hideNotification = () => {
+    setNotification('');
+  };
+
   useEffect(() => {
     activateLoading();
 
@@ -145,6 +158,46 @@ export const Categories: React.FC = ( ) => {
               color='#000'
             />
           </div>
+        )}
+
+        {(notification === 'success-add') && (
+          <ErrorMessage
+            title='Запит виконано 😎☕'
+            description={
+              `Категорію успішно додано, вітаю!`
+            }
+            type='success'
+            onExit={hideNotification}
+          />
+        )}
+
+        {notification === 'error-add' && (
+          <ErrorMessage
+            title='Не вдалось додати категорію 😔'
+            description='Спробуйте ще раз'
+            type='error'
+            onExit={hideNotification}
+          />
+        )}
+
+        {(notification === 'success-delete') && (
+          <ErrorMessage
+            title='Запит виконано 😎☕'
+            description={
+              `Категорію успішно видалено, вітаю!`
+            }
+            type='success'
+            onExit={hideNotification}
+          />
+        )}
+
+        {notification === 'error-delete' && (
+          <ErrorMessage
+            title='Не вдалось видалити категорію 😔'
+            description='Спробуйте ще раз'
+            type='error'
+            onExit={hideNotification}
+          />
         )}
 
         <SearchPannel

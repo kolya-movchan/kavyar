@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { deleteProductAPI, getAllCategoriesAPI, getAllProductsAPI, postNewProductAPI } from '../../api/fetch';
 import { Category } from '../../types/Category';
 import { Product } from '../../types/Product';
+import { ErrorMessage } from '../ErrorMessage';
 import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
@@ -19,6 +20,7 @@ export const Products: React.FC = ( ) => {
   const [hideMode, setHideMode] = useState(false);
   const [categoriesForProduct, setCategoriesForProduct] = useState<Category[] | null>(null);
   const [newCategoryId, setnewCategoryId] = useState('');
+  const [notification, setNotification] = useState<null | string>('');
 
   const htmlElement = document.getElementById("html");
 
@@ -32,6 +34,7 @@ export const Products: React.FC = ( ) => {
   };
 
   const addProducts = () => {
+    hideNotification();
     setInput(false);
 
     if (findDuplicate()) {
@@ -50,10 +53,12 @@ export const Products: React.FC = ( ) => {
 
       postNewProductAPI(newProduct)
         .then(() => {
+          setNotification('success-add');
           getAllData();
           setQuery('');
         })
         .catch((e) => {
+          setNotification('error-add');
           console.log(e);
         })
         .finally(() => removeLoading());
@@ -62,13 +67,16 @@ export const Products: React.FC = ( ) => {
 
   const deleteProduct = (id: number) => {
     activateLoading();
+    hideNotification();
 
     deleteProductAPI(id)
       .then(() => {
         getAllData();
+        setNotification('success-delete');
         setQuery('');
       })
       .catch((e) => {
+        setNotification('error-delete');
         console.log(e);
       })
       .finally(() => removeLoading());
@@ -142,6 +150,10 @@ export const Products: React.FC = ( ) => {
     htmlElement?.classList.remove('hidden');
   };
 
+  const hideNotification = () => {
+    setNotification('');
+  };
+
   useEffect(() => {
     setHideMode(true);
     activateLoading();
@@ -158,6 +170,47 @@ export const Products: React.FC = ( ) => {
               color='#000'
             />
           </div>
+        )}
+
+
+        {(notification === 'success-add') && (
+          <ErrorMessage
+            title='Запит виконано 😎☕'
+            description={
+              `Продукт успішно додано, вітаю!`
+            }
+            type='success'
+            onExit={hideNotification}
+          />
+        )}
+
+        {notification === 'error-add' && (
+          <ErrorMessage
+            title='Не вдалось додати продукт 😔'
+            description='Спробуйте ще раз'
+            type='error'
+            onExit={hideNotification}
+          />
+        )}
+
+        {(notification === 'success-delete') && (
+          <ErrorMessage
+            title='Запит виконано 😎☕'
+            description={
+              `Продукт успішно видалено, вітаю!`
+            }
+            type='success'
+            onExit={hideNotification}
+          />
+        )}
+
+        {notification === 'error-delete' && (
+          <ErrorMessage
+            title='Не вдалось видалити продукт 😔'
+            description='Спробуйте ще раз'
+            type='error'
+            onExit={hideNotification}
+          />
         )}
 
         <SearchPannel
