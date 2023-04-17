@@ -10,7 +10,9 @@ type Props = {
 export const MenuItem: React.FC<Props> = ( { title, address } ) => {
   return (
     <NavLink
-      to={address}
+      to={{
+        pathname: address,
+      }}
       className={({ isActive }) => classNames(
         'navbar-item admin-panel__menu-item',
         { 'is-active': isActive },

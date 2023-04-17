@@ -10,4 +10,7 @@ export interface Product {
   category?: Category,
 }
 
-export type ProductForAPI = (Pick<Product, "id" | "price">);
+export interface ProductForAPI {
+  productId: number;
+  price: number;
+}

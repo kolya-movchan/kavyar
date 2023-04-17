@@ -23,7 +23,12 @@ export const convertGoogleDrive = (link: string) => {
   return link;
 };
 
+// type Props = {
+//   onEdit: (data: CFPlist) => void,
+// };
+
 export const CoffeeShops: React.FC = () => {
+// export const CoffeeShops: React.FC<Props> = ({onEdit}) => {
   const [features, setFeatures]= useState<Feature[]>();
   const [cities, setCities]= useState<City[]>();
   const [cfps, setCfps] = useState<CFPlist[]>();
@@ -31,7 +36,7 @@ export const CoffeeShops: React.FC = () => {
   const [showEditId, setShowEditId] = useState(0);
   const [loader, setLoader] = useState(false);
   const [searchInTitle, setSearchInTitle] = useState<string>('');
-  const [count, setCount] = useState('');
+  const [count, setCount] = useState('8');
   const [page, setPage]= useState(1);
   const [asc, setAsc] = useState('');
   const [sort, setSort] = useState('');
@@ -407,9 +412,6 @@ export const CoffeeShops: React.FC = () => {
                   onMouseEnter={() => setShowEditId(id)}
                   onMouseLeave={() => setShowEditId(0)}
                 >
-                  {/* <div
-                    // className="cfp-card__hoverBox"
-                  > */}
                   <div
                     className="cfp-card__logo-container"
                   >
@@ -423,11 +425,16 @@ export const CoffeeShops: React.FC = () => {
                   <div className="cfp-card__name">
                     {title}
                   </div>
-                  {/* </div> */}
 
                   {showEditId === id && (
                     <div>
-                      <Link to='/admin/form'>
+                      <Link
+                        to={{
+                          pathname: '/admin/form',
+                          search: '?edit=true',
+                        }}
+                        state = {cfps.find(cfpStore => cfpStore.id === id)?.id || 0}
+                      >
                         <img
                           src="../edit.png"
                           alt="edit-coffeshop"

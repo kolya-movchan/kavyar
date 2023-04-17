@@ -1,5 +1,5 @@
 import { Category } from '../types/Category';
-import { CFP } from '../types/CFP';
+import { CFP, CFPforEDIT, CFPforUpdate } from '../types/CFP';
 import { City } from '../types/City';
 import { Feature } from '../types/Feature';
 import { Product } from '../types/Product';
@@ -13,6 +13,18 @@ export const getAdminByEmail = async (email: string) => {
 };
 
 // CFP
+export const getCFPById = async (id: string) => {
+  const cfp = await item.get<CFPforEDIT>(`/coffee-shops/get/${id}`);
+
+  return cfp || null;
+};
+
+export const updateCFPById = async (data: CFPforUpdate) => {
+  const cfp = await item.putEditCFP<CFPforUpdate>(`/coffee-shops/update`, data);
+
+  return cfp || null;
+};
+
 export const getAllCFPAPI = async (value: string) => {
   const cfps = await item.get<CFP>(`/${value}`);
 

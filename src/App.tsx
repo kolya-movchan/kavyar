@@ -7,6 +7,13 @@ import './styles/main.scss';
 import { Outlet } from 'react-router-dom';
 
 export const App: React.FC = () => {
+  // const [cfpOnEdit, setCfpOnEdit] = useState<null | CFPlist>(null);
+
+  // const handleEditMode = (data: CFPlist) => {
+  //   setCfpOnEdit(data);
+  //   // console.log(data);
+  // };
+
   return (
     <>
       <Header />

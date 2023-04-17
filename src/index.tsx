@@ -1,6 +1,5 @@
 import { createRoot } from 'react-dom/client';
 import React from 'react';
-// import ReactDOM from 'react-dom';
 import {
   BrowserRouter,
   Navigate,
@@ -22,7 +21,6 @@ import { Cities } from './components/Admin/Cities';
 import { Categories } from './components/Admin/Categories';
 import { Products } from './components/Admin/Products';
 
-
 const hashRouter = () => (
   <BrowserRouter>
     <AuthProvider>
@@ -38,7 +36,6 @@ const hashRouter = () => (
           <Route path="products" element={(<Products />)}/>
           <Route path="form" element={<Form />} />
         </Route>
-
         <Route path="/" element={<Navigate to="/admin" replace />}/>
       </Routes>
     </AuthProvider>

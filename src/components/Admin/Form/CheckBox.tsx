@@ -4,18 +4,20 @@ import React from 'react';
 type Props = {
   name: string,
   value: string,
-  // onChange?: (newValue: string) => void,
   onCheck?: (value: number) => void,
   id: number,
+  featuresOnEdit: number[],
 };
 
 export const CheckBox: React.FC<Props> = ({
   name,
   value,
-  // onChange = () => null,
   onCheck = () => null,
   id,
+  featuresOnEdit,
 }) => {
+
+  const activeFeatures = featuresOnEdit.includes(id);
 
   return (
     <div className="">
@@ -23,10 +25,12 @@ export const CheckBox: React.FC<Props> = ({
         <input
           type="checkbox"
           name={name}
-          // id={id.toString()}
           className="cfp-features__filter"
           value={value}
-          onChange={() => onCheck(id)}
+          onChange={() => {
+            onCheck(id);
+          }}
+          checked={activeFeatures}
         />
 
         <span className="cfp-features__name">

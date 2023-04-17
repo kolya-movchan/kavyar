@@ -28,10 +28,8 @@ export const AddProducts: React.FC<Props> = ({
   onChange,
   data,
 }) => {
-  const disabledAdd = !product || !productPrice || !productPrice.match(priceRegex);
-
-  // console.log(product, 'product');
-  
+  const alreadyExist = productList.some(productEl => productEl.name === product);
+  const disabledAdd = !product || !productPrice || !productPrice.match(priceRegex) || alreadyExist;  
 
   return (
     <>
@@ -107,13 +105,6 @@ export const AddProducts: React.FC<Props> = ({
         >
           Додати
         </button>
-
-        {/* <button
-          className="is-link cfp-products__delete-button delete"
-          type="button"
-        >
-          x
-        </button> */}
       </div>
     </>
   );

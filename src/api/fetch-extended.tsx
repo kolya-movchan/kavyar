@@ -1,5 +1,5 @@
 import { Category } from '../types/Category';
-import { CFPforPOST } from '../types/CFP';
+import { CFPforPOST, CFPforUpdate } from '../types/CFP';
 import { City } from '../types/City';
 import { Feature } from '../types/Feature';
 import { Product } from '../types/Product';
@@ -17,7 +17,7 @@ type RequestMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE' | 'PUT';
 function request<T>(
   url: string,
   method: RequestMethod = 'GET',
-  data: | City | Feature | Product | Category | CFPforPOST | null = null,
+  data: | City | Feature | Product | Category | CFPforPOST | CFPforUpdate | null = null,
 ): Promise<T> {
   const options: RequestInit = { method };
 
@@ -50,11 +50,13 @@ export const item = {
     return request<T>(url, 'POST', data);
   },
 
-
-  // patch: function <T>(url: string, data: UserData) {(
-  //   request(url, 'PATCH', data)
-  // );},
+  // patch: function <T>(url: string, data: CFPforUpdate) {
+  //   return request<T>(url, 'PATCH', data);
+  // },
 
   delete: (url: string) => request(url, 'DELETE'),
   put: (url: string) => request(url, 'PUT'),
+  putEditCFP: function <T>(url: string, data: CFPforUpdate) {
+    return request<T>(url, 'PUT', data);
+  },
 };

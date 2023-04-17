@@ -19,6 +19,7 @@ type Props = {
   onChange: (value: string) => void
   selecting?: boolean,
   dataAPI?: Product[] | null,
+  cityOnEdit?: number,
 };
 
 export const InputField: React.FC<Props> = ({
@@ -35,6 +36,7 @@ export const InputField: React.FC<Props> = ({
   onSelect = () => {},
   selecting,
   dataAPI,
+  cityOnEdit,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
 
@@ -50,18 +52,6 @@ export const InputField: React.FC<Props> = ({
 
   const upperCaseLabel = label.slice(0, 1).toUpperCase() + label.slice(1);
 
-  // const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-  //   const index = event.target.selectedIndex;
-  //   const el = event.target.childNodes[index] as HTMLInputElement | null;
-  //   const targetId = el?.getAttribute('id') as string;
-
-  //   console.log(targetId);
-  //   // console.log(event.target.value);
-    
-
-  //   // onChange(targetId, event.target.value);
-  // };
-
   const handleEvent = (event: React.ChangeEvent<HTMLSelectElement>) => {
     onChange(event.target.value);
 
@@ -72,14 +62,11 @@ export const InputField: React.FC<Props> = ({
     if (el && targetId) {
       onSelect(targetId, event.target.value);
     }
-
-    console.log(targetId);
   };
 
   return (
     <div
       className="field"
-      // style={ { width: 'max-content', display: 'flex', flexDirection: 'column'}}
     >
       <label className="label" htmlFor={id}>
         {upperCaseLabel}
@@ -135,7 +122,8 @@ export const InputField: React.FC<Props> = ({
                 id='selectId'
                 className="cfp-products__select"
                 onChange={handleEvent}
-                defaultValue={'DEFAULT'}
+                // defaultValue={'DEFAULT'}
+                defaultValue={cityOnEdit ? dataAPI.find(data => data.id === cityOnEdit)?.name : 'DEFAULT'}
               >
                 <option disabled value="DEFAULT">
                   Оберіть

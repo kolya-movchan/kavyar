@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { getAllProductsAPI, getCitiesAll, postNewCFPAPI } from '../../../api/fetch';
+import { useSearchParams } from 'react-router-dom';
+import { getAllProductsAPI, getCFPById, getCitiesAll, postNewCFPAPI, updateCFPById } from '../../../api/fetch';
 
 import '../../../styles/blocks/admin/Form.scss';
 import { City } from '../../../types/City';
-import { Product } from '../../../types/Product';
+import { Product, ProductForAPI } from '../../../types/Product';
+// import { Feature } from '../../../types/Feature';
 import { ErrorMessage } from '../../ErrorMessage';
 import { Loader } from '../../Loader';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { emailRegex, priceRegex } from '../../_tools/Regex';
 import { scrollTop } from '../../_tools/Tools';
 import { convertGoogleDrive } from '../CoffeeShops';
@@ -14,30 +15,28 @@ import { AddProducts } from './AddProducts';
 import { Contacts } from './Contacts';
 import { Features } from './Features';
 import { InputField } from './InputField';
-
+import { useLocation } from "react-router-dom";
+import { CFPforEDIT } from '../../../types/CFP';
 
 export const Form: React.FC = () => {
   const [loader, setLoader] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
 
-  interface ProductForAPI {
-    productId: number;
-    price: number;
-  }
+
 
   const [logoURL, setLogoURL] = useState('');
-  const [photosURL, setPhotosURL] = useState('');
   const [name, setName] = useState('');
-  const [cities, setCities] = useState<City[]>();
-  const [cityId, setCityId] = useState('2');
-  const [description, setDescription] = useState('');
-  const [socialURL, setSocialURL] = useState('');
   const [googleMapsURL, setGoogleMapsURL] = useState('');
+  const [timeOpen, setTimeOpen] = useState('07:00');
+  const [timeClose, setTimeClose] = useState('23:00');
+  const [photosURL, setPhotosURL] = useState('');
+  const [cityId, setCityId] = useState('');
+  const [socialURL, setSocialURL] = useState('');
+  const [description, setDescription] = useState('');
+  const [cities, setCities] = useState<City[]>();
   const [product, setProduct] = useState('');
   const [productPrice, setProductPrice] = useState('');
   const [count, addCount] = useState(0);
-  const [timeOpen, setTimeOpen] = useState('07:00');
-  const [timeClose, setTimeClose] = useState('23:00');
   const [productList, setProductList] = useState<Product[]>([]);
   const [productPricesForAPI, setProductPricesForAPI] = useState<ProductForAPI[]>([]);
   const [featureList, setFeatureList] = useState<number[]>([]);
@@ -45,6 +44,19 @@ export const Form: React.FC = () => {
   const [apiID, setApiID] = useState('');
   const [nameForUser, setNameForUser] = useState('');
   const [notification, setNotification] = useState<null | string>('');
+  const [idCFP, setIdSFP] = useState(0);
+  const [productsOld, setProductsOld] = useState<{
+    productPriceId: number;
+    price: number;
+}[]>([]);
+  const [photoId, setPhotoId] = useState(0);
+  const [logoId, setLogoId] = useState(0);
+
+  const [searchParams] = useSearchParams();
+  const editMode = searchParams.get('edit');
+  const location = useLocation();
+
+  // console.log(searchParams.get('edit'));
 
   const unique_id = Date.now();
   
@@ -61,7 +73,12 @@ export const Form: React.FC = () => {
     setGoogleMapsURL('');
     setProduct('');
     setProductPrice('');
-
+    setPhoneNumber('+380');
+    setCityId('');
+    setTimeOpen('07:00');
+    setTimeClose('23:00');
+    setFeatureList([]);
+    setProductList([]);
     addCount(count + 1);
   };
 
@@ -71,6 +88,13 @@ export const Form: React.FC = () => {
   };
 
   const addFeatureList = (id: number) => {
+    if (featureList.includes(id)) {
+      const removedFeature = featureList.filter(idFeature => idFeature !== id);
+      setFeatureList(removedFeature);
+
+      return;
+    }
+
     setFeatureList([...featureList, id]);
   };
 
@@ -96,7 +120,22 @@ export const Form: React.FC = () => {
   const deleteProduct = (id: number) => {
     const filtered = productList.filter(productItem => productItem.id !== id);
 
+    // const filteredEdit = productList.filter(productItem => {
+    //   if (productItem.id !== id) {
+    //     return;
+    //   }
+
+    //   return {
+    //     productPriceId: productItem.id,
+    //     price: productItem.price,
+    //   };
+    // });
+
+    // console.log(filteredEdit);
+    
+
     setProductList(filtered);
+    // setProductsOld(filteredEdit);
   };
 
   const handlePhoneNumber = (value: string) => {
@@ -106,6 +145,10 @@ export const Form: React.FC = () => {
 
   const createNewProduct = () => {
     if (!productPrice.match(priceRegex)) {
+      return;
+    }
+
+    if (productList.some(productEl => productEl.name === nameForUser)) {
       return;
     }
 
@@ -123,9 +166,6 @@ export const Form: React.FC = () => {
     setProductList([...productList, productListItem]);
     setProductPricesForAPI([...productPricesForAPI, productListForAPI]);
     resetProductFields();
-
-    console.log(productList, 'productList');
-    console.log(productPricesForAPI, 'productListAPI');
   };
 
   const handleSelect = (idForAPI: string, valueName?: string) => {
@@ -141,8 +181,55 @@ export const Form: React.FC = () => {
     setNotification('');
   };
 
+  const handleEditSubmit = () => {
+    // const cityName = cities?.find(city => city.id === +cityId)?.name;
+    // const featuresForEdit = features?.filter(featuresValue => featureList.includes(featuresValue.id));
+
+    const productsOldCurrent = productsOld.filter(
+      productValue => productList.some(productEl => productEl.id === productValue.productPriceId)
+    );    
+
+    const newCFPForEdit = {
+      coffeeShopId: idCFP,
+      cityId: +cityId,
+      title: name,
+      description,
+      phone: phoneNumber,
+      open: timeOpen,
+      close: timeClose,
+      url: socialURL,
+      logo: {id: logoId, url: convertGoogleDrive(logoURL)},
+      photo: {id: photoId, url: convertGoogleDrive(photosURL)},
+      location: googleMapsURL,
+      features: featureList,
+      productPrices: productsOldCurrent,
+      newProductPrices: productPricesForAPI,
+    };
+
+    updateCFPById(newCFPForEdit)
+      .then(() => {
+        console.log('SUCCESS');
+        setNotification('success');
+        reset();
+      })
+      .catch(() => {
+        console.log('FAIL');
+        setNotification('error');
+      })
+      .finally(() => {
+        // hideNotification();
+        searchParams.set('edit', 'false');
+        reset();
+        removeLoading();
+      });
+
+    // console.log(JSON.stringify(newCFPForEdit));
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
+    hideNotification();
     activateLoading();
 
     if (!logoURL.match(emailRegex)) {
@@ -157,6 +244,12 @@ export const Form: React.FC = () => {
       setSocialURL('');
       removeLoading();
       scrollTop();
+
+      return;
+    }
+
+    if (editMode) {
+      handleEditSubmit();
 
       return;
     }
@@ -177,8 +270,6 @@ export const Form: React.FC = () => {
       productPrices: productPricesForAPI,
     };
 
-    const hideNotifications = () => setNotification('');
-
     postNewCFPAPI(newCFP)
       .then(() => {
         setNotification('success');
@@ -187,7 +278,7 @@ export const Form: React.FC = () => {
       .catch(() => setNotification('error'))
       .finally(() => {
         removeLoading();
-        setTimeout(() => hideNotifications);
+        // hideNotification();
       });
   };
 
@@ -222,7 +313,75 @@ export const Form: React.FC = () => {
     activateLoading();
     getAllData();
 
+    if (editMode) {
+      activateEditMode();
+    }
   }, []);
+
+  const setUpEditInfo = (cfp: CFPforEDIT) => {
+    const {
+      id,
+      city,
+      title,
+      logo,
+      photo,
+      url,
+      description: descriptionEdit,
+      open,
+      close,
+      features: featuresEdit,
+      location: locationEdit,
+      phone,
+      productPrices,
+    } = cfp;
+
+    setIdSFP(id);
+    setCityId(city.id.toString());
+    setName(title);
+    setLogoURL(logo.url);
+    setLogoId(logo.id);
+    setPhotosURL(photo.url);
+    setPhotoId(photo.id);
+    setSocialURL(url);
+    setGoogleMapsURL(locationEdit);
+    setDescription(descriptionEdit);
+    setPhoneNumber(phone);
+    setTimeOpen(open);
+    setTimeClose(close);
+    setFeatureList(featuresEdit.map(feature => feature.id));
+
+    const productsEditForUser = productPrices.map(productItem => (
+      {
+        id: productItem.product.id,
+        name: productItem.product.name,
+        price: productItem.price,
+      }
+    ));
+
+    setProductList(productsEditForUser);
+
+    // console.log(productPrices, 'GET DATA');
+    
+    const productsOldData = productPrices.map(productItem => (
+      {
+        productPriceId: productItem.id,
+        price: productItem.price,
+      }
+    ));
+
+    setProductsOld(productsOldData);
+  };
+
+  const activateEditMode = () => {
+    activateLoading();
+    scrollTop();
+
+    getCFPById(location.state)
+      .then((coffeShopEdit) => setUpEditInfo(coffeShopEdit))
+      .finally(() => {
+        removeLoading();
+      });
+  };
 
   // const alertUser = (event: BeforeUnloadEvent) => {
   //   event.returnValue = "";
@@ -234,7 +393,6 @@ export const Form: React.FC = () => {
   //     window.removeEventListener("beforeunload", alertUser);
   //   };
   // }, []);
-
   
   return (
     <>
@@ -247,10 +405,23 @@ export const Form: React.FC = () => {
         </div>
       )}
 
-      {notification === 'success' && (
+      {(notification === 'success' && !editMode) && (
         <ErrorMessage
           title='Запит виконано 😎☕'
           description='Нова кавʼярня створена, вітаю!Тепер ви можете переглянути її в розділі "Кавʼярні"'
+          type='success'
+          link='/admin/coffeeshops'
+          onExit={hideNotification}
+        />
+      )}
+
+      {(notification === 'success' && editMode) && (
+        <ErrorMessage
+          title='Запит виконано 😎☕'
+          description={
+            `Кавʼярня успішно оновлена, вітаю!
+            Тепер ви можете переглянути її в розділі "Кавʼярні"`
+          }
           type='success'
           link='/admin/coffeeshops'
           onExit={hideNotification}
@@ -270,7 +441,18 @@ export const Form: React.FC = () => {
       <div className="admin-form-container">
         <div className="admin-form-container2">
           <h1 className="admin-form-heading">
-            Створити кавʼярню
+            {editMode
+              ? (
+                <>
+                  Редагувати кавʼярню {' '}
+                  {name && (
+                    <span className="highlight-container">
+                      <span className="highlight">{name}</span>
+                    </span>
+                  )}
+                </>
+              )
+              : 'Створити кавʼярню'}
           </h1>
 
           <form
@@ -291,6 +473,7 @@ export const Form: React.FC = () => {
                 onSelect={handleCitySelect}
                 selecting
                 required
+                cityOnEdit={+cityId}
               />
             )}
 
@@ -353,12 +536,17 @@ export const Form: React.FC = () => {
             <Features
               cfpname={name}
               onCheck={addFeatureList}
+              featuresOnEdit={featureList}
             />
 
             <fieldset className="cfp-products">
               <h2 className="cfp-products__title">
                 {'Продукти кав’ярні '}
-                {name.length > 0 && name}
+                {(editMode && name.length > 0 )&& (
+                  <span className="highlight-container">
+                    <span className="highlight">{name}</span>
+                  </span>
+                )}
               </h2>
 
               <AddProducts
@@ -388,7 +576,7 @@ export const Form: React.FC = () => {
                 disabled={!fieldsFilledIn}
                 style={{ backgroundColor: '#000' }}
               >
-                Створити кавʼярню
+                {`${editMode ? 'Оновити' : 'Створити'} кавʼярню`}
               </button>
             </div>
           </form>

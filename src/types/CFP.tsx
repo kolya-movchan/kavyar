@@ -1,5 +1,7 @@
 // import { Product } from "./Product";
 
+import { ProductForAPI } from "./Product";
+
 export interface CFPlist {
   id: number,
   isDisable: boolean,
@@ -21,7 +23,7 @@ export interface CFPlist {
 }
 
 export interface CFP {
-  json(): any;
+  // json(): any;
   hasNextPage?: boolean,
   coffeeShops: CFPlist[],
 }
@@ -39,4 +41,46 @@ export interface CFPforPOST {
   location: string,
   features: number[],
   productPrices: {productId: number, price: number}[],
+}
+
+export interface CFPforEDIT {
+  title: string,
+  id: number,
+  city: {id: number, name: string},
+  isDisable: boolean,
+  photo: {id: number, url: string},
+  url: string,
+  description: string,
+  open: string,
+  close: string,
+  features: {id: number, name: string, description: string}[],
+  location: string,
+  phone: string,
+  logo: {id: number, url: string},
+  productPrices: {
+    id: number,
+    price: number,
+    product:{
+      id: number,
+      name: string,
+      description: string,
+      category: {id: number, name: string}
+    }}[]
+}
+
+export interface CFPforUpdate {
+  coffeeShopId: number,
+  cityId: number,
+  title: string,
+  description: string,
+  phone: string,
+  open: string,
+  close: string,
+  url: string,
+  logo: {id: number, url: string},
+  photo: {id: number, url: string},
+  location: string,
+  features: number[],
+  productPrices: {productPriceId: number, price: number}[],
+  newProductPrices: ProductForAPI[]
 }
