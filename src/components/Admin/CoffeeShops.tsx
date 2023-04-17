@@ -4,11 +4,12 @@ import { Link } from 'react-router-dom';
 import { deleteCFPAPI, getAllCFPAPI, getCitiesAll, getFeaturesAll, restoreCFPAPI } from '../../api/fetch';
 import { CFP, CFPlist } from '../../types/CFP';
 import { City } from '../../types/City';
-import { SortByProperty, Activity } from '../../types/enums/SortByProperty';
+import { SortByProperty } from '../../types/enums/SortByProperty';
 import { Feature } from '../../types/Feature';
 import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
+import { scrollTop } from '../_tools/Tools';
 import { CheckBoxCFP } from './CheckBoxCFP';
 import { SelectFilters } from './SelectFilters';
 
@@ -38,8 +39,8 @@ export const CoffeeShops: React.FC = () => {
   const [searchInTitle, setSearchInTitle] = useState<string>('');
   const [count, setCount] = useState('8');
   const [page, setPage]= useState(1);
-  const [asc, setAsc] = useState('');
-  const [sort, setSort] = useState('');
+  const [asc, setAsc] = useState('ASC');
+  const [sort, setSort] = useState('isDisable');
   const [featureList, setFeatureList] = useState<string[]>([]);
   const [cityId, setCityId] = useState(0);
   const [isActive, setIsActive] = useState('');
@@ -51,18 +52,30 @@ export const CoffeeShops: React.FC = () => {
   const sortByCount = [1, 2, 3, 4, 8];
 
   const sortByProperties = [
+    SortByProperty.activeAsc,
     SortByProperty.titleAsc,
     SortByProperty.openingAsc,
     SortByProperty.closingAsc,
+    SortByProperty.activeDesc,
     SortByProperty.titleDesc,
     SortByProperty.openingDesc,
     SortByProperty.closingDesc,
   ];
 
-  const sortByActivity = [Activity.all, Activity.active, Activity.inactive];
-
   const handleSortByProperties = (value: string) => {
     switch (value) {
+    case SortByProperty.activeAsc:
+      setSort('isDisable');
+      setAsc('ASC');
+
+      break;
+
+    case SortByProperty.activeDesc:
+      setSort('isDisable');
+      setAsc('DESC');
+
+      break;
+
     case SortByProperty.openingAsc:
       setSort('open');
       setAsc('ASC');
@@ -108,25 +121,6 @@ export const CoffeeShops: React.FC = () => {
     setCityId(cityTargetId);
   };
 
-  const handleActivitySort = (value: string) => {
-    switch (value) {
-    case Activity.active:
-      setIsActive('true');
-
-      break;
-
-    case Activity.inactive:
-      setIsActive('false');
-
-      break;
-
-    default:
-      setIsActive('true,false');
-
-      break;
-    }
-  };
-
   const updateURL = (pageNumber: number | null = null) => {
     if (!pageNumber) {
       setPage(1);
@@ -143,7 +137,7 @@ export const CoffeeShops: React.FC = () => {
   
     const paramsURL = `${url}${countP}&${searchP}&${sortP}&${featuresP}&${cityP}&${activeP}&${pageP}`;
 
-    // console.log(paramsURL);
+    console.log(paramsURL);
 
     activateLoading();
     getAllData(paramsURL);
@@ -168,11 +162,12 @@ export const CoffeeShops: React.FC = () => {
     setIsActive('');
 
     activateLoading();
-    getAllData('coffee-shops?count=8');
+    getAllData('coffee-shops?count=8&sortBy=isDisable:ASC');
   };
 
   const goBack = () => {
     activateLoading();
+    scrollTop();
 
     const pageNumber = page - 1;
     
@@ -182,24 +177,13 @@ export const CoffeeShops: React.FC = () => {
 
   const goForward = async () => {
     activateLoading();
+    scrollTop();
 
     const pageNumber = page + 1;
 
     setPage(pageNumber);
     updateURL(pageNumber);
   };
-
-  cfps?.sort((cfp1, cfp2) => {
-    if (cfp1.isDisable) {
-      return 1;
-    }
-
-    if (cfp2.isDisable) {
-      return -1;
-    }
-
-    return 0;
-  });
 
   const deactivateCFP = (id: number, status: boolean) => {
     const notificationDelete = "Підтвердіть Видалення";
@@ -212,11 +196,17 @@ export const CoffeeShops: React.FC = () => {
         activateLoading();
 
         deleteCFPAPI(id)
-          // .then(() => {
-          // })
+          .then(() => {
+            cfps?.map(cfpEntry => {
+              if (cfpEntry.id === id) {
+                cfpEntry.isDisable = true;
+              }
+            });
+          })
           .catch((e) => console.log(e))
           .finally(() => {
-            getAllData('coffee-shops?count=8');
+            setLoader(false);
+            htmlElement?.classList.remove('hidden');
           });
 
       } else {
@@ -231,11 +221,17 @@ export const CoffeeShops: React.FC = () => {
         setLoader(true);
         
         restoreCFPAPI(id)
-          // .then(() => {
-          // })
+          .then(() => {
+            cfps?.map(cfpEntry => {
+              if (cfpEntry.id === id) {
+                cfpEntry.isDisable = false;
+              }
+            });
+          })
           .catch((e) => console.log(e))
           .finally(() => {
-            getAllData('coffee-shops?count=8');
+            setLoader(false);
+            htmlElement?.classList.remove('hidden');
           });
       } else {
         return;
@@ -297,7 +293,7 @@ export const CoffeeShops: React.FC = () => {
 
   useEffect(() => {
     activateLoading();
-    getAllData('coffee-shops?count=8');
+    getAllData('coffee-shops?count=8&sortBy=isDisable:ASC');
   }, []);
   
   return (
@@ -333,11 +329,6 @@ export const CoffeeShops: React.FC = () => {
             text='Місто'
             complexData={cities}
             onSelect={handleCitiesSort}
-          />
-          <SelectFilters
-            text='Активність'
-            data={sortByActivity}
-            onSelect={handleActivitySort}
           />
 
           {features && (
@@ -431,7 +422,6 @@ export const CoffeeShops: React.FC = () => {
                       <Link
                         to={{
                           pathname: '/admin/form/edit',
-                          // search: '?edit=true',
                         }}
                         state = {cfps.find(cfpStore => cfpStore.id === id)?.id || 0}
                       >
