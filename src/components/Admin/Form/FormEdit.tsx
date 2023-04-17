@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { getAllProductsAPI, getCFPById, getCitiesAll, postNewCFPAPI, updateCFPById } from '../../../api/fetch';
+import { getAllProductsAPI, getCFPById, getCitiesAll, updateCFPById } from '../../../api/fetch';
 
 import '../../../styles/blocks/admin/Form.scss';
 import { City } from '../../../types/City';
@@ -17,11 +16,9 @@ import { InputField } from './InputField';
 import { useLocation } from "react-router-dom";
 import { CFPforEDIT } from '../../../types/CFP';
 
-export const Form: React.FC = () => {
+export const FormEdit: React.FC = () => {
   const [loader, setLoader] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
-
-
 
   const [logoURL, setLogoURL] = useState('');
   const [name, setName] = useState('');
@@ -51,11 +48,9 @@ export const Form: React.FC = () => {
   const [photoId, setPhotoId] = useState(0);
   const [logoId, setLogoId] = useState(0);
 
-  const [searchParams] = useSearchParams();
-  const editMode = searchParams.get('edit');
+  // const [searchParams] = useSearchParams();
+  // const editMode = searchParams.get('edit');
   const location = useLocation();
-
-  // console.log(searchParams.get('edit'));
 
   const unique_id = Date.now();
   
@@ -102,7 +97,6 @@ export const Form: React.FC = () => {
   };
 
   const addProductWithButton = (event: React.KeyboardEvent, productType: string) => {
-    // GET -> add new product with productList
     const sumbit = event.key === 'Enter';
     const allowedToSubmit = sumbit && product && productPrice;
     const resetInput = event.key === 'Escape';
@@ -118,20 +112,6 @@ export const Form: React.FC = () => {
 
   const deleteProduct = (id: number) => {
     const filtered = productList.filter(productItem => productItem.id !== id);
-
-    // const filteredEdit = productList.filter(productItem => {
-    //   if (productItem.id !== id) {
-    //     return;
-    //   }
-
-    //   return {
-    //     productPriceId: productItem.id,
-    //     price: productItem.price,
-    //   };
-    // });
-
-    // console.log(filteredEdit);
-    
 
     setProductList(filtered);
     // setProductsOld(filteredEdit);
@@ -180,13 +160,39 @@ export const Form: React.FC = () => {
     setNotification('');
   };
 
-  const handleEditSubmit = () => {
-    // const cityName = cities?.find(city => city.id === +cityId)?.name;
-    // const featuresForEdit = features?.filter(featuresValue => featureList.includes(featuresValue.id));
+  // const handleEditSubmit = () => {
+  //   // const cityName = cities?.find(city => city.id === +cityId)?.name;
+  //   // const featuresForEdit = features?.filter(featuresValue => featureList.includes(featuresValue.id));
+
+
+  //   // console.log(JSON.stringify(newCFPForEdit));
+  // };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    hideNotification();
+    activateLoading();
+
+    if (!logoURL.match(emailRegex)) {
+      setLogoURL('');
+      removeLoading();
+      scrollTop();
+
+      return;
+    }
+
+    if (!socialURL.match(emailRegex)) {
+      setSocialURL('');
+      removeLoading();
+      scrollTop();
+
+      return;
+    }
 
     const productsOldCurrent = productsOld.filter(
       productValue => productList.some(productEl => productEl.id === productValue.productPriceId)
-    );    
+    );
 
     const newCFPForEdit = {
       coffeeShopId: idCFP,
@@ -216,68 +222,8 @@ export const Form: React.FC = () => {
         setNotification('error');
       })
       .finally(() => {
-        // hideNotification();
-        searchParams.set('edit', 'false');
         reset();
         removeLoading();
-      });
-
-    // console.log(JSON.stringify(newCFPForEdit));
-  };
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    hideNotification();
-    activateLoading();
-
-    if (!logoURL.match(emailRegex)) {
-      setLogoURL('');
-      removeLoading();
-      scrollTop();
-
-      return;
-    }
-
-    if (!socialURL.match(emailRegex)) {
-      setSocialURL('');
-      removeLoading();
-      scrollTop();
-
-      return;
-    }
-
-    if (editMode) {
-      handleEditSubmit();
-
-      return;
-    }
-
-   
-    const newCFP = {
-      cityId: +cityId,
-      title: name,
-      description: description,
-      phone: phoneNumber,
-      open: timeOpen,
-      close: timeClose,
-      url: socialURL,
-      logo: {url: convertGoogleDrive(logoURL)},
-      photo: {url: photosURL},
-      location: googleMapsURL,
-      features: featureList,
-      productPrices: productPricesForAPI,
-    };
-
-    postNewCFPAPI(newCFP)
-      .then(() => {
-        setNotification('success');
-        reset();
-      })
-      .catch(() => setNotification('error'))
-      .finally(() => {
-        removeLoading();
-        // hideNotification();
       });
   };
 
@@ -310,11 +256,14 @@ export const Form: React.FC = () => {
 
   useEffect(() => {
     activateLoading();
+    scrollTop();
     getAllData();
 
-    if (editMode) {
-      activateEditMode();
-    }
+    getCFPById(location.state)
+      .then((coffeShopEdit) => setUpEditInfo(coffeShopEdit))
+      .finally(() => {
+        removeLoading();
+      });
   }, []);
 
   const setUpEditInfo = (cfp: CFPforEDIT) => {
@@ -358,8 +307,6 @@ export const Form: React.FC = () => {
     ));
 
     setProductList(productsEditForUser);
-
-    // console.log(productPrices, 'GET DATA');
     
     const productsOldData = productPrices.map(productItem => (
       {
@@ -371,16 +318,6 @@ export const Form: React.FC = () => {
     setProductsOld(productsOldData);
   };
 
-  const activateEditMode = () => {
-    activateLoading();
-    scrollTop();
-
-    getCFPById(location.state)
-      .then((coffeShopEdit) => setUpEditInfo(coffeShopEdit))
-      .finally(() => {
-        removeLoading();
-      });
-  };
 
   // const alertUser = (event: BeforeUnloadEvent) => {
   //   event.returnValue = "";
@@ -404,17 +341,7 @@ export const Form: React.FC = () => {
         </div>
       )}
 
-      {(notification === 'success' && !editMode) && (
-        <ErrorMessage
-          title='Запит виконано 😎☕'
-          description='Нова кавʼярня створена, вітаю!Тепер ви можете переглянути її в розділі "Кавʼярні"'
-          type='success'
-          link='/admin/coffeeshops'
-          onExit={hideNotification}
-        />
-      )}
-
-      {(notification === 'success' && editMode) && (
+      {(notification === 'success') && (
         <ErrorMessage
           title='Запит виконано 😎☕'
           description={
@@ -440,18 +367,12 @@ export const Form: React.FC = () => {
       <div className="admin-form-container">
         <div className="admin-form-container2">
           <h1 className="admin-form-heading">
-            {editMode
-              ? (
-                <>
-                  Редагувати кавʼярню {' '}
-                  {name && (
-                    <span className="highlight-container">
-                      <span className="highlight">{name}</span>
-                    </span>
-                  )}
-                </>
-              )
-              : 'Створити кавʼярню'}
+            Редагувати кавʼярню {' '}
+            {name && (
+              <span className="highlight-container">
+                <span className="highlight">{name}</span>
+              </span>
+            )}
           </h1>
 
           <form
@@ -541,7 +462,7 @@ export const Form: React.FC = () => {
             <fieldset className="cfp-products">
               <h2 className="cfp-products__title">
                 {'Продукти кав’ярні '}
-                {(editMode && name.length > 0 )&& (
+                {(name.length > 0) && (
                   <span className="highlight-container">
                     <span className="highlight">{name}</span>
                   </span>
@@ -575,7 +496,7 @@ export const Form: React.FC = () => {
                 disabled={!fieldsFilledIn}
                 style={{ backgroundColor: '#000' }}
               >
-                {`${editMode ? 'Оновити' : 'Створити'} кавʼярню`}
+                Оновити кавʼярню
               </button>
             </div>
           </form>

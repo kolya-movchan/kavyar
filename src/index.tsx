@@ -20,6 +20,7 @@ import { Features } from './components/Admin/Features';
 import { Cities } from './components/Admin/Cities';
 import { Categories } from './components/Admin/Categories';
 import { Products } from './components/Admin/Products';
+import { FormEdit } from './components/Admin/Form/FormEdit';
 
 const hashRouter = () => (
   <BrowserRouter>
@@ -35,6 +36,7 @@ const hashRouter = () => (
           <Route path="categories" element={(<Categories />)}/>
           <Route path="products" element={(<Products />)}/>
           <Route path="form" element={<Form />} />
+          <Route path="form/edit" element={<FormEdit />} />
         </Route>
         <Route path="/" element={<Navigate to="/admin" replace />}/>
       </Routes>

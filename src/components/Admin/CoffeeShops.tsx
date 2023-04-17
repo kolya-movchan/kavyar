@@ -430,8 +430,8 @@ export const CoffeeShops: React.FC = () => {
                     <div>
                       <Link
                         to={{
-                          pathname: '/admin/form',
-                          search: '?edit=true',
+                          pathname: '/admin/form/edit',
+                          // search: '?edit=true',
                         }}
                         state = {cfps.find(cfpStore => cfpStore.id === id)?.id || 0}
                       >
