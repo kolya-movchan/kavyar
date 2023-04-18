@@ -40,12 +40,13 @@ public class SecurityConfig {
         http
                 .httpBasic().disable()
                 .csrf().disable()
+                .cors().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeHttpRequests()
                 .requestMatchers(HttpMethod.GET).permitAll()
                 .requestMatchers(HttpMethod.POST,"/login").permitAll()
-//                .requestMatchers(HttpMethod.OPTIONS,"/login").permitAll()
-//                .requestMatchers(HttpMethod.OPTIONS).hasRole("ADMIN")
+                .requestMatchers(HttpMethod.OPTIONS,"/login").permitAll()
+                .requestMatchers(HttpMethod.OPTIONS).hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST).hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT).hasRole("ADMIN")
@@ -71,15 +72,5 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder getEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("https://kavyar.herokuapp.com"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
     }
 }
