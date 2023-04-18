@@ -2,19 +2,24 @@
 
 .login {
   height: 100vh;
+  min-width: 500px;
+  min-height: 700px;
+
+
   @extend %flex;
 
   &__container {
-    height: 50vh;
-    width: 70vh;
+    box-sizing: border-box;
+    height: 390px;
+    min-width: 530px;
     background-color: rgba(0, 0, 0, 0.862);
-    // border-radius: 50px;
+    border-radius: 50px;
   }
 
   &__credentials {
     box-sizing: border-box;
-    width: 100%;
-    height: 100%;
+    // width: 100%;
+    // height: 100%;
     padding: 40px;
   }
 
@@ -28,8 +33,8 @@
   }
 
   &__input {
+    height: 45px;
     padding: 7px 20px;
-    // border-radius: 50px;
 
     font-family: $title-light;
     font-size: 20px;
@@ -41,7 +46,7 @@
 
   &__login-button {
     margin: 0 10px;
-    width: 220px;
+    width: 150px;
     height: 50px;
     font-family: $title-bold;
     font-size: 18px;
@@ -54,51 +59,56 @@
     z-index: 0;
     border-radius: 10px;
 
-    &::before {
-      content: '';
-      background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
-      position: absolute;
-      top: -2px;
-      left:-2px;
-      background-size: 400%;
-      z-index: -1;
-      filter: blur(5px);
-      width: calc(($header-width * 0.08) / 2);
-      height: calc(($header-width * 0.08) / 2);
-      animation: glowing 20s linear infinite;
-      opacity: 0;
-      transition: opacity .3s ease-in-out;
-      border-radius: 10px;
-    }
+    // &:focus {
+    //   color: $main-color-2;
+    // }
+  }
 
-    &:active {
-      color: #000
-    }
+//     &::before {
+//       content: '';
+//       background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+//       position: absolute;
+//       top: -2p;
+//       left: -2px;
+//       background-size: 400%;
+//       z-index: -1;
+//       filter: blur(5px);
+//       width: calc(($header-width * 0.08) / 2);
+//       height: calc(($header-width * 0.08) / 2);
+//       animation: glowing 20s linear infinite;
+//       opacity: 0;
+//       transition: opacity .3s ease-in-out;
+//       border-radius: 10px;
+//     }
+
+//     &:active {
+//       color: #000
+//     }
   
-    &:active:after {
-      background: transparent;
-    }
+//     &:active:after {
+//       background: transparent;
+//     }
     
-    &:hover:before {
-      opacity: 1;
-    }
+//     &:hover:before {
+//       opacity: 1;
+//     }
     
-    &:after {
-      z-index: -1;
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: #111;
-      left: 0;
-      top: 0;
-      border-radius: 10px;
-    }
-}
+//     &:after {
+//       z-index: -1;
+//       content: '';
+//       position: absolute;
+//       width: 100%;
+//       height: 100%;
+//       background: #111;
+//       left: 0;
+//       top: 0;
+//       border-radius: 10px;
+//     }
+// }
 
-@keyframes glowing {
-    0% { background-position: 0 0; }
-    50% { background-position: 400% 0; }
-    100% { background-position: 0 0; }
-}
+// @keyframes glowing {
+//     0% { background-position: 0 0; }
+//     50% { background-position: 400% 0; }
+//     100% { background-position: 0 0; }
+// }
 }

@@ -1,24 +1,43 @@
 import React, { useState } from 'react';
-// import { User } from '../../types/User';
 import { AuthForm } from './AuthForm';
+// import jwt from 'jsonwebtoken';
 
 export const AuthContext = React.createContext<string | null>(null);
+
+// function decodeJwt(token: string, secretKey: string) {
+//   try {
+//     const decoded = jwt.verify(token, secretKey);
+//     return decoded;
+//   } catch (err) {
+//     console.error(err);
+//     return null;
+//   }
+// }
 
 type Props = {
   children: React.ReactNode;
 };
 
 export const AuthProvider: React.FC<Props> = ({ children }) => {
-  const [user, setUser] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
-  if (!user) {
+  // if (token) {
+  //   const decoded = decodeJwt(token, 'sampleKey');
+
+  //   console.log(decoded);
+  // }
+
+
+  console.log(token);
+
+  if (!token) {
     return (
-      <AuthForm onLogin={setUser} />
+      <AuthForm onLogin={setToken} />
     );
   }
 
   return (
-    <AuthContext.Provider value={user}>
+    <AuthContext.Provider value={token}>
       {children}
     </AuthContext.Provider>
   );

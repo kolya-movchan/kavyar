@@ -1,70 +1,109 @@
 // CHANGE TYPE OF INPUT TO EMAIL type="text" - WRONG/TEMPORARY
 
+import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
-import { getAdminByEmail } from '../../api/fetch';
+import { postCredentials } from '../../api/fetch';
 import '../../styles/main.scss';
+import { ErrorMessage } from '../ErrorMessage';
 // import { User } from '../../types/User';
 import { Header } from '../Header';
 
 export type Props = {
-  onLogin: (user: string) => void,
+  onLogin: (token: string) => void,
 };
 
 export const AuthForm: React.FC<Props> = ({ onLogin }) => {
   const [login, setLogin] = useState('');
-  // const [password, setPassword] = useState('');
-  // const [errorMessage, setErrorMessage] = useState('');
-  // const [loading, setLoading] = useState(false);
-  // console.log(onLogin);
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  
 
-  const saveAdmin = (user: string) => {
-    localStorage.setItem('user', JSON.stringify(user));
-    onLogin(user);
+  const htmlElement = document.getElementById("html");
+
+  const saveAdmin = (keyData: string) => {
+    // localStorage.setItem('token', JSON.stringify(token));
+
+    onLogin(keyData);
   };
 
   const loadAdmin = async () => {
-    const admin = await getAdminByEmail(login);
+    const dataToPost = {login, password};
+    const key = await postCredentials(dataToPost);
 
-    if (admin) {
-      saveAdmin(admin);
+    console.log('KEY: ', key);
+
+    if (key) {
+      saveAdmin(key);
     }
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    // setErrorMessage('');
-    // setLoading(true);
+    setLoading(true);
+    hideNotification();
   
     try {
       await loadAdmin();
-    } catch (error) {
-      // setErrorMessage('Something went wrong');
+      setError(false);
+    } catch (e) {
+      console.error(e);
+      setLoading(false);
+      setError(true);
     } finally {
-      // setLoading(false);
+      setLoading(false);
     }
   };
 
-  useEffect(() => {
-    const userData = localStorage.getItem('user');
+  const handleEmail = (emailValue: string) => {
+    setLogin(emailValue);
+    hideNotification();
+  };
 
-    if (!userData) {
+  const handlePassword = (passwordValue: string) => {
+    setPassword(passwordValue);
+    hideNotification();
+  };
+
+  const hideNotification = () => {
+    setError(false);
+  };
+
+  useEffect(() => {
+    htmlElement?.classList.add('hidden-scroll');
+
+    const tokenData = localStorage.getItem('token');
+
+    if (!tokenData) {
       return;
     }
 
     try {
-      const admin = JSON.parse(userData) as string;
+      const admin = JSON.parse(tokenData);
 
       onLogin(admin);
 
-    } catch (error) {
-      // setErrorMessage('Failed to log in, Please, try again');
+    } catch (e) {
+      setTimeout(() => {
+        setLoading(false);
+        setError(true);
+      }, 1000);
     }
   });
 
   return (
     <>
       <Header navBar={false}/>
+
+      {error && (
+        <ErrorMessage
+          title='Невдалий вхід'
+          description='Перевірте логін та пароль'
+          type='error'
+          onExit={hideNotification}
+        />
+      )}
 
       <form
         className="login"
@@ -84,7 +123,7 @@ export const AuthForm: React.FC<Props> = ({ onLogin }) => {
                 type="text"
                 placeholder="Логін"
                 value={login}
-                onChange={(event) => setLogin(event.target.value)}
+                onChange={(event) => handleEmail(event.target.value)}
               />
             </div>
 
@@ -93,14 +132,17 @@ export const AuthForm: React.FC<Props> = ({ onLogin }) => {
                 className="input login__password-input login__input"
                 type="password"
                 placeholder="Пароль"
-                // value={password}
-                // onChange={(event) => setPassword(event.target.value)}
+                value={password}
+                onChange={(event) => handlePassword(event.target.value)}
               />
             </div>
 
             <div className="field">
               <button
-                className="buttons-local login__login-button"
+                className={classNames(
+                  'button is-success login__login-button',
+                  {'is-loading': loading}
+                )}
                 type="submit"
               >
                 Увійти

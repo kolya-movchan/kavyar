@@ -4,12 +4,24 @@ import { City } from '../types/City';
 import { Feature } from '../types/Feature';
 import { Product } from '../types/Product';
 import { item } from './fetch-extended';
+import { Credentials } from '../types/Credentials';
 
-export const getAdminByEmail = async (email: string) => {
-  // const user = await item.get<User>(`/users?email=${email}`);
-  const user = await Promise.resolve(email);
+// export const getAdminByEmail = async (email: string) => {
+//   // const user = await item.get<User>(`/users?email=${email}`);
+//   const user = await Promise.reject(email);
 
+//   return user || null;
+// };
+
+export const postCredentials = async (data: Credentials) => {
+  const user = await item.post<string>(`/login`, data);
   return user || null;
+};
+
+export const postNewCFPAPI = async (data: any) => {
+  const response = await item.post('/coffee-shops', data);
+
+  return response;
 };
 
 // CFP
@@ -32,11 +44,6 @@ export const getAllCFPAPI = async (value: string) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const postNewCFPAPI = async (data: any) => {
-  const response = await item.post('/coffee-shops', data);
-
-  return response;
-};
 
 export const deleteCFPAPI = async (cfpId: number) => {
   return item.delete(`/coffee-shops/delete/${cfpId}`);
