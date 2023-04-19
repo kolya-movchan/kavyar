@@ -68,9 +68,6 @@ export const Cities: React.FC = ( ) => {
     activateLoading();
     hideNotification();
 
-    console.log('id:', id);
-    
-
     deleteCity(id)
       .then(() => {
         getAllData();

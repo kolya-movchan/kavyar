@@ -7,6 +7,11 @@ type Props = {
 };
 
 export const Header: React.FC<Props> = ( {navBar = true} ) => {
+  const logout = () => {
+    localStorage.clear();
+    location.reload();
+  };
+
   return (
     <>
       <div className="header">
@@ -25,6 +30,7 @@ export const Header: React.FC<Props> = ( {navBar = true} ) => {
               <NavLink
                 to="/"
                 className=""
+                onClick={() => logout()}
               >
                 <img
                   className="navBar__link"

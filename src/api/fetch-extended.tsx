@@ -33,16 +33,11 @@ function request<T>(
   }
 
   if (method !== 'GET' && tokenCookies) {
-    // console.log(authorization);
-    
     options.headers = {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': authorization,
     };
-  }
-
-  // console.log(options, method);
-  
+  }  
 
   return wait(0)
     .then(() => fetch(BASE_URL + url, options))
