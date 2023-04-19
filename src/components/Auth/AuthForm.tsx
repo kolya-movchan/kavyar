@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import { postCredentials } from '../../api/fetch';
 import '../../styles/main.scss';
 import { ErrorMessage } from '../ErrorMessage';
-// import { User } from '../../types/User';
 import { Header } from '../Header';
 
 export type Props = {
@@ -22,7 +21,7 @@ export const AuthForm: React.FC<Props> = ({ onLogin }) => {
   const htmlElement = document.getElementById("html");
 
   const saveAdmin = (keyData: string) => {
-    // localStorage.setItem('token', JSON.stringify(token));
+    localStorage.setItem('token', JSON.stringify(keyData));
 
     onLogin(keyData);
   };
@@ -31,10 +30,8 @@ export const AuthForm: React.FC<Props> = ({ onLogin }) => {
     const dataToPost = {login, password};
     const key = await postCredentials(dataToPost);
 
-    console.log('KEY: ', key);
-
     if (key) {
-      saveAdmin(key);
+      saveAdmin(key.token);
     }
   };
 
@@ -80,9 +77,9 @@ export const AuthForm: React.FC<Props> = ({ onLogin }) => {
     }
 
     try {
-      const admin = JSON.parse(tokenData);
+      const tokenValue = JSON.parse(tokenData);
 
-      onLogin(admin);
+      onLogin(tokenValue);
 
     } catch (e) {
       setTimeout(() => {

@@ -14,10 +14,11 @@ import { Credentials } from '../types/Credentials';
 // };
 
 export const postCredentials = async (data: Credentials) => {
-  const user = await item.post<string>(`/login`, data);
+  const user = await item.post<{token: string}>(`/login`, data);
   return user || null;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const postNewCFPAPI = async (data: any) => {
   const response = await item.post('/coffee-shops', data);
 

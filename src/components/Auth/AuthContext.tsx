@@ -1,40 +1,36 @@
 import React, { useState } from 'react';
+import { decodeToken } from '../../Secret';
 import { AuthForm } from './AuthForm';
-// import jwt from 'jsonwebtoken';
 
 export const AuthContext = React.createContext<string | null>(null);
-
-// function decodeJwt(token: string, secretKey: string) {
-//   try {
-//     const decoded = jwt.verify(token, secretKey);
-//     return decoded;
-//   } catch (err) {
-//     console.error(err);
-//     return null;
-//   }
-// }
 
 type Props = {
   children: React.ReactNode;
 };
 
+const htmlElement = document.getElementById("html");
+
 export const AuthProvider: React.FC<Props> = ({ children }) => {
   const [token, setToken] = useState<string | null>(null);
 
-  // if (token) {
-  //   const decoded = decodeJwt(token, 'sampleKey');
+  if (token) {
+    const decodedData = decodeToken(token);
 
-  //   console.log(decoded);
-  // }
-
-
-  console.log(token);
+    if (!decodedData) {
+      return (
+        <AuthForm onLogin={setToken} />
+      );
+    }
+  }
 
   if (!token) {
     return (
       <AuthForm onLogin={setToken} />
     );
   }
+
+  htmlElement?.classList.remove('hidden-scroll');
+
 
   return (
     <AuthContext.Provider value={token}>

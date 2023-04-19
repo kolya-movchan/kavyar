@@ -22,8 +22,8 @@ function request<T>(
 ): Promise<T> {
   const options: RequestInit = { method };
 
-  console.log(method);
-  console.log(data);
+  const tokenCookies = localStorage.getItem('token');
+  const authorization = `Bearer ${tokenCookies?.replace(/^"(.*)"$/, '$1')}`;
 
   if (data) {
     options.body = JSON.stringify(data);
@@ -31,6 +31,18 @@ function request<T>(
       'Content-Type': 'application/json; charset=UTF-8',
     };
   }
+
+  if (method !== 'GET' && tokenCookies) {
+    console.log(authorization);
+    
+    options.headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': authorization,
+    };
+  }
+
+  console.log(options, method);
+  
 
   return wait(0)
     .then(() => fetch(BASE_URL + url, options))

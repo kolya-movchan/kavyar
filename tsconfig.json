@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-  ]
+, "shim.js", "webpack.config.js"  ]
 }
