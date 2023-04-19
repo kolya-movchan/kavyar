@@ -33,7 +33,7 @@ function request<T>(
   }
 
   if (method !== 'GET' && tokenCookies) {
-    console.log(authorization);
+    // console.log(authorization);
     
     options.headers = {
       'Content-Type': 'application/json; charset=UTF-8',
@@ -41,7 +41,7 @@ function request<T>(
     };
   }
 
-  console.log(options, method);
+  // console.log(options, method);
   
 
   return wait(0)

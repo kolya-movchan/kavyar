@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { decodeToken } from '../../Secret';
+import { decodeToken } from '../../Transform';
 import { AuthForm } from './AuthForm';
 
 export const AuthContext = React.createContext<string | null>(null);
