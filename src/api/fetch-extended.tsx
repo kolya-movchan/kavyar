@@ -37,7 +37,7 @@ function request<T>(
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': authorization,
     };
-  }  
+  }
 
   return wait(0)
     .then(() => fetch(BASE_URL + url, options))

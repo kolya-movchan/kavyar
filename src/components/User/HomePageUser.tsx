@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { deleteCFPAPI, getAllCFPAPI, getCitiesAll, getFeaturesAll, restoreCFPAPI } from '../../api/fetch';
+import { getAllCFPAPI, getCitiesAll, getFeaturesAll } from '../../api/fetch';
 import { CFP, CFPlist } from '../../types/CFP';
 import { City } from '../../types/City';
 import { SortByProperty } from '../../types/enums/SortByProperty';
@@ -10,8 +9,9 @@ import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
 import { scrollTop } from '../_tools/Tools';
-import { CheckBoxCFP } from './CheckBoxCFP';
-import { SelectFilters } from './SelectFilters';
+import { CheckBoxCFP } from '../Admin/CheckBoxCFP';
+import { SelectFilters } from '../Admin/SelectFilters';
+import { Link, useSearchParams } from 'react-router-dom';
 
 export const convertGoogleDrive = (link: string) => {
   if (link.startsWith('https://drive') && link.includes('/d/')) {
@@ -24,26 +24,29 @@ export const convertGoogleDrive = (link: string) => {
   return link;
 };
 
-// type Props = {
-//   onEdit: (data: CFPlist) => void,
-// };
-
-export const CoffeeShops: React.FC = () => {
-// export const CoffeeShops: React.FC<Props> = ({onEdit}) => {
+export const HomePageUser: React.FC = () => {
   const [features, setFeatures]= useState<Feature[]>();
   const [cities, setCities]= useState<City[]>();
   const [cfps, setCfps] = useState<CFPlist[]>();
-  
-  const [showEditId, setShowEditId] = useState(0);
   const [loader, setLoader] = useState(false);
-  const [searchInTitle, setSearchInTitle] = useState<string>('');
-  const [count, setCount] = useState('8');
-  const [page, setPage]= useState(1);
-  const [asc, setAsc] = useState('ASC');
-  const [sort, setSort] = useState('isDisable');
   const [featureList, setFeatureList] = useState<string[]>([]);
-  const [cityId, setCityId] = useState(0);
-  const [isActive, setIsActive] = useState('');
+  const [page, setPage]= useState(1);
+  const [filter, setFilter] = useState('');
+  const [cityName, setCityName] = useState('');
+
+  const defaultParams = {
+    count: '8',
+    sortBy: 'isDisable:ASC',
+  };
+
+  const [searchParams, setSearchParams] = useSearchParams(defaultParams);
+  // const { cfpId } = useParams();
+
+
+  const baseLink = 'coffee-shops';
+
+  const count = searchParams.get('count') || '';
+  const query = searchParams.get('searchInTitle') || '';
 
   const [noMoreLeft, setNoMoreLeft] = useState<boolean | undefined>(false);
 
@@ -65,194 +68,120 @@ export const CoffeeShops: React.FC = () => {
   const handleSortByProperties = (value: string) => {
     switch (value) {
     case SortByProperty.activeAsc:
-      setSort('isDisable');
-      setAsc('ASC');
-
+      setRightParams('isDisable:ASC', 'sortBy');
+      setFilter(SortByProperty.activeAsc);
       break;
 
-    case SortByProperty.activeDesc:
-      setSort('isDisable');
-      setAsc('DESC');
-
+    case SortByProperty.titleAsc:
+      setRightParams('title:ASC', 'sortBy');
+      setFilter(SortByProperty.titleAsc);
       break;
 
     case SortByProperty.openingAsc:
-      setSort('open');
-      setAsc('ASC');
-
+      setRightParams('open:ASC', 'sortBy');
+      setFilter(SortByProperty.openingAsc);
       break;
 
     case SortByProperty.closingAsc:
-      setSort('close');
-      setAsc('ASC');
+      setFilter(SortByProperty.closingAsc);
+      setRightParams('close:ASC', 'sortBy');
+      break;
 
+    case SortByProperty.activeDesc:
+      setFilter(SortByProperty.activeDesc);
+      setRightParams('isDisable:DESC', 'sortBy');
       break;
 
     case SortByProperty.titleDesc:
-      setSort('title');
-      setAsc('DESC');
-
+      setFilter(SortByProperty.titleDesc);
+      setRightParams('title:DESC', 'sortBy');
       break;
 
     case SortByProperty.openingDesc:
-      setSort('open');
-      setAsc('DESC');
-
+      setFilter(SortByProperty.openingDesc);
+      setRightParams('open:DESC', 'sortBy');
       break;
 
     case SortByProperty.closingDesc:
-      setSort('close');
-      setAsc('DESC');
-
+      setFilter(SortByProperty.closingDesc);
+      setRightParams('close:DESC', 'sortBy');
       break;
   
-    default:
-      setSort('title');
-      setAsc('ASC');
-
+    default: setRightParams('', 'sortBy');
       break;
     }
   };
 
   const handleCitiesSort = (value: string) => {
     const cityTarget = cities?.find(cityItem => cityItem.name === value);
-    const cityTargetId = cityTarget?.id || 0;
+    const cityTargetId = cityTarget?.id.toString() || '';
 
-    setCityId(cityTargetId);
-  };
-
-  const updateURL = (pageNumber: number | null = null) => {
-    if (!pageNumber) {
-      setPage(1);
-    }
-
-    const url = 'coffee-shops?';
-    const countP = count ? `count=${count}` : '';
-    const pageP = `page=${pageNumber ? pageNumber : 1}`;
-    const searchP = searchInTitle ? `searchInTitle=${searchInTitle}` : '';
-    const sortP = sort ? `sortBy=${sort}:${asc}` : 'sortBy=isDisable:ASC';
-    const featuresP = featureList.length > 0 ? `filter=${featureList.join(',')}` : '';
-    const cityP = cityId ? `city=${cityId}` : '';
-    const activeP = isActive ? `isActive=${isActive}` : '';
-  
-    const paramsURL = `${url}${countP}&${searchP}&${sortP}&${featuresP}&${cityP}&${activeP}&${pageP}`;
-
-    console.log(paramsURL);
-
-    activateLoading();
-    getAllData(paramsURL);
+    setCityName(value);
+    setRightParams(cityTargetId, 'city');
   };
 
   const applyAllFilters = (event: React.FormEvent) => {
     event.preventDefault();
     activateLoading();
-
-    updateURL();
+    getAllData(baseLink);
   };
 
   const resetAllFilters = () => {
     activateLoading();
-
-    setLoader(true);
-    setSearchInTitle('');
-    setCount('8');
-    setPage(1);
-    setAsc('ASC');
-    setSort('');
+    setSearchParams({});
+    setCityName('');
+    setFilter('');
     setFeatureList([]);
-    setCityId(0);
-    setIsActive('');
-    getAllData('coffee-shops?count=8&sortBy=isDisable:ASC');
+    setPage(1);
+    getAllData(baseLink, true);
   };
 
   const goBack = () => {
     activateLoading();
-    scrollTop();
+    // scrollTop();
 
-    const pageNumber = page - 1;
-    
-    setPage(pageNumber);
-    updateURL(pageNumber);
+    const currentPage = searchParams.get('page') || 2;
+    const pageConverted = (+currentPage - 1).toString();
+
+
+    setRightParams(pageConverted, 'page');
+    getAllData(baseLink);
   };
 
   const goForward = async () => {
     activateLoading();
-    scrollTop();
+    // scrollTop();
 
-    const pageNumber = page + 1;
+    const currentPage = searchParams.get('page') || 1;
+    const pageConverted = (+currentPage + 1).toString();
 
-    setPage(pageNumber);
-    updateURL(pageNumber);
+    setRightParams(pageConverted, 'page');
+    getAllData(baseLink);
   };
 
-  const deactivateCFP = (id: number, status: boolean) => {
-    const notificationDelete = "Підтвердіть Видалення";
-    const notificationRestore = "Підтвердіть Реактивацію";
-
-    switch (status) {
-    case false: {
-      if (confirm(notificationDelete) == true) {
-        htmlElement?.classList.add('hidden');
-        activateLoading();
-
-        deleteCFPAPI(id)
-          .then(() => {
-            cfps?.map(cfpEntry => {
-              if (cfpEntry.id === id) {
-                cfpEntry.isDisable = true;
-              }
-            });
-          })
-          .catch((e) => console.log(e))
-          .finally(() => {
-            setLoader(false);
-            htmlElement?.classList.remove('hidden');
-          });
-
-      } else {
-        return;
-      }
-    }
-      break;
-
-    case true: {
-      if (confirm(notificationRestore) == true) {
-        htmlElement?.classList.add('hidden');
-        setLoader(true);
-        
-        restoreCFPAPI(id)
-          .then(() => {
-            cfps?.map(cfpEntry => {
-              if (cfpEntry.id === id) {
-                cfpEntry.isDisable = false;
-              }
-            });
-          })
-          .catch((e) => console.log(e))
-          .finally(() => {
-            setLoader(false);
-            htmlElement?.classList.remove('hidden');
-          });
-      } else {
-        return;
-      }
-
-      break;
-    }
-
-    default: break;
-    }
-  };
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleCheckboxes = (id: string) => {
-    // if (checked) {
-    //   setFeatureList([...featureList, id]);
+    if (featureList.includes(id)) {
+      const filtered = featureList.filter(featureId => featureId !== id);
+      searchParams.set('filter', filtered.join(','));
+      setFeatureList(featureList.filter(featureId => featureId !== id));
 
-    //   return;
-    // }
+      if (!filtered.length) {
+        searchParams.delete('filter');
+      }
 
-    setFeatureList(featureList.filter(featureId => featureId !== id));
+      setSearchParams(searchParams);
+      return;
+    }
+
+    setFeatureList([...featureList, id]);
+
+    if (!searchParams.get('filter')) {
+      searchParams.set('filter', id);
+      setSearchParams(searchParams);
+    } else {
+      searchParams.set('filter', ([...featureList, id].join(',')));
+      setSearchParams(searchParams);
+    }
   };
 
   const getPromises: (link: string) => [Promise<CFP>, Promise<Feature[]>, Promise<City[]>] = (link: string) => {
@@ -263,9 +192,20 @@ export const CoffeeShops: React.FC = () => {
     ];
   };
 
-  const getAllData = async (link: string) => {
-    const result = await Promise.all(getPromises(link))
+  const getAllData = async (link: string, reset = false) => {
+    const searchParamsData = searchParams.toString();
+    const additionalParams = searchParamsData && !reset ? `?${searchParamsData}` : '';
+
+    console.log(searchParamsData);
+    
+    
+    const finalURL = link + additionalParams;
+
+    console.log('finalURL', finalURL);
+
+    const result = await Promise.all(getPromises(finalURL))
       .finally(() => {
+        scrollTop();
         setLoader(false);
         htmlElement?.classList.remove('hidden');
       });
@@ -294,9 +234,85 @@ export const CoffeeShops: React.FC = () => {
 
   useEffect(() => {
     activateLoading();
-    getAllData('coffee-shops?count=8&sortBy=isDisable:ASC');
+    getAllData(baseLink);
   }, []);
+
+  useEffect(() => {
+    const currentSort = searchParams.get('sortBy');
+    const currentCityId = searchParams.get('city');
+    const currentPage = searchParams.get('page');
+
+    if (currentPage) {
+      setPage(+currentPage);
+    }
+
+
+    if (currentCityId) {
+      const activeCity = cities?.find(cityValue => cityValue.id === +currentCityId);
+
+      setCityName(activeCity?.name || '');
+    }
+    
+
+    switch (currentSort) {
+    case 'isDisable:ASC':
+      setFilter(SortByProperty.activeAsc);
+      break;
+
+    case 'title:ASC':
+      setFilter(SortByProperty.titleAsc);
+      break;
+
+    case 'open:ASC':
+      setFilter(SortByProperty.openingAsc);
+      break;
+
+    case 'close:ASC':
+      setFilter(SortByProperty.closingAsc);
+      break;
+
+    case 'isDisable:DESC':
+      setFilter(SortByProperty.activeDesc);
+      break;
+
+    case 'title:DESC':
+      setFilter(SortByProperty.titleDesc);
+      break;
+
+    case 'open:DESC':
+      setFilter(SortByProperty.openingDesc);
+      break;
+
+    case 'close:DESC':
+      setFilter(SortByProperty.closingDesc);
+      break;
   
+    default:
+      // setSort('title');
+      // setAsc('ASC');
+
+      break;
+    }
+
+  }, [searchParams]);
+  
+  const handleCountSelect = (value: string) => {
+    setRightParams(value, 'count');
+  };
+
+  const handleQuery = (value: string) => {
+    setRightParams(value, 'searchInTitle');
+  };
+
+  const setRightParams = (value: string, param: string) => {
+    if (!value) {
+      searchParams.delete(param);
+    } else {
+      searchParams.set(param, value);
+    }
+    setSearchParams(searchParams);
+  };
+
   return (
     <div className="cfp">
       {loader && (
@@ -311,25 +327,28 @@ export const CoffeeShops: React.FC = () => {
       <form className="cfp__top-menu">
         <div className="cfp__filters">
           <SearchPannel
-            value={searchInTitle}
-            onChange={setSearchInTitle}
+            value={query}
+            onChange={(value) => handleQuery(value)}
             decoration="search-input--cfp"
           />
           <SelectFilters
             text='Показати'
             data={sortByCount}
-            onSelect={setCount}
+            onSelect={(value) => handleCountSelect(value)}
+            paramsValue={count}
           />
           <SelectFilters
             text='Сортувати за'
             data={sortByProperties}
             onSelect={handleSortByProperties}
+            paramsValue={filter}
           />
 
           <SelectFilters
             text='Місто'
             complexData={cities}
             onSelect={handleCitiesSort}
+            paramsValue={cityName}
           />
 
           {features && (
@@ -381,6 +400,7 @@ export const CoffeeShops: React.FC = () => {
         <div
           className={classNames(
             "cfp-card-container",
+            "cfp-card-container--user",
             {['cfp-card-container--not-found']: cfps && !cfps?.length}
           )}
         >
@@ -392,19 +412,16 @@ export const CoffeeShops: React.FC = () => {
           <ul className="cfp-card__list">
           
             {cfps && cfps.map(cfpItem => {
-              const {id, isDisable, title, open, close, location, logo } = cfpItem;
+              const {id, isDisable, title, open, close, logo } = cfpItem;
 
               return (
                 <li
                   className={classNames(
                     "cfp-card",
-                    "cfp-card--admin",
                     {'cfp-card--deactivated': isDisable}
                   )}
                   id={id.toString()}
                   key={id}
-                  onMouseEnter={() => setShowEditId(id)}
-                  onMouseLeave={() => setShowEditId(0)}
                 >
                   <div
                     className="cfp-card__logo-container"
@@ -420,35 +437,6 @@ export const CoffeeShops: React.FC = () => {
                     {title}
                   </div>
 
-                  {showEditId === id && (
-                    <div>
-                      <Link
-                        to={{
-                          pathname: '/admin/form/edit',
-                        }}
-                        state = {cfps.find(cfpStore => cfpStore.id === id)?.id || 0}
-                      >
-                        <img
-                          src="../edit.png"
-                          alt="edit-coffeshop"
-                          className='cfp-card__edit'
-                        />
-                      </Link>
-
-                      <button
-                        className="cfp-card__delete"
-                        onClick={() => deactivateCFP(id, isDisable)}
-                      >
-                        <img
-                          src="../power.svg"
-                          alt="delete-coffeeshop"
-                          className="cfp-card__delete-img"
-                          // onClick={() => deactivateCFP(id)}
-                        />
-                      </button>
-                    </div>
-                  )}
-
                   <div className="cfp-card__open">
                     {`Відкриття: ${open}`}
                   </div>
@@ -458,13 +446,16 @@ export const CoffeeShops: React.FC = () => {
                   </div>
 
                   <div className="cfp-card__location">
-                    <a href={location} target="_blank">
+                    <Link
+                      to={`/coffeeshops/${title}`}
+                      state={id}
+                    >
                       <img
-                        src="../location.png"
+                        src="../inspect.png"
                         alt="location"
                         className="cfp-card__location-img"
                       />
-                    </a>
+                    </Link>
                   </div>
                 </li>
               );
@@ -495,3 +486,4 @@ export const CoffeeShops: React.FC = () => {
     </div>
   );
 };
+

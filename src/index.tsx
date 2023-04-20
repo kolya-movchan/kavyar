@@ -21,26 +21,44 @@ import { Cities } from './components/Admin/Cities';
 import { Categories } from './components/Admin/Categories';
 import { Products } from './components/Admin/Products';
 import { FormEdit } from './components/Admin/Form/FormEdit';
+import { Header } from './components/Header';
+import { HomePageUser } from './components/User/HomePageUser';
+import { CFP_LangingPage } from './components/User/CFP_LangingPage';
 
 const hashRouter = () => (
   <BrowserRouter>
-    <AuthProvider>
-      <Routes>
-        <Route path="/admin" element={<App />}>
-          <Route index element={<HomePageLogo />}/>
-          <Route path="admin/home" element={<Navigate to="/admin" replace />}/>
-          <Route path="*" element={<NotFound title={'Сторінку'} styling={'page'} />}/>
-          <Route path="coffeeshops" element={<CoffeeShops />} />
-          <Route path="cities" element={(<Cities />)}/>
-          <Route path="features" element={(<Features />)}/>
-          <Route path="categories" element={(<Categories />)}/>
-          <Route path="products" element={(<Products />)}/>
-          <Route path="form" element={<Form />} />
-          <Route path="form/edit" element={<FormEdit />} />
-        </Route>
-        <Route path="/" element={<Navigate to="/admin" replace />}/>
-      </Routes>
-    </AuthProvider>
+    <Routes>
+      <Route path="/admin" element={<AuthProvider><App /></AuthProvider>}>
+        <Route index element={<HomePageLogo />}/>
+        <Route path="admin/home" element={<Navigate to="/admin" replace />}/>
+        <Route path="*" element={<NotFound title={'Сторінку'} styling={'page'} />}/>
+        <Route path="coffeeshops" element={<CoffeeShops />} />
+        <Route path="cities" element={(<Cities />)}/>
+        <Route path="features" element={(<Features />)}/>
+        <Route path="categories" element={(<Categories />)}/>
+        <Route path="products" element={(<Products />)}/>
+        <Route path="form" element={<Form />} />
+        <Route path="form/edit" element={<FormEdit />} />
+      </Route>
+
+      <Route path="/" element={<><Header navBar={false} /><HomePageUser /></>}></Route>
+
+      <Route path="/coffeeshops/:cfpName" element={
+        <>
+          <Header navBar={false} />
+          <CFP_LangingPage />
+        </>}
+      >
+      </Route>
+
+      <Route path="*" element={
+        <>
+          <Header navBar={false} />
+          <NotFound title={'Сторінку'} styling={'page'} />
+        </>}
+      >
+      </Route>
+    </Routes>
   </BrowserRouter>
 );
 

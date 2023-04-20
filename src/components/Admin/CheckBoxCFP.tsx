@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 type Props = {
   id: number,
   name: string,
-  onCheck: (value: string, status: boolean) => void,
+  onCheck: (value: string) => void,
   styling?: string,
 };
 
@@ -15,11 +15,11 @@ export const CheckBoxCFP: React.FC<Props> = ({
   styling = '',
 }) => {
 
-  const [isChecked, setIsChecked] = useState(false);
+  // const [isChecked, setIsChecked] = useState(false);
 
   const handleSelect = () => {
-    setIsChecked(!isChecked);
-    onCheck(id.toString(), !isChecked);
+    // setIsChecked(!isChecked);
+    onCheck(id.toString());
   };
 
   return (
@@ -33,7 +33,7 @@ export const CheckBoxCFP: React.FC<Props> = ({
         name={name}
         id={id.toString()}
         onChange={() => handleSelect()}
-        checked={isChecked}
+        // checked={isChecked}
       />
 
       <span className="cfp-features__name">

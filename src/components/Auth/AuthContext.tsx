@@ -18,14 +18,14 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
     if (!decodedData) {
       return (
-        <AuthForm onLogin={setToken} />
+        <AuthForm onLogin={() => setToken(localStorage.getItem('token'))} />
       );
     }
   }
 
   if (!token) {
     return (
-      <AuthForm onLogin={setToken} />
+      <AuthForm onLogin={() => setToken(localStorage.getItem('token'))} />
     );
   }
 

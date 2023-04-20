@@ -7,7 +7,8 @@ type Props = {
   onChange: (value: string) => void,
 };
 
-export const SearchPannel: React.FC<Props> = ( { value, decoration, onChange } ) => {
+
+export const SearchPannel: React.FC<Props> = ( { decoration, onChange, value } ) => {
   return (
     <div
       className={`search-container ${decoration}`}
@@ -16,9 +17,10 @@ export const SearchPannel: React.FC<Props> = ( { value, decoration, onChange } )
       <input
         type="search"
         className='search-input input'
-        value={value}
+        value={value ? value : ''}
         placeholder="Пошук"
         onChange={(event) => onChange(event.target.value)}
+        maxLength={10}
       />
     </div>
   );

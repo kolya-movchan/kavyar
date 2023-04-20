@@ -46,6 +46,10 @@
     &--not-found {
       height: 100%;
     }
+
+    &--user {
+      padding-top: 30px;
+    }
   }
 
   &-features__container {
@@ -74,6 +78,7 @@
 
   &-features__legend {
     font-family: $title-light;
+    font-size: 18px;
     text-align: center;
   }
 
@@ -126,31 +131,33 @@
     border-radius: 50px;
     border: 1px solid #d2d3d4;
 
-    & * {
-      box-sizing: border-box;
-      transition: all 0.45s ease;
-    }
-    
-    &::before,
-    &::after {
-      @extend %flex;
-      background-color: rgba(0, 0, 0, 0.6);
-      position: absolute;
-      top: 0;
-      bottom: 210px;
-      left: 0;
-      right: 0;
-      content: '';
-      transition: all 0.3s ease;
-      z-index: 1;
-      opacity: 0;
-      transform: scaleY(2);
-    }
-    
-    &:hover::before,
-    &:hover::after {
-      transform: scale(1);
-      opacity: 1;
+    &--admin {
+      & * {
+        box-sizing: border-box;
+        transition: all 0.45s ease;
+      }
+      
+      &::before,
+      &::after {
+        @extend %flex;
+        background-color: rgba(0, 0, 0, 0.6);
+        position: absolute;
+        top: 0;
+        bottom: 210px;
+        left: 0;
+        right: 0;
+        content: '';
+        transition: all 0.3s ease;
+        z-index: 1;
+        opacity: 0;
+        transform: scaleY(2);
+      }
+      
+      &:hover::before,
+      &:hover::after {
+        transform: scale(1);
+        opacity: 1;
+      }
     }
 
     &--deactivated {

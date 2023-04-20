@@ -7,6 +7,7 @@ type Props = {
   data?: number[] | string[] | SortByProperty[],
   complexData?: Feature[],
   onSelect: (value: string) => void,
+  paramsValue?: string | null;
 };
 
 export const SelectFilters: React.FC<Props> = ({
@@ -14,13 +15,19 @@ export const SelectFilters: React.FC<Props> = ({
   data = null,
   complexData = null,
   onSelect,
+  paramsValue,
 }) => {
+
+  if (paramsValue?.includes('↓')) {
+    console.log('paramsValue', paramsValue);
+  }
+  
   return (
     <div className="select">
       <select
         className='cfp__select'
         onChange={event => onSelect(event.target.value)}
-        defaultValue={'DEFAULT'}
+        value={paramsValue ? paramsValue : 'DEFAULT'}
       >
         <option disabled value="DEFAULT">
           {text}

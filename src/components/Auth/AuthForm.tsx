@@ -8,7 +8,7 @@ import { ErrorMessage } from '../ErrorMessage';
 import { Header } from '../Header';
 
 export type Props = {
-  onLogin: (token: string) => void,
+  onLogin: () => void,
 };
 
 export const AuthForm: React.FC<Props> = ({ onLogin }) => {
@@ -23,7 +23,7 @@ export const AuthForm: React.FC<Props> = ({ onLogin }) => {
   const saveAdmin = (keyData: string) => {
     localStorage.setItem('token', JSON.stringify(keyData));
 
-    onLogin(keyData);
+    onLogin();
   };
 
   const loadAdmin = async () => {
@@ -77,15 +77,11 @@ export const AuthForm: React.FC<Props> = ({ onLogin }) => {
     }
 
     try {
-      const tokenValue = JSON.parse(tokenData);
-
-      onLogin(tokenValue);
+      onLogin();
 
     } catch (e) {
-      setTimeout(() => {
-        setLoading(false);
-        setError(true);
-      }, 1000);
+      setLoading(false);
+      setError(true);
     }
   });
 

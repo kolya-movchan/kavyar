@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import '../styles/main.scss';
@@ -14,7 +15,10 @@ export const Header: React.FC<Props> = ( {navBar = true} ) => {
 
   return (
     <>
-      <div className="header">
+      <div className={classNames(
+        "header",
+        {'header--user': !navBar},
+      )}>
         <div className="header__container">
           <NavLink className="header__logo-container logo" to="/">
             <span className="logo__title">

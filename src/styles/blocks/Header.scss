@@ -4,10 +4,18 @@
   display: flex;
   justify-content: flex-end;
 
-  height: 50px;
-  // width: $header-width;
+  min-height: 50px;
+  height: 8vh;
   color: $main-color-2;
   background-color: $main-color;
+
+  // &--user {
+  //   margin-bottom: 40px;
+  // }
+
+  &--CFP {
+    margin: 0;
+  }
 
   &__container {
     display: flex;
