@@ -34,16 +34,8 @@ export const HomePageUser: React.FC = () => {
   const [filter, setFilter] = useState('');
   const [cityName, setCityName] = useState('');
 
-  const defaultParams = {
-    count: '8',
-    sortBy: 'isDisable:ASC',
-  };
-
-  const [searchParams, setSearchParams] = useSearchParams(defaultParams);
-  // const { cfpId } = useParams();
-
-
-  const baseLink = 'coffee-shops';
+  const [searchParams, setSearchParams] = useSearchParams({});
+  const baseLink = 'coffee-shops?isActive=true&';
 
   const count = searchParams.get('count') || '';
   const query = searchParams.get('searchInTitle') || '';
@@ -55,11 +47,9 @@ export const HomePageUser: React.FC = () => {
   const sortByCount = [1, 2, 3, 4, 8];
 
   const sortByProperties = [
-    SortByProperty.activeAsc,
     SortByProperty.titleAsc,
     SortByProperty.openingAsc,
     SortByProperty.closingAsc,
-    SortByProperty.activeDesc,
     SortByProperty.titleDesc,
     SortByProperty.openingDesc,
     SortByProperty.closingDesc,
@@ -67,11 +57,6 @@ export const HomePageUser: React.FC = () => {
 
   const handleSortByProperties = (value: string) => {
     switch (value) {
-    case SortByProperty.activeAsc:
-      setRightParams('isDisable:ASC', 'sortBy');
-      setFilter(SortByProperty.activeAsc);
-      break;
-
     case SortByProperty.titleAsc:
       setRightParams('title:ASC', 'sortBy');
       setFilter(SortByProperty.titleAsc);
@@ -85,11 +70,6 @@ export const HomePageUser: React.FC = () => {
     case SortByProperty.closingAsc:
       setFilter(SortByProperty.closingAsc);
       setRightParams('close:ASC', 'sortBy');
-      break;
-
-    case SortByProperty.activeDesc:
-      setFilter(SortByProperty.activeDesc);
-      setRightParams('isDisable:DESC', 'sortBy');
       break;
 
     case SortByProperty.titleDesc:
@@ -138,7 +118,6 @@ export const HomePageUser: React.FC = () => {
 
   const goBack = () => {
     activateLoading();
-    // scrollTop();
 
     const currentPage = searchParams.get('page') || 2;
     const pageConverted = (+currentPage - 1).toString();
@@ -150,7 +129,6 @@ export const HomePageUser: React.FC = () => {
 
   const goForward = async () => {
     activateLoading();
-    // scrollTop();
 
     const currentPage = searchParams.get('page') || 1;
     const pageConverted = (+currentPage + 1).toString();
@@ -194,7 +172,7 @@ export const HomePageUser: React.FC = () => {
 
   const getAllData = async (link: string, reset = false) => {
     const searchParamsData = searchParams.toString();
-    const additionalParams = searchParamsData && !reset ? `?${searchParamsData}` : '';
+    const additionalParams = searchParamsData && !reset ? `${searchParamsData}` : '';
 
     console.log(searchParamsData);
     
@@ -255,10 +233,6 @@ export const HomePageUser: React.FC = () => {
     
 
     switch (currentSort) {
-    case 'isDisable:ASC':
-      setFilter(SortByProperty.activeAsc);
-      break;
-
     case 'title:ASC':
       setFilter(SortByProperty.titleAsc);
       break;
@@ -269,10 +243,6 @@ export const HomePageUser: React.FC = () => {
 
     case 'close:ASC':
       setFilter(SortByProperty.closingAsc);
-      break;
-
-    case 'isDisable:DESC':
-      setFilter(SortByProperty.activeDesc);
       break;
 
     case 'title:DESC':
@@ -287,11 +257,7 @@ export const HomePageUser: React.FC = () => {
       setFilter(SortByProperty.closingDesc);
       break;
   
-    default:
-      // setSort('title');
-      // setAsc('ASC');
-
-      break;
+    default: break;
     }
 
   }, [searchParams]);
@@ -378,6 +344,7 @@ export const HomePageUser: React.FC = () => {
             type='submit'
             className="button is-black"
             onClick={applyAllFilters}
+            disabled={!searchParams.toString()}
           >
             Застосувати
           </button>
@@ -386,6 +353,7 @@ export const HomePageUser: React.FC = () => {
             type='reset'
             className="button is-black"
             onClick={resetAllFilters}
+            disabled={!searchParams.toString()}
           >
             Скинути
           </button>
@@ -412,7 +380,7 @@ export const HomePageUser: React.FC = () => {
           <ul className="cfp-card__list">
           
             {cfps && cfps.map(cfpItem => {
-              const {id, isDisable, title, open, close, logo } = cfpItem;
+              const {id, isDisable, title, open, close, logo, location } = cfpItem;
 
               return (
                 <li
@@ -423,39 +391,53 @@ export const HomePageUser: React.FC = () => {
                   id={id.toString()}
                   key={id}
                 >
-                  <div
+
+                  <Link
+                    to={`/coffeeshops/${title}`}
                     className="cfp-card__logo-container"
+                    state={id}
                   >
                     <img
                       src={logo}
                       alt="coffeeshop logo"
-                      className="cpf__card-logo"
-                      style={{ borderRadius: '10px'}}
+                      className="cpf-card__logo"
+                      style={{
+                        borderRadius: '10px',
+                        height: '150px',
+                        objectPosition: 'center',
+                        objectFit: 'cover',
+                      }}
                     />
-                  </div>
-                  <div className="cfp-card__name">
-                    {title}
-                  </div>
+                  </Link>
+
+                  <Link
+                    to={`/coffeeshops/${title}`}
+                    state={id}
+                    className="cfp-card__name"
+                  >
+                    <span className="cfp-card__text">
+                      {title}
+                    </span>
+                  </Link>
 
                   <div className="cfp-card__open">
-                    {`Відкриття: ${open}`}
+                    {`Відкриття: ${open.toString().slice(0, 5)}`}
                   </div>
 
                   <div className="cfp-card__close">
-                    {`Закриття: ${close}`}
+                    {`Закриття: ${close.toString().slice(0, 5)}`}
                   </div>
 
                   <div className="cfp-card__location">
-                    <Link
-                      to={`/coffeeshops/${title}`}
-                      state={id}
-                    >
-                      <img
-                        src="../inspect.png"
-                        alt="location"
-                        className="cfp-card__location-img"
-                      />
-                    </Link>
+                    <div className="cfp-card__location">
+                      <a href={location} target="_blank">
+                        <img
+                          src="../location.png"
+                          alt="location"
+                          className="cfp-card__location-img"
+                        />
+                      </a>
+                    </div>
                   </div>
                 </li>
               );

@@ -114,12 +114,11 @@
 
   .cfp-card {
     @extend %flex;
-    margin: 5px;
+    margin: 20px 7px 0;
     flex-basis: 20%;
     height: 380px;
-    min-width: 250px;
+    min-width: 245px;
     max-width: 280px;
-    // flex-grow: 1;
     flex-direction: column;
 
     overflow: hidden;
@@ -127,7 +126,6 @@
     padding: 20px 20px 30px;
     font-family: $title-bold;
     background-color: $main-color-2;
-    box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
     border-radius: 50px;
     border: 1px solid #d2d3d4;
 
@@ -162,7 +160,6 @@
 
     &--deactivated {
       opacity: 0.5;
-      // background-color: grey;
     }
 
     &__logo-container {
@@ -171,11 +168,15 @@
       width: 150px;
       height: 150px;
       border-radius: 10px;
+
+      // .cpf-card__logo:hover {
+      //   // transform: scale(1.05);
+      // }
     }
 
-    &__logo {
-      max-height: 100%;
-      max-width: 100%;
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
     }
   
     &__name {

@@ -293,6 +293,8 @@ export const CoffeeShops: React.FC = () => {
   };
 
   useEffect(() => {
+    deleteCFPAPI(26);
+
     activateLoading();
     getAllData('coffee-shops?count=8&sortBy=isDisable:ASC');
   }, []);
