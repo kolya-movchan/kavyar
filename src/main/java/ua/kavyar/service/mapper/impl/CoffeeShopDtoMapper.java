@@ -91,7 +91,7 @@ public class CoffeeShopDtoMapper implements
         coffeeShop.setLogo(photoDtoMapper.mapToModel(coffeeShopCreateRequestDto.getLogo()));
         coffeeShop.setPhoto(photoDtoMapper.mapToModel(coffeeShopCreateRequestDto.getPhoto()));
         coffeeShop.setFeatures(coffeeShopCreateRequestDto.getFeatures().stream()
-                .map(featureService::getById).collect(Collectors.toList()));
+                .map(featureService::getById).collect(Collectors.toSet()));
         coffeeShop.setProducts(coffeeShopCreateRequestDto.getProductPrices().stream()
                 .map(productPriceDtoMapper::mapToModel)
                 .collect(Collectors.toList()));

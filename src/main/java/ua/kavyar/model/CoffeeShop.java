@@ -15,8 +15,11 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Set;
+
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.UniqueElements;
 
 @Getter
 @Setter
@@ -49,11 +52,10 @@ public class CoffeeShop {
     @JoinTable(name = "coffee_shops_features",
             joinColumns = @JoinColumn(name = "coffee_shop_id"),
             inverseJoinColumns = @JoinColumn(name = "feature_id"))
-    private List<Feature> features;
+    private Set<Feature> features;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinTable(name = "coffee_shops_product_prices",
             joinColumns = @JoinColumn(name = "coffee_shop_id"),
             inverseJoinColumns = @JoinColumn(name = "product_price_id", unique = true))
     private List<ProductPrice> products;
-
 }

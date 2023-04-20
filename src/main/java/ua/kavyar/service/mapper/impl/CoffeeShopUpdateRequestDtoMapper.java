@@ -67,7 +67,7 @@ public class CoffeeShopUpdateRequestDtoMapper implements
                 coffeeShopUpdateRequestDto.getPhoto()));
         coffeeShop.setLocation(coffeeShopUpdateRequestDto.getLocation());
         coffeeShop.setFeatures(coffeeShopUpdateRequestDto.getFeatures().stream()
-                .map(featureService::getById).collect(Collectors.toList()));
+                .map(featureService::getById).collect(Collectors.toSet()));
         coffeeShop.setProducts(getProductPrices(coffeeShopUpdateRequestDto));
         return coffeeShop;
     }
