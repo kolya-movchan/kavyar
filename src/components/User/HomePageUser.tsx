@@ -33,6 +33,7 @@ export const HomePageUser: React.FC = () => {
   const [page, setPage]= useState(1);
   const [filter, setFilter] = useState('');
   const [cityName, setCityName] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
 
   const [searchParams, setSearchParams] = useSearchParams({});
   const baseLink = 'coffee-shops?isActive=true&';
@@ -279,6 +280,12 @@ export const HomePageUser: React.FC = () => {
     setSearchParams(searchParams);
   };
 
+  const toggleDropdown = (event: React.MouseEvent) => {
+    event.preventDefault();
+
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className="cfp">
       {loader && (
@@ -317,25 +324,38 @@ export const HomePageUser: React.FC = () => {
             paramsValue={cityName}
           />
 
-          {features && (
-            <fieldset className="cfp-features__container">
-              <legend className="cfp-features__legend">
-                Фільтрувати
-              </legend>
+          <div className="select">
+            <button
+              onClick={toggleDropdown}
+              className="button cfp__select"
+              style={{ display: 'block', padding: '7px 40px 7px 11px'}}
+            >
+                Показати фільтри
+            </button>
+          </div>
 
-              {features?.map(featureElement => {
-                const {id, name} = featureElement;
-                return (
-                  <CheckBoxCFP
-                    key={id}
-                    id={id}
-                    name={name}
-                    onCheck={handleCheckboxes}
-                    styling={'cfp-features__wrapper--cfp'}
-                  />
-                );
-              })}
-            </fieldset>
+          {isOpen && (
+            <div className={classNames(
+              "cfp-features__container",
+              {'cfp-features__container--open': isOpen}
+            )}>
+              {features && (
+                <fieldset>
+                  {features?.map(featureElement => {
+                    const {id, name} = featureElement;
+                    return (
+                      <CheckBoxCFP
+                        key={id}
+                        id={id}
+                        name={name}
+                        onCheck={handleCheckboxes}
+                        styling={'cfp-features__wrapper--cfp'}
+                      />
+                    );
+                  })}
+                </fieldset>
+              )}
+            </div>
           )}
         </div>
 
