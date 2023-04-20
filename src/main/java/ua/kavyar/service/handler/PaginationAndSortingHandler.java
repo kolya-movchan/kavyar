@@ -19,7 +19,7 @@ public class PaginationAndSortingHandler {
     @Autowired
     public PaginationAndSortingHandler() {
         fields = new String[]{"page", "count", "sortBy"};
-        defaultCount = 6;
+        defaultCount = 8;
         defaultPage = 0;
     }
 

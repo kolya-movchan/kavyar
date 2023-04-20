@@ -84,7 +84,7 @@ public class CoffeeShopController {
     @Parameter(name = "count",
             description = "Expected number of coffee shops to display per page. "
                     + "Example: count=5 "
-                    + "Default: ???",
+                    + "Default: 8",
             schema = @Schema(implementation = Integer.class))
     @Parameter(name = "page",
             description = "",
