@@ -237,18 +237,14 @@ export const CFP_LangingPage: React.FC = () => {
       </div>
 
       <div className="CFP__GoogleMap-container">
-        <div style={{marginBottom: '100px' }}>
-          {/* {embeddedMapUrl} */}
-
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d2539.0990352206873!2d30.487000000000002!3d50.476499999999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNTDCsDI4JzM1LjQiTiAzMMKwMjknMTMuMiJF!5e0!3m2!1sen!2sua!4v1682009423997!5m2!1sen!2sua"
-            width="800"
-            height="600"
-            style={{border: '0'}}
-            loading="lazy"
-          >
-          </iframe>
-        </div>
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d2539.0990352206873!2d30.487000000000002!3d50.476499999999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNTDCsDI4JzM1LjQiTiAzMMKwMjknMTMuMiJF!5e0!3m2!1sen!2sua!4v1682009423997!5m2!1sen!2sua"
+          width="90%"
+          height="600"
+          loading="lazy"
+          className='CFP__GoogleMap-map'
+        >
+        </iframe>
       </div>
     </div>
   );
