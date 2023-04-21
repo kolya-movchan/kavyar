@@ -5,10 +5,11 @@ type Props = {
   value: string,
   decoration: string,
   onChange: (value: string) => void,
+  onKeyDown?: (e: React.KeyboardEvent) => void,
 };
 
 
-export const SearchPannel: React.FC<Props> = ( { decoration, onChange, value } ) => {
+export const SearchPannel: React.FC<Props> = ( { decoration, onChange, value, onKeyDown } ) => {
   return (
     <div
       className={`search-container ${decoration}`}
@@ -21,6 +22,8 @@ export const SearchPannel: React.FC<Props> = ( { decoration, onChange, value } )
         placeholder="Пошук"
         onChange={(event) => onChange(event.target.value)}
         maxLength={10}
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        onKeyDown={onKeyDown}
       />
     </div>
   );

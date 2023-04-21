@@ -30,7 +30,7 @@ const hashRouter = () => (
     <Routes>
       <Route path="/admin" element={<AuthProvider><App /></AuthProvider>}>
         <Route index element={<HomePageLogo />}/>
-        <Route path="admin/home" element={<Navigate to="/admin" replace />}/>
+        <Route path="/admin/home" element={<Navigate to="/admin" replace />}/>
         <Route path="*" element={<NotFound title={'Сторінку'} styling={'page'} />}/>
         <Route path="coffeeshops" element={<CoffeeShops />} />
         <Route path="cities" element={(<Cities />)}/>
@@ -40,6 +40,8 @@ const hashRouter = () => (
         <Route path="form" element={<Form />} />
         <Route path="form/edit" element={<FormEdit />} />
       </Route>
+
+      {/* <Route path="/" element={<Navigate to="/admin" replace />} /> */}
 
       <Route path="/" element={<><Header navBar={false} /><HomePageUser /></>}></Route>
 

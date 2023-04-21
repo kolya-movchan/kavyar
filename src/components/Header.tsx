@@ -16,7 +16,10 @@ export const Header: React.FC<Props> = ( {navBar = true} ) => {
         {'header--user': !navBar},
       )}>
         <div className="header__container">
-          <NavLink className="header__logo-container logo" to="/">
+          <NavLink
+            className="header__logo-container logo"
+            to={navBar ? '/admin' : '/'}
+          >
             <span className="logo__title">
               Кав’яр
             </span>

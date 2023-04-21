@@ -45,7 +45,7 @@
     @extend %flex;
     flex-direction: column;
     gap: 25px;
-    height: 100vh;
+    min-height: 100vh;
     width: 100vw;
     background-color: $main-color;
   }
@@ -109,6 +109,8 @@
   }
 
   &__feature-item{
+    // @extend %flex;
+
     display: flex;
     align-items: center;
     font-family: $title-light;
@@ -163,7 +165,7 @@
   }
 
   &__social-header {
-    margin-bottom: 15px;
+    margin-bottom: 25px;
     text-align: center;
     font-family: $title-bold;
     color: $main-color;
@@ -194,5 +196,59 @@
     margin-bottom: 100px;
     // background-color: red;
     // width: 100vw;
+  }
+
+  &__header {
+    margin-bottom: 25px;
+    text-align: center;
+    font-family: $title-bold;
+    color: $main-color;
+    font-size: 35px;
+  }
+
+  &__wrapper {
+    margin-bottom: 30px;
+    min-width: 750px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+  }
+
+  &__hours {
+    @extend %flex;
+    gap: 20px;
+    font-family: $title-bold;
+    color: $main-color;
+  }
+
+  &__time {
+    @extend %flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  // &__open {
+  //   margin-bottom: 20px;
+  // }
+
+  &__time {
+    width: 50px;
+  }
+
+  &__contacts{
+    font-family: $title-bold;
+    color: $main-color;
+  }
+
+
+  &__phone-wrapper .tel {
+    @extend %flex;
+    gap: 10px;
+    color: $main-color;
+  }
+
+  &__phone-wrapper &__clock {
+    width: 40px;
   }
 }

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import { getCFPById } from '../../api/fetch';
 import { CFPforEDIT } from '../../types/CFP';
-import { Feature } from '../../types/Feature';
 import { Loader } from '../Loader';
 import { scrollTop } from '../_tools/Tools';
 import { NewProduct } from './NewProduct';
@@ -52,12 +51,9 @@ export const CFP_LangingPage: React.FC = () => {
     productPrices,
     url,
     location,
-    // id,
-    // city,
-    // isDisable,
-    // open,
-    // close,
-    // phone,
+    open,
+    close,
+    phone,
   } = cfp ?? {};
 
   console.log('BREWERS', photo?.url);
@@ -73,17 +69,17 @@ export const CFP_LangingPage: React.FC = () => {
     }
   });
 
-  const featuresUnique: Feature[] = [];
+  // const featuresUnique: Feature[] = [];
 
-  features?.map(feature => {
-    const featureName = feature.name;
+  // features?.map(feature => {
+  //   const featureName = feature.name;
 
-    if (!featuresUnique.some(f => f.name === featureName)) {
-      featuresUnique.push(feature);
-    }
-  });
+  //   if (!featuresUnique.some(f => f.name === featureName)) {
+  //     featuresUnique.push(feature);
+  //   }
+  // });
 
-  console.log(location);
+  // console.log(location);
 
 
   return (
@@ -107,6 +103,7 @@ export const CFP_LangingPage: React.FC = () => {
           </div>
         )}
       </div>
+
       <div className="CFP__about-container">
         <div className="CFP__logo-container">
           <img
@@ -122,60 +119,73 @@ export const CFP_LangingPage: React.FC = () => {
           {description}
         </div>
       </div>
+
       <div className="CFP__products-container">
+
         <div className="CFP__features">
-          <h2 className="CFP__features-tilte">
-            Особливості
-          </h2>
-          <ul className="CFP__features-list">
-            {featuresUnique?.map(feature => {
-              return (
-                <li
-                  className="CFP__feature-item"
-                  key={feature.id}
-                >
-                  <img
-                    src="../check_box-filled.svg"
-                    alt="checkbox"
-                    className="CFP__feature-checkbox"
-                  />
-                  <span className="feature-name">
-                    {feature.name}
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
+          {(features && features?.length > 0) && (
+            <>
+              <h2 className="CFP__features-tilte">
+                Особливості
+              </h2>
+
+              <ul className="CFP__features-list">
+                {features?.map(feature => {
+                  return (
+                    <li
+                      className="CFP__feature-item"
+                      key={feature.id}
+                    >
+                      <img
+                        src="../check_box-filled.svg"
+                        alt="checkbox"
+                        className="CFP__feature-checkbox"
+                      />
+                      <span className="feature-name">
+                        {feature.name}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </>
+          )}
         </div>
+
         <div className="CFP__menu">
-          <h2 className="CFP__features-tilte">
-            Меню
-          </h2>
-          <div className="CFP__menu-container">
-            {categoriesAll?.map(category => {
-              return (
-                <div className="CFP__menu-item" key={category}>
-                  <h3 className="CFP__features-tilte">
-                    {category}
-                  </h3>
-                  {productPrices?.map(product => {
-                    const targetCategory = product.product.category.name;
-                    if (targetCategory === category) {
-                      return (
-                        <NewProduct
-                          key={product.product.id}
-                          name={product.product.name}
-                          price={product.price}
-                        />
-                      );
-                    }
-                  })}
-                </div>
-              );
-            })}
-          </div>
+          {(productPrices && productPrices?.length > 0) && (
+            <>
+              <h2 className="CFP__features-tilte">
+                Меню
+              </h2>
+              <div className="CFP__menu-container">
+                {categoriesAll?.map(category => {
+                  return (
+                    <div className="CFP__menu-item" key={category}>
+                      <h3 className="CFP__features-tilte">
+                        {category}
+                      </h3>
+                      {productPrices?.map(product => {
+                        const targetCategory = product.product.category.name;
+                        if (targetCategory === category) {
+                          return (
+                            <NewProduct
+                              key={product.product.id}
+                              name={product.product.name}
+                              price={product.price}
+                            />
+                          );
+                        }
+                      })}
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          )}
         </div>
       </div>
+
       <div className="CFP__social-container">
         <h3 className="CFP__social-header">
           Соціальні Мережі
@@ -192,7 +202,7 @@ export const CFP_LangingPage: React.FC = () => {
                 <img
                   src="../Facebook-Icon.png"
                   alt="facebook"
-                  style={{ width: '50%'}}
+                  style={{ width: '50px'}}
                 />
 
                 Facebook
@@ -211,7 +221,7 @@ export const CFP_LangingPage: React.FC = () => {
                 <img
                   src="../Instagram-Logo.png"
                   alt="instagram"
-                  style={{ width: '50%', marginBottom: '10px'}}
+                  style={{ width: '50px', marginBottom: '10px'}}
                 />
                 Instagram
               </a>
@@ -228,11 +238,56 @@ export const CFP_LangingPage: React.FC = () => {
               <img
                 src="../Website-Logo.png"
                 alt="website"
-                style={{ width: '50%', marginBottom: '10px'}}
+                style={{ width: '50px', marginBottom: '10px'}}
               />
               Вебсайт
             </a>
           )}
+        </div>
+      </div>
+
+      <div className="CFP__contacts-container">
+        <h3 className="CFP__header">
+          Робочі години та Контакти
+        </h3>
+
+        <div className="CFP__wrapper">
+          <div className="CFP__hours">
+            <div className="CFP__open CFP__time">
+              <img
+                src="../clock.png"
+                alt="clock"
+                className="CFP__clock" 
+              />
+              {open?.slice(0, 5)}
+            </div>
+
+            <div className="CFP__close CFP__time">
+              <img
+                src="../clock.png"
+                alt="clock"
+                className="CFP__clock" 
+              />
+              {close?.slice(0, 5)}
+            </div>
+          </div>
+
+          <div className="CFP__contacts">
+            <div className="CFP__phone-wrapper">
+              <a
+                href={`tel:${phone}`}
+                className="tel"
+              >
+                <img
+                  src="../phone.png"
+                  alt="clock"
+                  className="CFP__clock"
+                />
+
+                {phone}
+              </a>
+            </div>
+          </div>
         </div>
       </div>
 

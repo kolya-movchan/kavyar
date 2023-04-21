@@ -286,6 +286,18 @@ export const HomePageUser: React.FC = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && query) {
+      e.preventDefault();
+      activateLoading();
+      getAllData(baseLink);
+    }
+
+    if (e.key === 'Enter' && !query) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <div className="cfp">
       {loader && (
@@ -303,6 +315,7 @@ export const HomePageUser: React.FC = () => {
             value={query}
             onChange={(value) => handleQuery(value)}
             decoration="search-input--cfp"
+            onKeyDown={handleKeyDown}
           />
           <SelectFilters
             text='Показати'
