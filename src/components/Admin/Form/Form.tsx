@@ -308,6 +308,7 @@ export const Form: React.FC = () => {
   };
 
   useEffect(() => {
+    scrollTop();
     activateLoading();
     getAllData();
 

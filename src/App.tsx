@@ -18,34 +18,11 @@ export const App: React.FC = () => {
     }
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = document.documentElement.scrollTop;
-      const windowHeight = window.innerHeight;
-      const scrollHeight = document.documentElement.scrollHeight;
-      const allowBounceAmount = 100;
-      if (scrollTop === 0) {
-        window.scrollTo({ top: -allowBounceAmount });
-      }
-
-      if (scrollTop + windowHeight === scrollHeight) {
-        window.scrollTo({ top: scrollHeight + allowBounceAmount - windowHeight });
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: false });
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-
   return (
     <>
       <Header />
       <div
-        className="tabs is-medium is-centered" 
+        className="tabs is-medium is-centered"
         style={{ border: 'solid 1px #000'}}
       >
         <ul>
