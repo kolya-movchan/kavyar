@@ -13,6 +13,7 @@ import { CheckBoxCFP } from '../Admin/CheckBoxCFP';
 import { SelectFilters } from '../Admin/SelectFilters';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Cookies } from 'react-cookie';
+import { PopUp } from './PopUp';
 
 export const convertGoogleDrive = (link: string) => {
   if (link.startsWith('https://drive') && link.includes('/d/')) {
@@ -39,6 +40,7 @@ export const HomePageUser: React.FC<Props> = ({ favorites }) => {
   const [filter, setFilter] = useState('');
   const [cityName, setCityName] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const [searchParams, setSearchParams] = useSearchParams({});
   const baseLink = 'coffee-shops?isActive=true&';
@@ -184,20 +186,20 @@ export const HomePageUser: React.FC<Props> = ({ favorites }) => {
   const getAllData = async (link: string, reset = false) => {
     const searchParamsData = searchParams.toString();
     const additionalParams = searchParamsData && !reset ? `${searchParamsData}` : '';
-
-    // console.log(searchParamsData);
-    
     
     const finalURL = link + additionalParams;
 
     console.log('finalURL', finalURL);
 
+
     const result = await Promise.all(getPromises(finalURL))
       .finally(() => {
+        htmlElement?.classList.remove('hidden');
         scrollTop();
         setLoader(false);
-        htmlElement?.classList.remove('hidden');
       });
+
+    checkFirstLogin();
 
     const [cfpsAPI, featuresAPI, citiesAPI] = result;
 
@@ -318,7 +320,7 @@ export const HomePageUser: React.FC<Props> = ({ favorites }) => {
     }
 
     const newShops = [...favoriteShops, id];
-    setFavoriteShops(newShops);    
+    setFavoriteShops(newShops);
     cookies.set("favoriteShops", newShops, { path: "/" });
   };
 
@@ -329,9 +331,41 @@ export const HomePageUser: React.FC<Props> = ({ favorites }) => {
     }
   }, []);
 
+  const checkFirstLogin = () => {
+    const cfpContainer = document.querySelector('.cfp');
+
+    if (!localStorage.getItem('city')) {
+      cfpContainer?.classList.add('disabled');
+      htmlElement?.classList.add('hidden');
+      setIsLoaded(true);
+
+      return true;
+    }
+
+    return false;
+  };
+
+  const handleCityPopUp = (city: string) => {
+    const cityTarget = cities?.find(cityValue => cityValue.name === city);
+    const cfpContainer = document.querySelector('.cfp');
+
+    if (cityTarget) {
+      localStorage.setItem('city', cityTarget?.id.toString());
+      searchParams.set('city', cityTarget?.id.toString());
+      setSearchParams(searchParams);
+      activateLoading();
+      getAllData(baseLink);
+    }
+
+    htmlElement?.classList.remove('hidden');
+    cfpContainer?.classList.remove('disabled');
+    setIsLoaded(false);
+  };
 
   return (
     <div className="cfp">
+      {isLoaded && <PopUp onChoose={handleCityPopUp} />}
+
       {loader && (
         <div className="loading">
           <Loader
@@ -448,8 +482,6 @@ export const HomePageUser: React.FC<Props> = ({ favorites }) => {
 
             {cfps && cfps.map(cfpItem => {
               const {id, isDisable, title, open, close, logo } = cfpItem;
-
-              console.log(favorites);
 
               if (favorites && !favorites.includes(id)) {
                 return;

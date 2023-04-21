@@ -1,8 +1,23 @@
 @import '../../_utils//variables.scss';
 @import '../../_utils//extends.scss';
 
+
+.disabled::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: $main-color;
+  opacity: 0.5;
+  z-index: 2;
+}
+
+
 .cfp {
   display: flex;
+  position: relative;
 
   &__top-menu {
     min-width: 215px;

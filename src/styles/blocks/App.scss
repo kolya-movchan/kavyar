@@ -7,7 +7,12 @@ html {
 
 .hidden {
   pointer-events: none;
+  overflow: hidden;
 }
+
+// .disabled {
+//   background-color: grey;
+// }
 
 body {
   overflow: auto;
