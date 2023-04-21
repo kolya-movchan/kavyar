@@ -8,7 +8,7 @@ import { ErrorMessage } from '../../ErrorMessage';
 import { Loader } from '../../Loader';
 import { emailRegex, priceRegex } from '../../_tools/Regex';
 import { scrollTop } from '../../_tools/Tools';
-import { convertGoogleDrive } from '../CoffeeShops';
+import { convertGoogleDrive, convertGoogleMap } from '../CoffeeShops';
 import { AddProducts } from './AddProducts';
 import { Contacts } from './Contacts';
 import { Features } from './Features';
@@ -205,7 +205,7 @@ export const FormEdit: React.FC = () => {
       url: socialURL,
       logo: {id: logoId, url: convertGoogleDrive(logoURL)},
       photo: {id: photoId, url: convertGoogleDrive(photosURL)},
-      location: googleMapsURL,
+      location: convertGoogleMap(googleMapsURL),
       features: featureList,
       productPrices: productsOldCurrent,
       newProductPrices: productPricesForAPI,

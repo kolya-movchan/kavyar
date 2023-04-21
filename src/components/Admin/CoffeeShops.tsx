@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -23,6 +24,23 @@ export const convertGoogleDrive = (link: string) => {
 
   return link;
 };
+
+export const convertGoogleMap = (link: string) => {
+  const linkData = link.trim();
+
+  if (linkData.includes('iframe src=')) {
+    const startIndex = linkData.indexOf('src=');
+    const endIndex = linkData.indexOf('" w');
+
+    const converted = linkData.slice((startIndex + 5), endIndex);
+
+    return converted;
+  }
+
+  return link;
+};
+
+// convertGoogleMap('<iframe src=\"https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2637.35712304664!2d22.2964767!3d48.6221478!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47391923ac9de213%3A0xc193ff07fe4aefcf!2sRiverside.%20Coffee%20roastery%20and%20brew%20bar!5e0!3m2!1sen!2sua!4v1682070847318!5m2!1sen!2sua\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>');
 
 // type Props = {
 //   onEdit: (data: CFPlist) => void,

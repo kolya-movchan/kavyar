@@ -7,7 +7,7 @@ type DecodedData = {
   exp: number
 };
 
-export const decodeTokenConverted = (tokenName: string) => {    
+export const decodeTokenConverted = (tokenName: string) => {
   try {
     const decoded: DecodedData = jwtDecode(tokenName);
     if (decoded) {

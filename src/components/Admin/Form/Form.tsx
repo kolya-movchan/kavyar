@@ -9,7 +9,7 @@ import { ErrorMessage } from '../../ErrorMessage';
 import { Loader } from '../../Loader';
 import { emailRegex, priceRegex } from '../../_tools/Regex';
 import { scrollTop } from '../../_tools/Tools';
-import { convertGoogleDrive } from '../CoffeeShops';
+import { convertGoogleDrive, convertGoogleMap } from '../CoffeeShops';
 import { AddProducts } from './AddProducts';
 import { Contacts } from './Contacts';
 import { Features } from './Features';
@@ -20,8 +20,6 @@ import { CFPforEDIT } from '../../../types/CFP';
 export const Form: React.FC = () => {
   const [loader, setLoader] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
-
-
 
   const [logoURL, setLogoURL] = useState('');
   const [name, setName] = useState('');
@@ -54,8 +52,6 @@ export const Form: React.FC = () => {
   const [searchParams] = useSearchParams();
   const editMode = searchParams.get('edit');
   const location = useLocation();
-
-  // console.log(searchParams.get('edit'));
 
   const unique_id = Date.now();
   
@@ -186,7 +182,7 @@ export const Form: React.FC = () => {
 
     const productsOldCurrent = productsOld.filter(
       productValue => productList.some(productEl => productEl.id === productValue.productPriceId)
-    );    
+    );
 
     const newCFPForEdit = {
       coffeeShopId: idCFP,
@@ -199,15 +195,18 @@ export const Form: React.FC = () => {
       url: socialURL,
       logo: {id: logoId, url: convertGoogleDrive(logoURL)},
       photo: {id: photoId, url: convertGoogleDrive(photosURL)},
-      location: googleMapsURL,
+      location: convertGoogleMap(googleMapsURL),
       features: featureList,
       productPrices: productsOldCurrent,
       newProductPrices: productPricesForAPI,
     };
 
+    console.log(newCFPForEdit.location);
+    
+
     updateCFPById(newCFPForEdit)
       .then(() => {
-        console.log('SUCCESS');
+        console.log('SUCCESS EDIT');
         setNotification('success');
         reset();
       })
@@ -263,8 +262,8 @@ export const Form: React.FC = () => {
       close: timeClose,
       url: socialURL,
       logo: {url: convertGoogleDrive(logoURL)},
-      photo: {url: photosURL},
-      location: googleMapsURL,
+      photo: {url: convertGoogleDrive(photosURL)},
+      location: convertGoogleMap(googleMapsURL),
       features: featureList,
       productPrices: productPricesForAPI,
     };
