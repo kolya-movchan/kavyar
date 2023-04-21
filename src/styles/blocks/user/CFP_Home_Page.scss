@@ -4,7 +4,7 @@
 .CFP {
   &__photo-container {
     padding: 50px;
-    height: 92vh;
+    height: calc(92vh - 60px);
     @extend %flex;
     background-color: $main-color-2;
     // overflow: hidden;
@@ -13,7 +13,7 @@
   
   &__image {
     position: relative;
-    height: calc(92vh - 100px);
+    height: calc(92vh - 100px - 60px);
     width: 70%;
     // object-position: center;
     // object-fit: cover;
@@ -89,7 +89,8 @@
   }
 
   &__features {
-    @extend %flex;
+    // @extend %flex;
+    display: flex;
     flex-direction: column;
     flex-basis: 45%;
   }

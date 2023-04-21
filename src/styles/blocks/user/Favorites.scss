@@ -1,0 +1,45 @@
+@import '../../_utils//variables.scss';
+@import '../../_utils//extends.scss';
+
+.menuTop {
+  margin: 0;
+  padding: 15px;
+  // @extend %flex;
+
+  &__title {
+    font-size: 25px;
+    font-family: $title-bold-medium;
+    color: $main-color;
+    transform: translateX(-50%);
+  }
+
+  &__title-container {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+  }
+
+  &__back-container {
+    width: 80px;
+    align-self: flex-start;
+  }
+
+  &__back {
+    height: 100%;
+  }
+
+  a.menuTop__back-container {
+    height: 30px;
+    width: 40px;
+    display: block;
+    // height: 25px;
+    padding: 0;
+    border: none;
+  }
+}
+
+  .tabs.menuTop {
+    margin: 0;
+};
+

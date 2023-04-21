@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import '../styles/main.scss';
 import { logout } from './_tools/Tools';
 
@@ -9,6 +9,9 @@ type Props = {
 };
 
 export const Header: React.FC<Props> = ( {navBar = true} ) => {
+  const location = useLocation();
+  const adminHomePage = location.pathname === '/admin';  
+  
   return (
     <>
       <div className={classNames(
@@ -18,7 +21,7 @@ export const Header: React.FC<Props> = ( {navBar = true} ) => {
         <div className="header__container">
           <NavLink
             className="header__logo-container logo"
-            to={navBar ? '/admin' : '/'}
+            to={adminHomePage ? '/admin' : '/'}
           >
             <span className="logo__title">
               Кав’яр
@@ -30,14 +33,37 @@ export const Header: React.FC<Props> = ( {navBar = true} ) => {
           {navBar && (
             <div className="navBar">
 
-              <NavLink
-                to="/"
-                className=""
+              <button
                 onClick={() => logout()}
+                style={{
+                  backgroundColor: 'black',
+                  border: 'none',
+                  cursor: 'pointer'
+                }}
               >
                 <img
                   className="navBar__link"
                   src="/logout.svg"
+                  alt=""
+                />
+              </button>
+            </div>
+          )}
+
+          {(!navBar && !adminHomePage) && (
+            <div className="navBar">
+
+              <NavLink
+                to='/favorites'
+                style={{
+                  backgroundColor: 'black',
+                  border: 'none',
+                  cursor: 'pointer'
+                }}
+              >
+                <img
+                  className="navBar__link"
+                  src="/coffee-cup.svg"
                   alt=""
                 />
               </NavLink>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import { getCFPById } from '../../api/fetch';
 import { CFPforEDIT } from '../../types/CFP';
+import { GoBack } from '../GoBack';
 import { Loader } from '../Loader';
 import { scrollTop } from '../_tools/Tools';
 import { NewProduct } from './NewProduct';
@@ -84,6 +85,8 @@ export const CFP_LangingPage: React.FC = () => {
 
   return (
     <div className="CFP__main">
+      <GoBack title={title ? title : ''} />
+
       {loader && (
         <div className="loading">
           <Loader

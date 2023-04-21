@@ -120,7 +120,7 @@
     @extend %flex;
     margin: 20px 7px 0;
     flex-basis: 20%;
-    height: 380px;
+    height: 350px;
     min-width: 245px;
     max-width: 280px;
     flex-direction: column;
@@ -247,9 +247,15 @@
       cursor: pointer;
     }
 
-    // &__hoverBox {
-    //   @extend %flex;
-    //   flex-direction: column;
+    &__favorite {
+      align-self: flex-end;
+      max-width: 28px;
+      max-height: 26px;
+    }
+
+    &__fav-photo {
+      cursor: pointer;
+    }
 
   }
 

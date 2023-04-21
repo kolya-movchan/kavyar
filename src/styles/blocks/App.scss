@@ -1,9 +1,17 @@
 @import '../_utils/extends.scss';
 @import '../_utils/variables.scss';
 
+html {
+  height: 100%;
+}
+
 .hidden {
-  overflow: hidden;
   pointer-events: none;
+}
+
+body {
+  overflow: auto;
+  height: 100%;
 }
 
 .hidden-scroll {

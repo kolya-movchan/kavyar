@@ -412,7 +412,7 @@ export const CoffeeShops: React.FC = () => {
           <ul className="cfp-card__list">
           
             {cfps && cfps.map(cfpItem => {
-              const {id, isDisable, title, open, close, location, logo } = cfpItem;
+              const {id, isDisable, title, open, close, logo } = cfpItem;
 
               return (
                 <li
@@ -477,7 +477,7 @@ export const CoffeeShops: React.FC = () => {
                     {`Закриття: ${close}`}
                   </div>
 
-                  <div className="cfp-card__location">
+                  {/* <div className="cfp-card__location">
                     <a href={location} target="_blank">
                       <img
                         src="../location.png"
@@ -485,7 +485,7 @@ export const CoffeeShops: React.FC = () => {
                         className="cfp-card__location-img"
                       />
                     </a>
-                  </div>
+                  </div> */}
                 </li>
               );
             })}

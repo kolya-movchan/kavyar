@@ -12,6 +12,7 @@ import { scrollTop } from '../_tools/Tools';
 import { CheckBoxCFP } from '../Admin/CheckBoxCFP';
 import { SelectFilters } from '../Admin/SelectFilters';
 import { Link, useSearchParams } from 'react-router-dom';
+import { Cookies } from 'react-cookie';
 
 export const convertGoogleDrive = (link: string) => {
   if (link.startsWith('https://drive') && link.includes('/d/')) {
@@ -24,7 +25,11 @@ export const convertGoogleDrive = (link: string) => {
   return link;
 };
 
-export const HomePageUser: React.FC = () => {
+type Props = {
+  favorites?: number[],
+};
+
+export const HomePageUser: React.FC<Props> = ({ favorites }) => {
   const [features, setFeatures]= useState<Feature[]>();
   const [cities, setCities]= useState<City[]>();
   const [cfps, setCfps] = useState<CFPlist[]>();
@@ -37,6 +42,11 @@ export const HomePageUser: React.FC = () => {
 
   const [searchParams, setSearchParams] = useSearchParams({});
   const baseLink = 'coffee-shops?isActive=true&';
+
+  const [favoriteShops, setFavoriteShops] = useState<number[]>([]);
+  // const [isActivated, setIsActivated] = useState(false);
+
+  const cookies = new Cookies();
 
   const count = searchParams.get('count') || '';
   const query = searchParams.get('searchInTitle') || '';
@@ -175,7 +185,7 @@ export const HomePageUser: React.FC = () => {
     const searchParamsData = searchParams.toString();
     const additionalParams = searchParamsData && !reset ? `${searchParamsData}` : '';
 
-    console.log(searchParamsData);
+    // console.log(searchParamsData);
     
     
     const finalURL = link + additionalParams;
@@ -298,6 +308,28 @@ export const HomePageUser: React.FC = () => {
     }
   };
 
+  const handleAddFavorite = (id: number) => {
+    if (favoriteShops.includes(id)) {
+      const newShops = favoriteShops.filter((shop) => shop !== id);
+      setFavoriteShops(newShops);
+      cookies.set("favoriteShops", newShops, { path: "/" });
+
+      return;
+    }
+
+    const newShops = [...favoriteShops, id];
+    setFavoriteShops(newShops);    
+    cookies.set("favoriteShops", newShops, { path: "/" });
+  };
+
+  useEffect(() => {
+    const savedShops = cookies.get("favoriteShops");
+    if (savedShops) {
+      setFavoriteShops(savedShops);
+    }
+  }, []);
+
+
   return (
     <div className="cfp">
       {loader && (
@@ -405,15 +437,23 @@ export const HomePageUser: React.FC = () => {
             {['cfp-card-container--not-found']: cfps && !cfps?.length}
           )}
         >
-          {(cfps && !cfps?.length) && (
+          {(cfps && !cfps?.length || favorites && !favorites.length) && (
             <div className="not-found--cfp">
               <NotFound title={'Кавʼярень'} styling='--cfp' />
             </div>
           )}
+
+
           <ul className="cfp-card__list">
-          
+
             {cfps && cfps.map(cfpItem => {
-              const {id, isDisable, title, open, close, logo, location } = cfpItem;
+              const {id, isDisable, title, open, close, logo } = cfpItem;
+
+              console.log(favorites);
+
+              if (favorites && !favorites.includes(id)) {
+                return;
+              }
 
               return (
                 <li
@@ -424,6 +464,18 @@ export const HomePageUser: React.FC = () => {
                   id={id.toString()}
                   key={id}
                 >
+
+                  <div className="cfp-card__favorite">
+                    <img
+                      src={
+                        favoriteShops.includes(id)
+                          ? '../favorite-active.svg'
+                          : '../favorite-inactive.svg'}
+                      alt=""
+                      className="cfp-card__fav-photo"
+                      onClick={() => handleAddFavorite(id)}
+                    />
+                  </div>
 
                   <Link
                     to={`/coffeeshops/${title}`}
@@ -461,7 +513,7 @@ export const HomePageUser: React.FC = () => {
                     {`Закриття: ${close.toString().slice(0, 5)}`}
                   </div>
 
-                  <div className="cfp-card__location">
+                  {/* <div className="cfp-card__location">
                     <div className="cfp-card__location">
                       <a href={location} target="_blank">
                         <img
@@ -471,14 +523,14 @@ export const HomePageUser: React.FC = () => {
                         />
                       </a>
                     </div>
-                  </div>
+                  </div> */}
                 </li>
               );
             })}
           </ul>
         </div>
 
-        {cfps && (cfps?.length) > 0 && (
+        {(cfps && cfps?.length > 0) && (
           <div className="cfp__buttons">
             <button
               className="pagination-previous cfp__buttons-pagination"

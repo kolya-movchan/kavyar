@@ -24,6 +24,7 @@ import { FormEdit } from './components/Admin/Form/FormEdit';
 import { Header } from './components/Header';
 import { HomePageUser } from './components/User/HomePageUser';
 import { CFP_LangingPage } from './components/User/CFP_LangingPage';
+import { Favorites } from './components/User/Favorites';
 
 const hashRouter = () => (
   <BrowserRouter>
@@ -41,9 +42,14 @@ const hashRouter = () => (
         <Route path="form/edit" element={<FormEdit />} />
       </Route>
 
-      {/* <Route path="/" element={<Navigate to="/admin" replace />} /> */}
-
       <Route path="/" element={<><Header navBar={false} /><HomePageUser /></>}></Route>
+      <Route path="/favorites" element={
+        <>
+          <Header navBar={false} />
+          <Favorites />
+        </>}
+      >
+      </Route>
 
       <Route path="/coffeeshops/:cfpName" element={
         <>
