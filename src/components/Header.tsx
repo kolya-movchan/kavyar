@@ -2,17 +2,13 @@ import classNames from 'classnames';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import '../styles/main.scss';
+import { logout } from './_tools/Tools';
 
 type Props = {
   navBar?: boolean,
 };
 
 export const Header: React.FC<Props> = ( {navBar = true} ) => {
-  const logout = () => {
-    localStorage.clear();
-    location.reload();
-  };
-
   return (
     <>
       <div className={classNames(

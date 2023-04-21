@@ -1,12 +1,23 @@
 /* eslint-disable no-console */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Header } from './components/Header';
 import { MenuItem } from './components/Admin/Menu.tsx/MenuItem';
 
 import './styles/main.scss';
 import { Outlet } from 'react-router-dom';
+import { logout } from './components/_tools/Tools';
 
 export const App: React.FC = () => {
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const { exp } = JSON.parse(atob(token.split('.')[1]));
+      if (Date.now() > exp * 1000) {
+        logout();
+      }
+    }
+  }, []);
+
   return (
     <>
       <Header />
