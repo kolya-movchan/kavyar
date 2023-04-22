@@ -412,6 +412,7 @@ export const HomePageUser: React.FC<Props> = ({ favorites }) => {
                         name={name}
                         onCheck={handleCheckboxes}
                         styling={'cfp-features__wrapper--cfp'}
+                        activeFeatures={featureList}
                       />
                     );
                   })}

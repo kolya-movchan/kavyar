@@ -227,24 +227,50 @@ export const Form: React.FC = () => {
     // console.log(JSON.stringify(newCFPForEdit));
   };
 
+  const cancelSubmit = () => {
+    removeLoading();
+    scrollTop();
+    setNotification('error');
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     hideNotification();
     activateLoading();
 
-    if (!logoURL.match(emailRegex)) {
+    if (!logoURL.match(emailRegex) || !logoURL.trim()) {
       setLogoURL('');
-      removeLoading();
-      scrollTop();
+      cancelSubmit();
 
       return;
     }
 
-    if (!socialURL.match(emailRegex)) {
+    if (!socialURL.match(emailRegex) || !socialURL.trim()) {
       setSocialURL('');
-      removeLoading();
-      scrollTop();
+      cancelSubmit();
+
+      return;
+    }
+
+    if (
+      !googleMapsURL.includes('map')
+      || !googleMapsURL.match(emailRegex)
+      || !googleMapsURL.trim()
+    ) {
+      setGoogleMapsURL('');
+      cancelSubmit();
+
+      return;
+    }
+
+    if (
+      !socialURL.includes('facebook') ||
+      !socialURL.includes('instagram') ||
+      !googleMapsURL.match(emailRegex)
+    ) {
+      setGoogleMapsURL('');
+      cancelSubmit();
 
       return;
     }

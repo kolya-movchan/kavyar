@@ -1,11 +1,11 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React, { useState } from 'react';
+import React from 'react';
 
 type Props = {
   id: number,
   name: string,
   onCheck: (value: string) => void,
   styling?: string,
+  activeFeatures: string[],
 };
 
 export const CheckBoxCFP: React.FC<Props> = ({
@@ -13,12 +13,10 @@ export const CheckBoxCFP: React.FC<Props> = ({
   onCheck,
   id,
   styling = '',
+  activeFeatures,
 }) => {
 
-  // const [isChecked, setIsChecked] = useState(false);
-
   const handleSelect = () => {
-    // setIsChecked(!isChecked);
     onCheck(id.toString());
   };
 
@@ -33,7 +31,7 @@ export const CheckBoxCFP: React.FC<Props> = ({
         name={name}
         id={id.toString()}
         onChange={() => handleSelect()}
-        // checked={isChecked}
+        checked={activeFeatures?.includes(id.toString())}
       />
 
       <span className="cfp-features__name">

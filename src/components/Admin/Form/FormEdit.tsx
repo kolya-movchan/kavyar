@@ -164,13 +164,8 @@ export const FormEdit: React.FC = () => {
     setNotification('');
   };
 
-  // const handleEditSubmit = () => {
-  //   // const cityName = cities?.find(city => city.id === +cityId)?.name;
-  //   // const featuresForEdit = features?.filter(featuresValue => featureList.includes(featuresValue.id));
+  // console.log(name);
 
-
-  //   // console.log(JSON.stringify(newCFPForEdit));
-  // };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -178,11 +173,17 @@ export const FormEdit: React.FC = () => {
     hideNotification();
     activateLoading();
 
+    if (!name.trim()) {
+      removeLoading();
+      setNotification('error');
+      
+      return;
+    }
+
     if (!logoURL.match(emailRegex)) {
       setLogoURL('');
       removeLoading();
       scrollTop();
-
       return;
     }
 
@@ -329,18 +330,6 @@ export const FormEdit: React.FC = () => {
         console.log(e);
       });
   };
-
-
-  // const alertUser = (event: BeforeUnloadEvent) => {
-  //   event.returnValue = "";
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener("beforeunload", alertUser);
-  //   return () => {
-  //     window.removeEventListener("beforeunload", alertUser);
-  //   };
-  // }, []);
   
   return (
     <>

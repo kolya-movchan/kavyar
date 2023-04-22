@@ -162,7 +162,7 @@ export const CoffeeShops: React.FC = () => {
 
     switch (status) {
     case false: {
-      if (confirm(notificationDelete) == true) {
+      if (confirm(notificationDelete) === true) {
         htmlElement?.classList.add('hidden');
         activateLoading();
 
@@ -187,7 +187,7 @@ export const CoffeeShops: React.FC = () => {
       break;
 
     case true: {
-      if (confirm(notificationRestore) == true) {
+      if (confirm(notificationRestore) === true) {
         htmlElement?.classList.add('hidden');
         setLoader(true);
         
@@ -413,6 +413,7 @@ export const CoffeeShops: React.FC = () => {
                         name={name}
                         onCheck={handleCheckboxes}
                         styling={'cfp-features__wrapper--cfp'}
+                        activeFeatures={featureList}
                       />
                     );
                   })}

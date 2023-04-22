@@ -10,10 +10,6 @@
     color: $main-color-2;
     position: relative;
     z-index: 1;
-
-    &:hover + .logo__image {
-      transform: rotate(0deg);
-    }
   }
 
   &__image {
