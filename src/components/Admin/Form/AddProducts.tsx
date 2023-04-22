@@ -97,11 +97,10 @@ export const AddProducts: React.FC<Props> = ({
         />
 
         <button
-          className="button is-link cfp-products__add-button"
+          className="button cfp-products__add-button is-black hoveredButton"
           type="button"
           onClick={onAdd}
           disabled={disabledAdd}
-          style={{ backgroundColor: '#000' }}
         >
           Додати
         </button>

@@ -35,9 +35,8 @@ export const DynamicAddButton: React.FC<Props> = ({
 
         {!hideMode && (
           <button
-            className="filters__add-button button is-link"
+            className="button is-black hoveredButton"
             onClick={() => onAdd()}
-            style={{ backgroundColor: '#000' }}
             disabled={!query.length}
           >
             Додати

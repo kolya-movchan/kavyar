@@ -256,9 +256,8 @@ export const Products: React.FC = ( ) => {
 
           {(query && newCategoryId) && (
             <button
-              className="filters__add-button button is-link"
+              className="filters__add-button is-black button hoveredButton"
               onClick={() => addProducts()}
-              style={{ backgroundColor: '#000' }}
             >
               Додати
             </button>

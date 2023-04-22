@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAllProductsAPI, getCFPById, getCitiesAll, updateCFPById } from '../../../api/fetch';
+import { getAllProductsAPI, getCFPById, getCitiesAll, getFeaturesAll, updateCFPById } from '../../../api/fetch';
 
 import '../../../styles/blocks/admin/Form.scss';
 import { City } from '../../../types/City';
@@ -11,10 +11,12 @@ import { scrollTop } from '../../_tools/Tools';
 import { convertGoogleDrive, convertGoogleMap } from '../../_tools/Tools';
 import { AddProducts } from './AddProducts';
 import { Contacts } from './Contacts';
-import { Features } from './Features';
+// import { Features } from './Features';
 import { InputField } from './InputField';
 import { useLocation } from "react-router-dom";
 import { CFPforEDIT } from '../../../types/CFP';
+import { CheckBox } from './CheckBox';
+import { Feature } from '../../../types/Feature';
 
 export const FormEdit: React.FC = () => {
   const [loader, setLoader] = useState(false);
@@ -47,6 +49,8 @@ export const FormEdit: React.FC = () => {
 }[]>([]);
   const [photoId, setPhotoId] = useState(0);
   const [logoId, setLogoId] = useState(0);
+  const [features, setFeatures] = useState<Feature[] | null>(null);
+
 
   // const [searchParams] = useSearchParams();
   // const editMode = searchParams.get('edit');
@@ -213,16 +217,13 @@ export const FormEdit: React.FC = () => {
 
     updateCFPById(newCFPForEdit)
       .then(() => {
-        console.log('SUCCESS');
         setNotification('success');
         reset();
       })
       .catch(() => {
-        console.log('FAIL');
         setNotification('error');
       })
       .finally(() => {
-        reset();
         removeLoading();
       });
   };
@@ -258,6 +259,7 @@ export const FormEdit: React.FC = () => {
     activateLoading();
     scrollTop();
     getAllData();
+    getAllFeatures();
 
     getCFPById(location.state)
       .then((coffeShopEdit) => setUpEditInfo(coffeShopEdit))
@@ -316,6 +318,16 @@ export const FormEdit: React.FC = () => {
     ));
 
     setProductsOld(productsOldData);
+  };
+
+  const getAllFeatures = () => {
+    getFeaturesAll('features')
+      .then(featuresList => {
+        setFeatures(featuresList);
+      })
+      .catch(e => {
+        console.log(e);
+      });
   };
 
 
@@ -453,11 +465,37 @@ export const FormEdit: React.FC = () => {
               </label>
             </div>
 
-            <Features
+            {/* <Features
               cfpname={name}
               onCheck={addFeatureList}
               featuresOnEdit={featureList}
-            />
+            /> */}
+
+            <fieldset className="cfp-features">
+              <h2 className="cfp-features__title">
+                {'Особливості кав’ярні '}
+                {name.length > 0 && (
+                  <span className="highlight-container">
+                    <span className="highlight">{name}
+                    </span>
+                  </span>
+                )}
+              </h2>
+
+              <div className="cfp-features__wrapper">
+                {features?.map(feature => (
+                  <CheckBox
+                    key={feature.id}
+                    name={feature.name}
+                    value={feature.id.toString()}
+                    id={feature.id}
+                    onCheck={addFeatureList}
+                    featuresOnEdit={featureList}
+                  />
+                ))}
+
+              </div>
+            </fieldset>
 
             <fieldset className="cfp-products">
               <h2 className="cfp-products__title">
@@ -492,9 +530,8 @@ export const FormEdit: React.FC = () => {
             <div className="">
               <button
                 type="submit"
-                className="add-cfp__button button is-link"
+                className="add-cfp__button button is-black hoveredButton"
                 disabled={!fieldsFilledIn}
-                style={{ backgroundColor: '#000' }}
               >
                 Оновити кавʼярню
               </button>

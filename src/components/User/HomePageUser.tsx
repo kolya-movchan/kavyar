@@ -424,7 +424,7 @@ export const HomePageUser: React.FC<Props> = ({ favorites }) => {
         <div className="cfp__Applybuttons">
           <button
             type='submit'
-            className="button is-black"
+            className="button is-black hoveredButton"
             onClick={applyAllFilters}
             disabled={!searchParams.toString()}
           >
@@ -433,7 +433,7 @@ export const HomePageUser: React.FC<Props> = ({ favorites }) => {
           
           <button
             type='reset'
-            className="button is-black"
+            className="button is-black hoveredButton"
             onClick={resetAllFilters}
             disabled={!searchParams.toString()}
           >
@@ -464,9 +464,9 @@ export const HomePageUser: React.FC<Props> = ({ favorites }) => {
             {cfps && cfps.map(cfpItem => {
               const {id, isDisable, title, open, close, logo } = cfpItem;
 
-              if (favorites && !favorites.includes(id)) {
-                return;
-              }
+              // if (favorites && !favorites.includes(id)) {
+              //   return;
+              // }
 
               return (
                 <li
@@ -484,8 +484,11 @@ export const HomePageUser: React.FC<Props> = ({ favorites }) => {
                         favoriteShops.includes(id)
                           ? '../favorite-active.svg'
                           : '../favorite-inactive.svg'}
-                      alt=""
-                      className="cfp-card__fav-photo"
+                      alt="favorites-icon"
+                      className={classNames(
+                        "cfp-card__fav-photo",
+                        {'clicked': favoriteShops.includes(id)}
+                      )}
                       onClick={() => handleAddFavorite(id)}
                     />
                   </div>
@@ -511,7 +514,7 @@ export const HomePageUser: React.FC<Props> = ({ favorites }) => {
                   <Link
                     to={`/coffeeshops/${title}`}
                     state={id}
-                    className="cfp-card__name"
+                    className="cfp-card__name hoveredButton"
                   >
                     <span className="cfp-card__text">
                       {title}

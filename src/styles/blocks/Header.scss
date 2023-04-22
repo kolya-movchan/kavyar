@@ -37,6 +37,28 @@
     &__link {
       height: 100%;
       width: 30px;
+
+      &:hover {
+        animation: shake 0.2s linear;
+      }
+
+      @keyframes shake {
+        0% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-3px) rotate(-3deg);
+        }
+        50% {
+          transform: translateX(0) rotate(0deg);
+        }
+        75% {
+          transform: translateX(3px) rotate(3deg);
+        }
+        100% {
+          transform: translateX(0) rotate(0deg);
+        }
+      }
     }
   }
 }

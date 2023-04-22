@@ -1,11 +1,22 @@
 @import '../_utils/extends.scss';
 
-.buttons-local {
-  // @extend %flex;
-  // height: 50px;
-  // width: 180px;
-  // color: $main-color-2;
-  // background-color: $main-color;
-  // border-color: $main-color-2;
-  cursor: pointer;
+button.is-black {
+  transition: background-color 0.3s ease-in-out;
+  background-color: none;
+
+  &:hover {
+    background-color: #555;
+  }
+}
+
+ button.is-black.hoveredButton:hover {
+  background-color: #555;
+}
+
+a.hoveredButton {
+  transition: background-color 0.3s ease-in-out;
+}
+
+a.hoveredButton:hover {
+  background-color: #008080;
 }

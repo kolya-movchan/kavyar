@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { getAllProductsAPI, getCFPById, getCitiesAll, postNewCFPAPI, updateCFPById } from '../../../api/fetch';
+import { getAllProductsAPI, getCFPById, getCitiesAll, getFeaturesAll, postNewCFPAPI, updateCFPById } from '../../../api/fetch';
 
 import '../../../styles/blocks/admin/Form.scss';
 import { City } from '../../../types/City';
@@ -11,10 +11,12 @@ import { emailRegex, priceRegex } from '../../_tools/Regex';
 import { convertGoogleDrive, convertGoogleMap, scrollTop} from '../../_tools/Tools';
 import { AddProducts } from './AddProducts';
 import { Contacts } from './Contacts';
-import { Features } from './Features';
+// import { Features } from './Features';
 import { InputField } from './InputField';
 import { useLocation } from "react-router-dom";
 import { CFPforEDIT } from '../../../types/CFP';
+import { CheckBox } from './CheckBox';
+import { Feature } from '../../../types/Feature';
 
 export const Form: React.FC = () => {
   const [loader, setLoader] = useState(false);
@@ -51,6 +53,8 @@ export const Form: React.FC = () => {
   const [searchParams] = useSearchParams();
   const editMode = searchParams.get('edit');
   const location = useLocation();
+  const [features, setFeatures] = useState<Feature[] | null>(null);
+
 
   const unique_id = Date.now();
   
@@ -310,6 +314,7 @@ export const Form: React.FC = () => {
     scrollTop();
     activateLoading();
     getAllData();
+    getAllFeatures();
 
     if (editMode) {
       activateEditMode();
@@ -378,6 +383,16 @@ export const Form: React.FC = () => {
       .then((coffeShopEdit) => setUpEditInfo(coffeShopEdit))
       .finally(() => {
         removeLoading();
+      });
+  };
+
+  const getAllFeatures = () => {
+    getFeaturesAll('features')
+      .then(featuresList => {
+        setFeatures(featuresList);
+      })
+      .catch(e => {
+        console.log(e);
       });
   };
 
@@ -531,11 +546,37 @@ export const Form: React.FC = () => {
               </label>
             </div>
 
-            <Features
-              cfpname={name}
-              onCheck={addFeatureList}
-              featuresOnEdit={featureList}
-            />
+            {/* <Features
+              // cfpname={name}
+              // onCheck={addFeatureList}
+              // featuresOnEdit={featureList}
+            /> */}
+
+            <fieldset className="cfp-features">
+              <h2 className="cfp-features__title">
+                {'Особливості кав’ярні '}
+                {name.length > 0 && (
+                  <span className="highlight-container">
+                    <span className="highlight">{name}
+                    </span>
+                  </span>
+                )}
+              </h2>
+
+              <div className="cfp-features__wrapper">
+                {features?.map(feature => (
+                  <CheckBox
+                    key={feature.id}
+                    name={feature.name}
+                    value={feature.id.toString()}
+                    id={feature.id}
+                    onCheck={addFeatureList}
+                    featuresOnEdit={featureList}
+                  />
+                ))}
+
+              </div>
+            </fieldset>
 
             <fieldset className="cfp-products">
               <h2 className="cfp-products__title">
@@ -570,9 +611,8 @@ export const Form: React.FC = () => {
             <div className="">
               <button
                 type="submit"
-                className="add-cfp__button button is-link"
+                className="add-cfp__button button is-black hoveredButton"
                 disabled={!fieldsFilledIn}
-                style={{ backgroundColor: '#000' }}
               >
                 {`${editMode ? 'Оновити' : 'Створити'} кавʼярню`}
               </button>

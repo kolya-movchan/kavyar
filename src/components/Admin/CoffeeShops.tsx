@@ -425,7 +425,7 @@ export const CoffeeShops: React.FC = () => {
         <div className="cfp__Applybuttons">
           <button
             type='submit'
-            className="button is-black"
+            className="button is-black hoveredButton"
             onClick={applyAllFilters}
             disabled={!searchParams.toString()}
           >
@@ -434,7 +434,7 @@ export const CoffeeShops: React.FC = () => {
           
           <button
             type='reset'
-            className="button is-black"
+            className="button is-black hoveredButton"
             onClick={resetAllFilters}
             disabled={!searchParams.toString()}
           >
