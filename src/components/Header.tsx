@@ -10,7 +10,7 @@ type Props = {
 
 export const Header: React.FC<Props> = ( {navBar = true} ) => {
   const location = useLocation();
-  const adminHomePage = location.pathname === '/admin';  
+  const adminHomePage = location.pathname.includes('/admin');
   
   return (
     <>
