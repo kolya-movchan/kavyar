@@ -8,23 +8,13 @@ import { Feature } from '../../types/Feature';
 import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
-import { scrollTop } from '../_tools/Tools';
+import { convertGoogleDrive, scrollTop } from '../_tools/Tools';
 import { CheckBoxCFP } from '../Admin/CheckBoxCFP';
 import { SelectFilters } from '../Admin/SelectFilters';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Cookies } from 'react-cookie';
 import { PopUp } from './PopUp';
 
-export const convertGoogleDrive = (link: string) => {
-  if (link.startsWith('https://drive') && link.includes('/d/')) {
-    const startIndex = link.indexOf('/d/');
-    const endIndex = link.indexOf('/view');
-
-    return `https://drive.google.com/uc?export=view&id=${link.slice((startIndex + 3), endIndex)}`;
-  }
-
-  return link;
-};
 
 type Props = {
   favorites?: number[],
@@ -41,22 +31,15 @@ export const HomePageUser: React.FC<Props> = ({ favorites }) => {
   const [cityName, setCityName] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-
   const [searchParams, setSearchParams] = useSearchParams({});
-  const baseLink = 'coffee-shops?isActive=true&';
-
   const [favoriteShops, setFavoriteShops] = useState<number[]>([]);
-  // const [isActivated, setIsActivated] = useState(false);
 
+  const baseLink = 'coffee-shops?isActive=true&';
   const cookies = new Cookies();
-
   const count = searchParams.get('count') || '';
   const query = searchParams.get('searchInTitle') || '';
-
   const [noMoreLeft, setNoMoreLeft] = useState<boolean | undefined>(false);
-
   const htmlElement = document.getElementById("html");
-
   const sortByCount = [1, 2, 3, 4, 8];
 
   const sortByProperties = [
@@ -477,9 +460,7 @@ export const HomePageUser: React.FC<Props> = ({ favorites }) => {
             </div>
           )}
 
-
           <ul className="cfp-card__list">
-
             {cfps && cfps.map(cfpItem => {
               const {id, isDisable, title, open, close, logo } = cfpItem;
 

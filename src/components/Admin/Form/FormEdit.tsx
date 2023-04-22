@@ -8,7 +8,7 @@ import { ErrorMessage } from '../../ErrorMessage';
 import { Loader } from '../../Loader';
 import { emailRegex, priceRegex } from '../../_tools/Regex';
 import { scrollTop } from '../../_tools/Tools';
-import { convertGoogleDrive, convertGoogleMap } from '../CoffeeShops';
+import { convertGoogleDrive, convertGoogleMap } from '../../_tools/Tools';
 import { AddProducts } from './AddProducts';
 import { Contacts } from './Contacts';
 import { Features } from './Features';
