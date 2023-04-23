@@ -33,7 +33,7 @@ export const CoffeeShops: React.FC = () => {
   // const [cityId, setCityId] = useState(0);
   // const [isActive, setIsActive] = useState('');
 
-  const baseLink = 'coffee-shops?isActive=true&';
+  const baseLink = 'coffee-shops?';
   const count = searchParams.get('count') || '';
   const query = searchParams.get('searchInTitle') || '';
   const [noMoreLeft, setNoMoreLeft] = useState<boolean | undefined>(false);
