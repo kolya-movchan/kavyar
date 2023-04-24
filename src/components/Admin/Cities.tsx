@@ -184,7 +184,7 @@ export const Cities: React.FC = ( ) => {
         {notification === 'error-add' && (
           <ErrorMessage
             title='Не вдалось додати 😔'
-            description='Спробуйте ще раз'
+            description='Спробуйте ще раз або перевірте адмінський доступ'
             type='error'
             onExit={hideNotification}
           />
@@ -204,7 +204,7 @@ export const Cities: React.FC = ( ) => {
         {notification === 'error-delete' && (
           <ErrorMessage
             title='Не вдалось видалити 😔'
-            description='Спробуйте ще раз'
+            description='Спробуйте ще раз або перевірте адмінський доступ'
             type='error'
             onExit={hideNotification}
           />

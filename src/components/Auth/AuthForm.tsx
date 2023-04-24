@@ -9,9 +9,10 @@ import { Header } from '../Header';
 
 export type Props = {
   onLogin: () => void,
+  onGuestMode: () => void,
 };
 
-export const AuthForm: React.FC<Props> = ({ onLogin }) => {
+export const AuthForm: React.FC<Props> = ({ onLogin, onGuestMode }) => {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -139,6 +140,17 @@ export const AuthForm: React.FC<Props> = ({ onLogin }) => {
                 type="submit"
               >
                 Увійти
+              </button>
+
+              <button
+                className={classNames(
+                  'button is-info login__login-button--guest login__login-button',
+                  // {'is-loading': loading}
+                )}
+                type="submit"
+                onClick={() => onGuestMode()}
+              >
+                Увійти як гість
               </button>
             </div>
           </div>

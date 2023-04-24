@@ -174,7 +174,7 @@ export const Categories: React.FC = ( ) => {
         {notification === 'error-add' && (
           <ErrorMessage
             title='Не вдалось додати категорію 😔'
-            description='Спробуйте ще раз'
+            description='Спробуйте ще раз або перевірте адмінський доступ'
             type='error'
             onExit={hideNotification}
           />
@@ -194,7 +194,7 @@ export const Categories: React.FC = ( ) => {
         {notification === 'error-delete' && (
           <ErrorMessage
             title='Не вдалось видалити категорію 😔'
-            description='Спробуйте ще раз'
+            description='Спробуйте ще раз або перевірте адмінський доступ'
             type='error'
             onExit={hideNotification}
           />

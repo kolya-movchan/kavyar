@@ -178,7 +178,7 @@ export const Features: React.FC = ( ) => {
         {notification === 'error-add' && (
           <ErrorMessage
             title='Не вдалось додати особливість 😔'
-            description='Спробуйте ще раз'
+            description='Спробуйте ще раз або перевірте адмінський доступ'
             type='error'
             onExit={hideNotification}
           />
@@ -198,7 +198,7 @@ export const Features: React.FC = ( ) => {
         {notification === 'error-delete' && (
           <ErrorMessage
             title='Не вдалось видалити 😔'
-            description='Спробуйте ще раз'
+            description='Спробуйте ще раз або перевірте адмінський доступ'
             type='error'
             onExit={hideNotification}
           />

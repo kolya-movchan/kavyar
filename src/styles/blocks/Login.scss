@@ -10,7 +10,7 @@
 
   &__container {
     box-sizing: border-box;
-    height: 390px;
+    // height: 390px;
     min-width: 530px;
     background-color: rgba(0, 0, 0, 0.862);
     border-radius: 50px;
@@ -24,7 +24,7 @@
   }
 
   &__title {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     font-family: $title-bold;
     color: $main-color-2;
     font-size: 27px;
@@ -41,12 +41,12 @@
   }
 
   &__login-container {
-    margin-bottom: 35px;
+    margin-bottom: 30px;
   }
 
   &__login-button {
     margin: 0 10px;
-    width: 150px;
+    // width: 150px;
     height: 50px;
     font-family: $title-bold;
     font-size: 18px;
