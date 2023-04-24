@@ -172,7 +172,7 @@ export const HomePageUser = () => {
       finalURL += `&ids=${savedShops ? savedShops.join(',') : '0'}`;
     }
 
-    console.log('finalURL', finalURL);
+    // console.log('finalURL', finalURL);
 
 
     const result = await Promise.all(getPromises(finalURL))
