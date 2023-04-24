@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useEffect } from 'react';
 import { Header } from './components/Header';
 import { MenuItem } from './components/Admin/Menu.tsx/MenuItem';
@@ -16,6 +15,27 @@ export const App: React.FC = () => {
         logout();
       }
     }
+  }, []);
+
+  useEffect(() => {
+    const host = location.origin.replace(/^http/, 'ws');
+    const connection = new WebSocket(host);
+
+    connection.onopen = () => {
+      console.log('WebSocket connection is open.');
+    };
+
+    connection.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
+    connection.onmessage = (message) => {
+      console.log('Received message:', message.data);
+    };
+
+    return () => {
+      connection.close();
+    };
   }, []);
 
   return (
