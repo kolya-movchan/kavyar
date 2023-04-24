@@ -166,13 +166,10 @@ export const HomePageUser = () => {
     const additionalParams = searchParamsData && !reset ? `${searchParamsData}` : '';
     const savedShops = cookies.get("favoriteShops");
 
-    console.log('savedShops', savedShops);
-    
-    
     let finalURL = link + additionalParams;
 
     if (location.pathname.includes('favorites')) {
-      finalURL += savedShops.length > 0 ? `&ids=${savedShops.join(',')}` : '&ids=0';
+      finalURL += `&ids=${savedShops ? savedShops.join(',') : '0'}`;
     }
 
     console.log('finalURL', finalURL);
