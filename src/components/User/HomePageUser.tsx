@@ -15,12 +15,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { Cookies } from 'react-cookie';
 import { PopUp } from './PopUp';
 
-
-type Props = {
-  favorites?: number[],
-};
-
-export const HomePageUser: React.FC<Props> = ({ favorites }) => {
+export const HomePageUser = () => {
   const [features, setFeatures]= useState<Feature[]>();
   const [cities, setCities]= useState<City[]>();
   const [cfps, setCfps] = useState<CFPlist[]>();
@@ -169,8 +164,16 @@ export const HomePageUser: React.FC<Props> = ({ favorites }) => {
   const getAllData = async (link: string, reset = false) => {
     const searchParamsData = searchParams.toString();
     const additionalParams = searchParamsData && !reset ? `${searchParamsData}` : '';
+    const savedShops = cookies.get("favoriteShops");
+
+    console.log('savedShops', savedShops);
     
-    const finalURL = link + additionalParams;
+    
+    let finalURL = link + additionalParams;
+
+    if (location.pathname.includes('favorites')) {
+      finalURL += savedShops.length > 0 ? `&ids=${savedShops.join(',')}` : '&ids=0';
+    }
 
     console.log('finalURL', finalURL);
 
@@ -457,7 +460,7 @@ export const HomePageUser: React.FC<Props> = ({ favorites }) => {
             {['cfp-card-container--not-found']: cfps && !cfps?.length}
           )}
         >
-          {(cfps && !cfps?.length || favorites && !favorites.length) && (
+          {(cfps && !cfps.length) && (
             <div className="not-found--cfp">
               <NotFound title={'Кавʼярень'} styling='--cfp' />
             </div>
