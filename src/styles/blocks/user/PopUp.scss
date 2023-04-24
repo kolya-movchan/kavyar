@@ -2,6 +2,7 @@
 @import '../../_utils//extends.scss';
 
 .pop-up {
+  padding: 10px;
   z-index: 5;
   position: fixed;
   @extend %flex;
@@ -21,7 +22,7 @@
     padding: 10px;
     font-family: $title-bold;
     color: $main-color;
-    font-size: 35px;
+    font-size: 30px;
   }
 
   &__cities {
@@ -40,9 +41,14 @@
     padding: 5px 30px;
     font-family: $title-heavy;
     color: $main-color;
-    font-size: 30px;
+    font-size: 25px;
     border-radius: 10px;
     background-color: $bg-style;
     cursor: pointer;
+
+    li &--other {
+      // font-size: 15px;
+      // width: 100px;
+    }
   }
 }

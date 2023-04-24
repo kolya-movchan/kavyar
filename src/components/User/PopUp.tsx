@@ -33,14 +33,20 @@ export const PopUp: React.FC<Props> = ({ onChoose }) => {
         <li className="pop-up__city">
           <button
             className="pop-up__button button"
-            onClick={() => onChoose('Львів')}
+            onClick={() => onChoose('Харків')}
           >
-            Львів
+            Харків
           </button>
         </li>
 
-        {/* <button className="button is-link is-hovered">Hover</button> */}
-
+        <li className="pop-up__city">
+          <button
+            className="pop-up__button pop-up__button--other button"
+            onClick={() => onChoose('')}
+          >
+            Інше місто
+          </button>
+        </li>
       </ul>
     </div>
   );

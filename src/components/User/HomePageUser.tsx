@@ -338,6 +338,8 @@ export const HomePageUser: React.FC<Props> = ({ favorites }) => {
       setSearchParams(searchParams);
       activateLoading();
       getAllData(baseLink);
+    } else {
+      localStorage.setItem('city', 'none');
     }
 
     htmlElement?.classList.remove('hidden');
