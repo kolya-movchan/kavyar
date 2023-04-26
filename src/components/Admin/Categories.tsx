@@ -22,8 +22,6 @@ export const Categories: React.FC = ( ) => {
 
   const findDuplicate = () => {
     if (categoriesInactive && categories) {
-      console.log('DUPLICATE');
-      
       return [...categoriesInactive, ...categories].some(city => city.name.toLowerCase() === query.toLowerCase());
     }
 
@@ -51,10 +49,7 @@ export const Categories: React.FC = ( ) => {
           getAllData();
           setQuery('');
         })
-        .catch((e) => {
-          console.log(e);
-          setNotification('error-add');
-        })
+        .catch(() => setNotification('error-add'))
         .finally(() => removeLoading());
     }
   };
@@ -68,24 +63,9 @@ export const Categories: React.FC = ( ) => {
         getAllData();
         setNotification('success-delete');
       })
-      .catch((e) => {
-        setNotification('error-delete');
-        console.log(e);
-      })
+      .catch(() => setNotification('error-delete'))
       .finally(() => removeLoading());
   };
-
-  const categoriesSorted = categories?.sort((category1, category2) => category2.id - category1.id);
-  const categoriesSortedInactive = categoriesInactive?.sort((category1, category2) => {
-    return category2.id - category1.id;
-  });
-
-  const categoriesSearch = categoriesSorted?.filter(
-    category => category.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
-  );
-  const categoriesInactiveSearch = categoriesSortedInactive?.filter(
-    category => category.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
-  );
 
   const isAnyCategoryFound = () => {
     if (categoriesSearch && categoriesInactiveSearch) {
@@ -142,28 +122,41 @@ export const Categories: React.FC = ( ) => {
     setNotification('');
   };
 
+  const categoriesSorted = categories?.sort((category1, category2) => category2.id - category1.id);
+  const categoriesSortedInactive = categoriesInactive?.sort((category1, category2) => {
+    return category2.id - category1.id;
+  });
+
+  const categoriesSearch = categoriesSorted?.filter(
+    category => category.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
+  );
+  const categoriesInactiveSearch = categoriesSortedInactive?.filter(
+    category => category.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
+  );
+
   useEffect(() => {
     activateLoading();
-
     getAllData();
   }, []);
 
   return (
     <>
       <div className="menus-top">
-        {loader && (
-          <Loader
-            type={categories ? 'bubbles' : 'spin'}
-            color='#000'
-          />
-        )}
+        {loader && <Loader type={categories ? 'bubbles' : 'spin'} color='#000'/>}
 
         {(notification === 'success-add') && (
           <Notification
-            title='Запит виконано 😎☕'
-            description={
-              `Категорію успішно додано, вітаю!`
-            }
+            title='Запит виконано 😎'
+            description='Категорію успішно додано, вітаю!'
+            type='success'
+            onExit={hideNotification}
+          />
+        )}
+
+        {(notification === 'success-delete') && (
+          <Notification
+            title='Запит виконано 😎'
+            description='Категорію успішно видалено, вітаю!'
             type='success'
             onExit={hideNotification}
           />
@@ -174,17 +167,6 @@ export const Categories: React.FC = ( ) => {
             title='Не вдалось додати категорію 😔'
             description='Спробуйте ще раз або перевірте адмінський доступ'
             type='error'
-            onExit={hideNotification}
-          />
-        )}
-
-        {(notification === 'success-delete') && (
-          <Notification
-            title='Запит виконано 😎☕'
-            description={
-              `Категорію успішно видалено, вітаю!`
-            }
-            type='success'
             onExit={hideNotification}
           />
         )}
@@ -215,9 +197,7 @@ export const Categories: React.FC = ( ) => {
       </div>
 
       <div className="filters">
-        {!isAnyCategoryFound() && (
-          <NotFound title='Категорій' text='filters'/>
-        )}
+        {!isAnyCategoryFound() && <NotFound title='Категорій' text='filters'/>}
 
         <div className="filters__active filters__allLists">
           {(categoriesSearch && categoriesSearch.length > 0) && (
@@ -243,7 +223,7 @@ export const Categories: React.FC = ( ) => {
         <div className="filters__inactive filters__allLists">
           {(categoriesInactiveSearch && categoriesInactiveSearch.length > 0) && (
             <h2 className="filters__title">
-            Неактивні
+              Неактивні
             </h2>
           )}
 

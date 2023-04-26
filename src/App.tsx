@@ -21,18 +21,6 @@ export const App: React.FC = () => {
     const host = location.origin.replace(/^http/, 'ws');
     const connection = new WebSocket(host);
 
-    connection.onopen = () => {
-      console.log('WebSocket connection is open.');
-    };
-
-    connection.onerror = (error) => {
-      console.error('WebSocket error:', error);
-    };
-
-    connection.onmessage = (message) => {
-      console.log('Received message:', message.data);
-    };
-
     return () => {
       connection.close();
     };

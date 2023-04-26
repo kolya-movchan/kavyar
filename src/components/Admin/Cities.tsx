@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 import { deleteCity, getCitiesAll, postNewCity } from '../../api/fetch';
-import { City } from '../../types/City';
 import { Notification } from '../Notification';
 import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
@@ -10,21 +9,21 @@ import { validateInput } from '../_tools/Regex';
 import { DynamicAddButton } from './DynamicAddButton';
 import { DynamicField } from './DynamicField';
 
+import { City } from '../../types/City';
+
 export const Cities: React.FC = ( ) => {
   const [query, setQuery] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-  const [input, setInput] = useState(false);
   const [cities, setCities] = useState<City[] | null>(null);
+  const [notification, setNotification] = useState<null | string>('');
   const [citiesInactive, setCitiesInactive] = useState<City[] | null>(null);
   const [loader, setLoader] = useState(false);
-  const [notification, setNotification] = useState<null | string>('');
+  const [input, setInput] = useState(false);
 
   const htmlElement = document.getElementById("html");
 
   const findDuplicate = () => {
     if (citiesInactive && cities) {
-      console.log('DUPLICATE');
-      
       return [...citiesInactive, ...cities].some(city => city.name.toLowerCase() === query.toLowerCase());
     }
 
@@ -54,10 +53,7 @@ export const Cities: React.FC = ( ) => {
           setNotification('success-add');
           getAllData();
         })
-        .catch((e) => {
-          console.log(e);
-          setNotification('error-add');
-        })
+        .catch(() => setNotification('error-add'))
         .finally(() => {
           removeLoading();
         });
@@ -73,30 +69,11 @@ export const Cities: React.FC = ( ) => {
         getAllData();
         setNotification('success-delete');
       })
-      .catch((e) => {
-        console.log(e);
-        setNotification('error-delete');
-      })
+      .catch(() => setNotification('error-delete'))
       .finally(() => {
         removeLoading();
       });
   };
-
-  const citiesSorted = cities?.sort((city1, city2) => {
-    return city2.id - city1.id;
-  });
-
-  const citiesSortedInactive = citiesInactive?.sort((city1, city2) => {
-    return city2.id - city1.id;
-  });
-
-  const citiesSearch = citiesSorted?.filter(
-    city => city.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
-  );
-
-  const citiesInactiveSearch = citiesSortedInactive?.filter(
-    city => city.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
-  );
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
     if (event.key === 'Escape') {
@@ -153,6 +130,22 @@ export const Cities: React.FC = ( ) => {
     setNotification('');
   };
 
+  const citiesSorted = cities?.sort((city1, city2) => {
+    return city2.id - city1.id;
+  });
+
+  const citiesSortedInactive = citiesInactive?.sort((city1, city2) => {
+    return city2.id - city1.id;
+  });
+
+  const citiesSearch = citiesSorted?.filter(
+    city => city.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
+  );
+
+  const citiesInactiveSearch = citiesSortedInactive?.filter(
+    city => city.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
+  );
+
   useEffect(() => {
     activateLoading();
     getAllData();
@@ -161,12 +154,7 @@ export const Cities: React.FC = ( ) => {
   return (
     <>
       <div className="menus-top">
-        {loader && (
-          <Loader
-            type={cities ? 'bubbles' : 'spin'}
-            color='#000'
-          />
-        )}
+        {loader && <Loader type={cities ? 'bubbles' : 'spin'} color='#000'/>}
 
         {(notification === 'success-add') && (
           <Notification
@@ -227,9 +215,7 @@ export const Cities: React.FC = ( ) => {
       </div>
 
       <div className="filters">
-        {!isAnyCityFound() && (
-          <NotFound title='Міст' text='filters'/>
-        )}
+        {!isAnyCityFound() && <NotFound title='Міст' text='filters'/>}
 
         <div className="filters__active filters__allLists">
           {(citiesSearch && citiesSearch.length > 0) && (

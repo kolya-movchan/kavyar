@@ -1,12 +1,8 @@
-/* eslint-disable no-useless-escape */
-import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import classNames from 'classnames';
+
 import { deleteCFPAPI, getAllCFPAPI, getCitiesAll, getFeaturesAll, restoreCFPAPI } from '../../api/fetch';
-import { CFP, CFPlist } from '../../types/CFP';
-import { City } from '../../types/City';
-import { SortByProperty } from '../../types/enums/SortByProperty';
-import { Feature } from '../../types/Feature';
 import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
@@ -14,29 +10,28 @@ import { convertGoogleDrive, scrollTop } from '../_tools/Tools';
 import { CheckBoxCFP } from './CheckBoxCFP';
 import { SelectFilters } from './SelectFilters';
 
+import { SortByProperty } from '../../types/enums/SortByProperty';
+import { Feature } from '../../types/Feature';
+import { CFP, CFPlist } from '../../types/CFP';
+import { City } from '../../types/City';
 
 export const CoffeeShops: React.FC = () => {
-  const [features, setFeatures]= useState<Feature[]>();
-  const [cities, setCities]= useState<City[]>();
-  const [cfps, setCfps] = useState<CFPlist[]>();
   const [showEditId, setShowEditId] = useState(0);
-  const [loader, setLoader] = useState(false);
   const [page, setPage]= useState(1);
-  const [featureList, setFeatureList] = useState<string[]>([]);
   const [filter, setFilter] = useState('');
   const [cityName, setCityName] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [loader, setLoader] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams({});
-
-  // const [asc, setAsc] = useState('ASC');
-  // const [sort, setSort] = useState('isDisable');
-  // const [cityId, setCityId] = useState(0);
-  // const [isActive, setIsActive] = useState('');
+  const [cities, setCities]= useState<City[]>();
+  const [cfps, setCfps] = useState<CFPlist[]>();
+  const [features, setFeatures]= useState<Feature[]>();
+  const [featureList, setFeatureList] = useState<string[]>([]);
+  const [noMoreLeft, setNoMoreLeft] = useState<boolean | undefined>(false);
 
   const baseLink = 'coffee-shops?';
   const count = searchParams.get('count') || '';
   const query = searchParams.get('searchInTitle') || '';
-  const [noMoreLeft, setNoMoreLeft] = useState<boolean | undefined>(false);
   const htmlElement = document.getElementById("html");
   const sortByCount = [1, 2, 3, 4, 8];
 
@@ -48,7 +43,6 @@ export const CoffeeShops: React.FC = () => {
     SortByProperty.openingDesc,
     SortByProperty.closingDesc,
   ];
-
 
   const handleSortByProperties = (value: string) => {
     switch (value) {
@@ -229,9 +223,6 @@ export const CoffeeShops: React.FC = () => {
     
     const finalURL = link + additionalParams;
 
-    console.log('finalURL', finalURL);
-
-
     const result = await Promise.all(getPromises(finalURL))
       .finally(() => {
         htmlElement?.classList.remove('hidden');
@@ -260,58 +251,6 @@ export const CoffeeShops: React.FC = () => {
     setLoader(true);
     htmlElement?.classList.add('hidden');
   };
-
-  useEffect(() => {
-    activateLoading();
-    getAllData(baseLink);
-  }, []);
-
-  useEffect(() => {
-    const currentSort = searchParams.get('sortBy');
-    const currentCityId = searchParams.get('city');
-    const currentPage = searchParams.get('page');
-
-    if (currentPage) {
-      setPage(+currentPage);
-    }
-
-
-    if (currentCityId) {
-      const activeCity = cities?.find(cityValue => cityValue.id === +currentCityId);
-
-      setCityName(activeCity?.name || '');
-    }
-    
-
-    switch (currentSort) {
-    case 'title:ASC':
-      setFilter(SortByProperty.titleAsc);
-      break;
-
-    case 'open:ASC':
-      setFilter(SortByProperty.openingAsc);
-      break;
-
-    case 'close:ASC':
-      setFilter(SortByProperty.closingAsc);
-      break;
-
-    case 'title:DESC':
-      setFilter(SortByProperty.titleDesc);
-      break;
-
-    case 'open:DESC':
-      setFilter(SortByProperty.openingDesc);
-      break;
-
-    case 'close:DESC':
-      setFilter(SortByProperty.closingDesc);
-      break;
-  
-    default: break;
-    }
-
-  }, [searchParams]);
 
   const handleCountSelect = (value: string) => {
     setRightParams(value, 'count');
@@ -348,14 +287,59 @@ export const CoffeeShops: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    activateLoading();
+    getAllData(baseLink);
+  }, []);
+
+  useEffect(() => {
+    const currentSort = searchParams.get('sortBy');
+    const currentCityId = searchParams.get('city');
+    const currentPage = searchParams.get('page');
+
+    if (currentPage) {
+      setPage(+currentPage);
+    }
+
+    if (currentCityId) {
+      const activeCity = cities?.find(cityValue => cityValue.id === +currentCityId);
+
+      setCityName(activeCity?.name || '');
+    }
+
+    switch (currentSort) {
+    case 'title:ASC':
+      setFilter(SortByProperty.titleAsc);
+      break;
+
+    case 'open:ASC':
+      setFilter(SortByProperty.openingAsc);
+      break;
+
+    case 'close:ASC':
+      setFilter(SortByProperty.closingAsc);
+      break;
+
+    case 'title:DESC':
+      setFilter(SortByProperty.titleDesc);
+      break;
+
+    case 'open:DESC':
+      setFilter(SortByProperty.openingDesc);
+      break;
+
+    case 'close:DESC':
+      setFilter(SortByProperty.closingDesc);
+      break;
+  
+    default: break;
+    }
+
+  }, [searchParams]);
+
   return (
     <div className="cfp">
-      {loader && (
-        <Loader
-          type='spin'
-          color='#000'
-        />
-      )}
+      {loader && <Loader type='spin' color='#000'/>}
 
       <form className="cfp__top-menu">
         <div className="cfp__filters">
@@ -391,7 +375,7 @@ export const CoffeeShops: React.FC = () => {
               className="button cfp__select"
               style={{ display: 'block', padding: '7px 40px 7px 11px'}}
             >
-                Показати фільтри
+              Показати фільтри
             </button>
           </div>
 
@@ -498,9 +482,7 @@ export const CoffeeShops: React.FC = () => {
                   {showEditId === id && (
                     <div>
                       <Link
-                        to={{
-                          pathname: '/admin/form/edit',
-                        }}
+                        to={{pathname: '/admin/form/edit'}}
                         state = {cfps.find(cfpStore => cfpStore.id === id)?.id || 0}
                       >
                         <img
@@ -530,16 +512,6 @@ export const CoffeeShops: React.FC = () => {
                   <div className="cfp-card__close">
                     {`Закриття: ${close}`}
                   </div>
-
-                  {/* <div className="cfp-card__location">
-                    <a href={location} target="_blank">
-                      <img
-                        src="../location.png"
-                        alt="location"
-                        className="cfp-card__location-img"
-                      />
-                    </a>
-                  </div> */}
                 </li>
               );
             })}

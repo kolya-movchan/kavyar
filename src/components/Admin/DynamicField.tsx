@@ -1,5 +1,4 @@
 import React from 'react';
-// import { Category } from '../../types/Category';
 
 type Props = {
   value: string,
@@ -15,8 +14,7 @@ export const DynamicField: React.FC<Props> = ({
   styling,
   stylingLink,
   id = 0,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onDelete = () => {},
+  onDelete = () => null,
 }) => {
   return (
     <>

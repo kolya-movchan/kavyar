@@ -1,29 +1,32 @@
-import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { Cookies } from 'react-cookie';
+import classNames from 'classnames';
+
 import { getAllCFPAPI, getCitiesAll, getFeaturesAll } from '../../api/fetch';
-import { CFP, CFPlist } from '../../types/CFP';
-import { City } from '../../types/City';
-import { SortByProperty } from '../../types/enums/SortByProperty';
-import { Feature } from '../../types/Feature';
 import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
 import { convertGoogleDrive, scrollTop } from '../_tools/Tools';
 import { CheckBoxCFP } from '../Admin/CheckBoxCFP';
 import { SelectFilters } from '../Admin/SelectFilters';
-import { Link, useSearchParams } from 'react-router-dom';
-import { Cookies } from 'react-cookie';
 import { PopUp } from './PopUp';
 
+import { CFP, CFPlist } from '../../types/CFP';
+import { City } from '../../types/City';
+import { SortByProperty } from '../../types/enums/SortByProperty';
+import { Feature } from '../../types/Feature';
+import { CFP_card } from './CFP_card';
+
 export const HomePageUser = () => {
+  const [filter, setFilter] = useState('');
+  const [cityName, setCityName] = useState('');
+  const [page, setPage]= useState(1);
   const [features, setFeatures]= useState<Feature[]>();
   const [cities, setCities]= useState<City[]>();
   const [cfps, setCfps] = useState<CFPlist[]>();
-  const [loader, setLoader] = useState(false);
   const [featureList, setFeatureList] = useState<string[]>([]);
-  const [page, setPage]= useState(1);
-  const [filter, setFilter] = useState('');
-  const [cityName, setCityName] = useState('');
+  const [loader, setLoader] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams({});
@@ -113,7 +116,6 @@ export const HomePageUser = () => {
     const currentPage = searchParams.get('page') || 2;
     const pageConverted = (+currentPage - 1).toString();
 
-
     setRightParams(pageConverted, 'page');
     getAllData(baseLink);
   };
@@ -172,9 +174,6 @@ export const HomePageUser = () => {
       finalURL += `&ids=${savedShops ? savedShops.join(',') : '0'}`;
     }
 
-    // console.log('finalURL', finalURL);
-
-
     const result = await Promise.all(getPromises(finalURL))
       .finally(() => {
         htmlElement?.classList.remove('hidden');
@@ -206,58 +205,6 @@ export const HomePageUser = () => {
     htmlElement?.classList.add('hidden');
   };
 
-  useEffect(() => {
-    activateLoading();
-    getAllData(baseLink);
-  }, []);
-
-  useEffect(() => {
-    const currentSort = searchParams.get('sortBy');
-    const currentCityId = searchParams.get('city');
-    const currentPage = searchParams.get('page');
-
-    if (currentPage) {
-      setPage(+currentPage);
-    }
-
-
-    if (currentCityId) {
-      const activeCity = cities?.find(cityValue => cityValue.id === +currentCityId);
-
-      setCityName(activeCity?.name || '');
-    }
-    
-
-    switch (currentSort) {
-    case 'title:ASC':
-      setFilter(SortByProperty.titleAsc);
-      break;
-
-    case 'open:ASC':
-      setFilter(SortByProperty.openingAsc);
-      break;
-
-    case 'close:ASC':
-      setFilter(SortByProperty.closingAsc);
-      break;
-
-    case 'title:DESC':
-      setFilter(SortByProperty.titleDesc);
-      break;
-
-    case 'open:DESC':
-      setFilter(SortByProperty.openingDesc);
-      break;
-
-    case 'close:DESC':
-      setFilter(SortByProperty.closingDesc);
-      break;
-  
-    default: break;
-    }
-
-  }, [searchParams]);
-  
   const handleCountSelect = (value: string) => {
     setRightParams(value, 'count');
   };
@@ -307,13 +254,6 @@ export const HomePageUser = () => {
     cookies.set("favoriteShops", newShops, { path: "/" });
   };
 
-  useEffect(() => {
-    const savedShops = cookies.get("favoriteShops");
-    if (savedShops) {
-      setFavoriteShops(savedShops);
-    }
-  }, []);
-
   const checkFirstLogin = () => {
     const cfpContainer = document.querySelector('.cfp');
 
@@ -321,11 +261,7 @@ export const HomePageUser = () => {
       cfpContainer?.classList.add('disabled');
       htmlElement?.classList.add('hidden');
       setIsLoaded(true);
-
-      return true;
     }
-
-    return false;
   };
 
   const handleCityPopUp = (city: string) => {
@@ -347,16 +283,67 @@ export const HomePageUser = () => {
     setIsLoaded(false);
   };
 
+  useEffect(() => {
+    activateLoading();
+    getAllData(baseLink);
+
+    const savedShops = cookies.get("favoriteShops");
+
+    if (savedShops) {
+      setFavoriteShops(savedShops);
+    }
+  }, []);
+
+  useEffect(() => {
+    const currentSort = searchParams.get('sortBy');
+    const currentCityId = searchParams.get('city');
+    const currentPage = searchParams.get('page');
+
+    if (currentPage) {
+      setPage(+currentPage);
+    }
+
+    if (currentCityId) {
+      const activeCity = cities?.find(cityValue => cityValue.id === +currentCityId);
+
+      setCityName(activeCity?.name || '');
+    }
+
+    switch (currentSort) {
+    case 'title:ASC':
+      setFilter(SortByProperty.titleAsc);
+      break;
+
+    case 'open:ASC':
+      setFilter(SortByProperty.openingAsc);
+      break;
+
+    case 'close:ASC':
+      setFilter(SortByProperty.closingAsc);
+      break;
+
+    case 'title:DESC':
+      setFilter(SortByProperty.titleDesc);
+      break;
+
+    case 'open:DESC':
+      setFilter(SortByProperty.openingDesc);
+      break;
+
+    case 'close:DESC':
+      setFilter(SortByProperty.closingDesc);
+      break;
+  
+    default: break;
+    }
+
+  }, [searchParams]);
+
   return (
     <div className="cfp">
       {isLoaded && <PopUp onChoose={handleCityPopUp} />}
 
-      {loader && (
-        <Loader
-          type='spin'
-          color='#000'
-        />
-      )}
+      {loader && <Loader type='spin' color='#000' />}
 
       <form className="cfp__top-menu">
         <div className="cfp__filters">
@@ -392,7 +379,7 @@ export const HomePageUser = () => {
               className="button cfp__select"
               style={{ display: 'block', padding: '7px 40px 7px 11px'}}
             >
-                Показати фільтри
+              Показати фільтри
             </button>
           </div>
 
@@ -463,85 +450,13 @@ export const HomePageUser = () => {
 
           <ul className="cfp-card__list">
             {cfps && cfps.map(cfpItem => {
-              const {id, isDisable, title, open, close, logo } = cfpItem;
-
-              // if (favorites && !favorites.includes(id)) {
-              //   return;
-              // }
-
               return (
-                <li
-                  className={classNames(
-                    "cfp-card",
-                    {'cfp-card--deactivated': isDisable}
-                  )}
-                  id={id.toString()}
-                  key={id}
-                >
-
-                  <div className="cfp-card__favorite">
-                    <img
-                      src={
-                        favoriteShops.includes(id)
-                          ? '../favorite-active.svg'
-                          : '../favorite-inactive.svg'}
-                      alt="favorites-icon"
-                      className={classNames(
-                        "cfp-card__fav-photo",
-                        {'clicked': favoriteShops.includes(id)}
-                      )}
-                      onClick={() => handleAddFavorite(id)}
-                    />
-                  </div>
-
-                  <Link
-                    to={`/coffeeshops/${title}`}
-                    className="cfp-card__logo-container"
-                    state={id}
-                  >
-                    <img
-                      src={logo}
-                      alt="coffeeshop logo"
-                      className="cpf-card__logo"
-                      style={{
-                        borderRadius: '10px',
-                        height: '150px',
-                        objectPosition: 'center',
-                        objectFit: 'cover',
-                      }}
-                    />
-                  </Link>
-
-                  <Link
-                    to={`/coffeeshops/${title}`}
-                    state={id}
-                    className="cfp-card__name hoveredButton"
-                  >
-                    <span className="cfp-card__text">
-                      {title}
-                    </span>
-                  </Link>
-
-                  <div className="cfp-card__open">
-                    {`Відкриття: ${open.toString().slice(0, 5)}`}
-                  </div>
-
-                  <div className="cfp-card__close">
-                    {`Закриття: ${close.toString().slice(0, 5)}`}
-                  </div>
-
-                  {/* <div className="cfp-card__location">
-                    <div className="cfp-card__location">
-                      <a href={location} target="_blank">
-                        <img
-                          src="../location.png"
-                          alt="location"
-                          className="cfp-card__location-img"
-                        />
-                      </a>
-                    </div>
-                  </div> */}
-                </li>
+                <CFP_card
+                  key={cfpItem.id}
+                  cfpData={cfpItem}
+                  favoriteShops={favoriteShops}
+                  onAdd={handleAddFavorite}
+                />
               );
             })}
           </ul>
@@ -570,4 +485,3 @@ export const HomePageUser = () => {
     </div>
   );
 };
-

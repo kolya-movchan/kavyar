@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
+
 import { deleteFeatureAPI, getFeaturesAll, postNewFeature } from '../../api/fetch';
-import { Feature } from '../../types/Feature';
 import { Notification } from '../Notification';
 import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
@@ -9,19 +9,21 @@ import { validateInput } from '../_tools/Regex';
 import { DynamicAddButton } from './DynamicAddButton';
 import { DynamicField } from './DynamicField';
 
+import { Feature } from '../../types/Feature';
+
 export const Features: React.FC = ( ) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [query, setQuery] = useState('');
   const [input, setInput] = useState(false);
+  const [loader, setLoader] = useState(false);
   const [features, setFeatures] = useState<Feature[] | null>(null);
   const [featuresInactive, setFeaturesInactive] = useState<Feature[] | null>(null);
-  const [loader, setLoader] = useState(false);
   const [notification, setNotification] = useState<null | string>('');
 
   const htmlElement = document.getElementById("html");
 
   const findDuplicate = () => {
-    if (featuresInactive && features) {      
+    if (featuresInactive && features) {
       return [...featuresInactive, ...features].some(city => city.name.toLowerCase() === query.toLowerCase());
     }
 
@@ -44,17 +46,13 @@ export const Features: React.FC = ( ) => {
 
       activateLoading();
 
-
       postNewFeature(newFeature)
         .then(() => {
           setNotification('success-add');
           getAllData();
           setQuery('');
         })
-        .catch((e) => {
-          setNotification('error-add');
-          console.log(e);
-        })
+        .catch(() => setNotification('error-add'))
         .finally(() => removeLoading());
     }
   };
@@ -68,28 +66,9 @@ export const Features: React.FC = ( ) => {
         getAllData();
         setNotification('success-delete');
       })
-      .catch((e) => {
-        console.log(e);
-        setNotification('error-delete');
-      })
+      .catch(() => setNotification('error-delete'))
       .finally(() => removeLoading());
   };
-
-  const featuresSorted = features?.sort((feature1, feature2) => {
-    return feature2.id - feature1.id;
-  });
-
-  const featuresSortedInactive = featuresInactive?.sort((feature1, feature2) => {
-    return feature2.id - feature1.id;
-  });
-
-  const featuresSearch = featuresSorted?.filter(
-    feature => feature.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
-  );
-
-  const featuresInactiveSearch = featuresSortedInactive?.filter(
-    feature => feature.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
-  );
 
   const isAnyFeatureFound = () => {
     if (featuresSearch && featuresInactiveSearch) {
@@ -146,6 +125,22 @@ export const Features: React.FC = ( ) => {
     setNotification('');
   };
 
+  const featuresSorted = features?.sort((feature1, feature2) => {
+    return feature2.id - feature1.id;
+  });
+
+  const featuresSortedInactive = featuresInactive?.sort((feature1, feature2) => {
+    return feature2.id - feature1.id;
+  });
+
+  const featuresSearch = featuresSorted?.filter(
+    feature => feature.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
+  );
+
+  const featuresInactiveSearch = featuresSortedInactive?.filter(
+    feature => feature.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
+  );
+
   useEffect(() => {
     activateLoading();
     getAllData();
@@ -154,19 +149,21 @@ export const Features: React.FC = ( ) => {
   return (
     <>
       <div className="menus-top">
-        {loader && (
-          <Loader
-            type={features ? 'bubbles' : 'spin'}
-            color='#000'
-          />
-        )}
+        {loader && <Loader type={features ? 'bubbles' : 'spin'} color='#000'/>}
 
         {(notification === 'success-add') && (
           <Notification
-            title='Запит виконано 😎☕'
-            description={
-              `Особливість успішно додано, вітаю!`
-            }
+            title='Запит виконано 😎'
+            description='Особливість успішно додано, вітаю!'
+            type='success'
+            onExit={hideNotification}
+          />
+        )}
+
+        {(notification === 'success-delete') && (
+          <Notification
+            title='Запит виконано 😎'
+            description='Особливість успішно видалено, вітаю!'
             type='success'
             onExit={hideNotification}
           />
@@ -177,17 +174,6 @@ export const Features: React.FC = ( ) => {
             title='Не вдалось додати особливість 😔'
             description='Спробуйте ще раз або перевірте адмінський доступ'
             type='error'
-            onExit={hideNotification}
-          />
-        )}
-
-        {(notification === 'success-delete') && (
-          <Notification
-            title='Запит виконано 😎☕'
-            description={
-              `Особливість успішно видалено, вітаю!`
-            }
-            type='success'
             onExit={hideNotification}
           />
         )}
@@ -218,9 +204,7 @@ export const Features: React.FC = ( ) => {
       </div>
 
       <div className="filters">
-        {!isAnyFeatureFound() && (
-          <NotFound title='Особливостей' text='filters'/>
-        )}
+        {!isAnyFeatureFound() && <NotFound title='Особливостей' text='filters'/>}
 
         <div className="filters__active filters__allLists">
           {(featuresSearch && featuresSearch.length > 0) && (
@@ -246,7 +230,7 @@ export const Features: React.FC = ( ) => {
         <div className="filters__inactive filters__allLists">
           {(featuresInactiveSearch && featuresInactiveSearch.length > 0) && (
             <h2 className="filters__title">
-            Неактивні
+              Неактивні
             </h2>
           )}
 

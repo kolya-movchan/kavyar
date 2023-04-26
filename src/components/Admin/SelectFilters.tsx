@@ -6,22 +6,17 @@ type Props = {
   text: string,
   data?: number[] | string[] | SortByProperty[],
   complexData?: Feature[],
-  onSelect: (value: string) => void,
   paramsValue?: string | null;
+  onSelect: (value: string) => void,
 };
 
 export const SelectFilters: React.FC<Props> = ({
   text,
   data = null,
   complexData = null,
-  onSelect,
   paramsValue,
+  onSelect,
 }) => {
-
-  if (paramsValue?.includes('↓')) {
-    console.log('paramsValue', paramsValue);
-  }
-  
   return (
     <div className="select">
       <select

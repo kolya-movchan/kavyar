@@ -1,5 +1,4 @@
 import { createRoot } from 'react-dom/client';
-import React from 'react';
 import {
   BrowserRouter,
   Navigate,
@@ -10,9 +9,9 @@ import {
 import 'bulma/css/bulma.css';
 import './index.scss';
 
+import { App } from './App';
 import { AuthProvider } from './components/Auth/AuthContext';
 import { Form } from './components/Admin/Form/Form';
-import { App } from './App';
 import { CoffeeShops } from './components/Admin/CoffeeShops';
 import { NotFound } from './components/NotFound';
 import { HomePageLogo } from './components/Admin/HomePageLogo';
@@ -42,36 +41,13 @@ const hashRouter = () => (
         <Route path="form/edit" element={<FormEdit />} />
       </Route>
 
-      <Route path="/" element={<><Header navBar={false} /><HomePageUser /></>}></Route>
-      <Route path="/favorites" element={
-        <>
-          <Header navBar={false} />
-          <Favorites />
-        </>}
-      >
-      </Route>
-
-      <Route path="/coffeeshops/:cfpName" element={
-        <>
-          <Header navBar={false} />
-          <CFP_LangingPage />
-        </>}
-      >
-      </Route>
-
-      <Route path="*" element={
-        <>
-          <Header navBar={false} />
-          <NotFound title={'Сторінку'} styling={'page'} />
-        </>}
-      >
-      </Route>
+      <Route path="/" element={<><Header navBar={false}/> <HomePageUser/></>} />
+      <Route path="/favorites" element={<><Header navBar={false}/> <Favorites/></>} />
+      <Route path="/coffeeshops/:cfpName" element={<><Header navBar={false}/> <CFP_LangingPage/></>} />
+      <Route path="*" element={<><Header navBar={false}/> <NotFound title={'Сторінку'} styling={'page'} /></>} />
     </Routes>
   </BrowserRouter>
 );
 
-// ReactDOM.render(hashRouter(), document.getElementById('root'));
-
 const root = createRoot(document.getElementById('root') as HTMLElement);
-
 root.render(hashRouter());

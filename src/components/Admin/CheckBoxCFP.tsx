@@ -3,35 +3,34 @@ import React from 'react';
 type Props = {
   id: number,
   name: string,
-  onCheck: (value: string) => void,
   styling?: string,
   activeFeatures: string[],
+  onCheck: (value: string) => void,
 };
 
 export const CheckBoxCFP: React.FC<Props> = ({
   name,
-  onCheck,
   id,
   styling = '',
   activeFeatures,
+  onCheck,
 }) => {
 
-  const handleSelect = () => {
-    onCheck(id.toString());
-  };
+  const iD = id.toString();
+  const handleSelect = () => onCheck(iD);
 
   return (
     <label
-      htmlFor={id.toString()}
+      htmlFor={iD}
       className={`cfp-features__wrapper ${styling}`}
     >
       <input
         className="cfp-features__checkBox"
         type="checkbox"
         name={name}
-        id={id.toString()}
+        id={iD}
         onChange={() => handleSelect()}
-        checked={activeFeatures?.includes(id.toString())}
+        checked={activeFeatures?.includes(iD)}
       />
 
       <span className="cfp-features__name">

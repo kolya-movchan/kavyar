@@ -9,7 +9,7 @@ type Props = {
 };
 
 
-export const SearchPannel: React.FC<Props> = ( { decoration, onChange, value, onKeyDown } ) => {
+export const SearchPannel: React.FC<Props> = ( { decoration, value, onChange, onKeyDown } ) => {
   return (
     <div
       className={`search-container ${decoration}`}
@@ -22,7 +22,6 @@ export const SearchPannel: React.FC<Props> = ( { decoration, onChange, value, on
         placeholder="Пошук"
         onChange={(event) => onChange(event.target.value)}
         maxLength={10}
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
         onKeyDown={onKeyDown}
       />
     </div>

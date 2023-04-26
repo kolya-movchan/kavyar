@@ -1,11 +1,9 @@
-// CHANGE TYPE OF INPUT TO EMAIL type="text" - WRONG/TEMPORARY
-
-import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
+import classNames from 'classnames';
 import { postCredentials } from '../../api/fetch';
-import '../../styles/main.scss';
 import { Notification } from '../Notification';
 import { Header } from '../Header';
+import '../../styles/main.scss';
 
 export type Props = {
   onLogin: () => void,
@@ -17,7 +15,6 @@ export const AuthForm: React.FC<Props> = ({ onLogin, onGuestMode }) => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  
 
   const htmlElement = document.getElementById("html");
 
@@ -46,7 +43,6 @@ export const AuthForm: React.FC<Props> = ({ onLogin, onGuestMode }) => {
       await loadAdmin();
       setError(false);
     } catch (e) {
-      console.error(e);
       setLoading(false);
       setError(true);
     } finally {
@@ -143,9 +139,7 @@ export const AuthForm: React.FC<Props> = ({ onLogin, onGuestMode }) => {
               </button>
 
               <button
-                className={classNames(
-                  'button is-info login__login-button--guest login__login-button',
-                )}
+                className='button is-info login__login-button--guest login__login-button'
                 type="submit"
                 onClick={() => onGuestMode()}
               >

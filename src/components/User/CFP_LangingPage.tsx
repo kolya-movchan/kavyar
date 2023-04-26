@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
+
 import { getCFPById } from '../../api/fetch';
-import { CFPforEDIT } from '../../types/CFP';
 import { GoBack } from '../GoBack';
 import { Loader } from '../Loader';
 import { scrollTop } from '../_tools/Tools';
 import { NewProduct } from './NewProduct';
 
+import { CFPforEDIT } from '../../types/CFP';
 
 export const CFP_LangingPage: React.FC = () => {
-  const htmlElement = document.getElementById("html");
-
-  const locationURL = useLocation();
-  const cfpId = locationURL.state;
-
   const [loader, setLoader] = useState(false);
   const [cfp, setCfp] = useState<CFPforEDIT | undefined>();
+
+  const htmlElement = document.getElementById("html");
+  const locationURL = useLocation();
+  const cfpId = locationURL.state;
 
   const activateLoading = () => {
     setLoader(true);
@@ -34,15 +34,6 @@ export const CFP_LangingPage: React.FC = () => {
       .finally(() => removeLoading());
   };
 
-  useEffect(() => {
-    activateLoading();
-    scrollTop();
-    
-    if (cfpId) {
-      getCFP(cfpId);
-    }
-  }, []);
-
   const {
     photo,
     logo,
@@ -56,12 +47,9 @@ export const CFP_LangingPage: React.FC = () => {
     close,
     phone,
   } = cfp ?? {};
-
-  console.log('BREWERS', photo?.url);
   
-  
-
   const categoriesAll: string[] = [];
+
   productPrices?.map(productData => {
     const categoryName = productData.product.category.name;
 
@@ -70,29 +58,21 @@ export const CFP_LangingPage: React.FC = () => {
     }
   });
 
-  // const featuresUnique: Feature[] = [];
-
-  // features?.map(feature => {
-  //   const featureName = feature.name;
-
-  //   if (!featuresUnique.some(f => f.name === featureName)) {
-  //     featuresUnique.push(feature);
-  //   }
-  // });
-
-  // console.log(location);
-
+  useEffect(() => {
+    activateLoading();
+    scrollTop();
+    
+    if (cfpId) {
+      getCFP(cfpId);
+    }
+  }, []);
 
   return (
     <div className="CFP__main">
       <GoBack title={title ? title : ''} />
 
-      {loader && (
-        <Loader
-          type={'spin'}
-          color='#000'
-        />
-      )}
+      {loader && <Loader type={'spin'} color='#000'/>}
+
       <div className="CFP__photo-container">
         {photo && (
           <div className="CFP__image">

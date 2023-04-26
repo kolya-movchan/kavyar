@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
+
 import { deleteProductAPI, getAllCategoriesAPI, getAllProductsAPI, postNewProductAPI } from '../../api/fetch';
-import { Category } from '../../types/Category';
-import { Product } from '../../types/Product';
 import { Notification } from '../Notification';
 import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
@@ -10,20 +9,22 @@ import { validateInput } from '../_tools/Regex';
 import { DynamicAddButton } from './DynamicAddButton';
 import { DynamicField } from './DynamicField';
 
+import { Category } from '../../types/Category';
+import { Product } from '../../types/Product';
+
 export const Products: React.FC = ( ) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [query, setQuery] = useState('');
+  const [newCategoryId, setnewCategoryId] = useState('');
   const [input, setInput] = useState(false);
-  const [products, setProducts] = useState<Product[] | null>(null);
-  const [productsInactive, setProductsInactive] = useState<Product[] | null>(null);
   const [loader, setLoader] = useState(false);
   const [hideMode, setHideMode] = useState(false);
+  const [productsInactive, setProductsInactive] = useState<Product[] | null>(null);
+  const [products, setProducts] = useState<Product[] | null>(null);
   const [categoriesForProduct, setCategoriesForProduct] = useState<Category[] | null>(null);
-  const [newCategoryId, setnewCategoryId] = useState('');
   const [notification, setNotification] = useState<null | string>('');
 
   const htmlElement = document.getElementById("html");
-
 
   const findDuplicate = () => {
     if (productsInactive && products) {
@@ -57,10 +58,7 @@ export const Products: React.FC = ( ) => {
           getAllData();
           setQuery('');
         })
-        .catch((e) => {
-          setNotification('error-add');
-          console.log(e);
-        })
+        .catch(() => setNotification('error-add'))
         .finally(() => removeLoading());
     }
   };
@@ -75,26 +73,9 @@ export const Products: React.FC = ( ) => {
         setNotification('success-delete');
         setQuery('');
       })
-      .catch((e) => {
-        setNotification('error-delete');
-        console.log(e);
-      })
+      .catch(() => setNotification('error-delete'))
       .finally(() => removeLoading());
   };
-
-  const productsSorted = products?.sort((product1, product2) => (product2.id - product1.id));
-
-  const productsSortedInactive = productsInactive?.sort((p1, p2) => {
-    return p2.id - p1.id;
-  });
-
-  const productsSearch = productsSorted?.filter(
-    product => product.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
-  );
-
-  const productsInactiveSearch = productsSortedInactive?.filter(
-    p => p.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
-  );
 
   const isAnyProductFound = () => {
     if (productsSearch && productsInactiveSearch) {
@@ -154,6 +135,21 @@ export const Products: React.FC = ( ) => {
     setNotification('');
   };
 
+  const productsSorted = products?.sort((product1, product2) => (product2.id - product1.id));
+
+  const productsSortedInactive = productsInactive?.sort((p1, p2) => {
+    return p2.id - p1.id;
+  });
+
+  const productsSearch = productsSorted?.filter(
+    product => product.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
+  );
+
+  const productsInactiveSearch = productsSortedInactive?.filter(
+    p => p.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
+  );
+
+
   useEffect(() => {
     setHideMode(true);
     activateLoading();
@@ -163,20 +159,21 @@ export const Products: React.FC = ( ) => {
   return (
     <>
       <div className="menus-top" style={{ margin: '0'}}>
-        {loader && (
-          <Loader
-            type={(products && productsInactive) ? 'bubbles' : 'spin'}
-            color='#000'
-          />
-        )}
-
+        {loader && <Loader type={(products && productsInactive) ? 'bubbles' : 'spin'} color='#000'/>}
 
         {(notification === 'success-add') && (
           <Notification
-            title='Запит виконано 😎☕'
-            description={
-              `Продукт успішно додано, вітаю!`
-            }
+            title='Запит виконано 😎'
+            description='Продукт успішно додано, вітаю!'
+            type='success'
+            onExit={hideNotification}
+          />
+        )}
+
+        {(notification === 'success-delete') && (
+          <Notification
+            title='Запит виконано 😎'
+            description='Продукт успішно видалено, вітаю!'
             type='success'
             onExit={hideNotification}
           />
@@ -187,17 +184,6 @@ export const Products: React.FC = ( ) => {
             title='Не вдалось додати продукт 😔'
             description='Спробуйте ще раз або перевірте адмінський доступ'
             type='error'
-            onExit={hideNotification}
-          />
-        )}
-
-        {(notification === 'success-delete') && (
-          <Notification
-            title='Запит виконано 😎☕'
-            description={
-              `Продукт успішно видалено, вітаю!`
-            }
-            type='success'
             onExit={hideNotification}
           />
         )}
@@ -264,9 +250,7 @@ export const Products: React.FC = ( ) => {
       </div>
 
       <div className="filters">
-        {!isAnyProductFound() && (
-          <NotFound title='Продуктів' text='filters'/>
-        )}
+        {!isAnyProductFound() && <NotFound title='Продуктів' text='filters'/>}
 
         <div className="filters__active">
           {(productsSearch && productsSearch.length > 0) && (
@@ -307,7 +291,7 @@ export const Products: React.FC = ( ) => {
         <div className="filters__inactive filters__allLists">
           {(productsInactiveSearch && productsInactiveSearch.length > 0) && (
             <h2 className="filters__title">
-            Неактивні
+              Неактивні
             </h2>
           )}
 

@@ -9,13 +9,14 @@ type Props = {
 };
 
 const htmlElement = document.getElementById("html");
+const removeScroll = () => htmlElement?.classList.remove('hidden-scroll');
 
 export const AuthProvider: React.FC<Props> = ({ children }) => {
   const [token, setToken] = useState<string | null>(null);
   const [guest, setGuest] = useState(false);
 
   if (guest) {
-    htmlElement?.classList.remove('hidden-scroll');
+    removeScroll();
 
     return (
       <AuthContext.Provider value={null}>
@@ -46,8 +47,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     );
   }
 
-  htmlElement?.classList.remove('hidden-scroll');
-
+  removeScroll();
 
   return (
     <AuthContext.Provider value={token}>

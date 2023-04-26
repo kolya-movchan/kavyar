@@ -2,22 +2,20 @@ import React from 'react';
 
 type Props = {
   input: boolean,
-  showInput: (value: boolean) => void,
   query: string,
+  hideMode?: boolean,
+  showInput: (value: boolean) => void,
+  onKey?: (event: React.KeyboardEvent) => void,
   onQuery: (value: string) => void,
   onAdd?: () => void,
-  hideMode?: boolean,
-  onKey?: (event: React.KeyboardEvent) => void,
 };
 
 export const DynamicAddButton: React.FC<Props> = ({
-  onQuery,
   query,
   hideMode,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onAdd = () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onKey = () => {},
+  onQuery,
+  onAdd = () => null,
+  onKey = () => null,
 }) => {
   return (
     <div className="filters__add">

@@ -1,5 +1,3 @@
-// import { Product } from "./Product";
-
 import { ProductForAPI, ProductOldfromAPI } from "./Product";
 
 export interface CFPlist {
@@ -23,7 +21,6 @@ export interface CFPlist {
 }
 
 export interface CFP {
-  // json(): any;
   hasNextPage?: boolean,
   coffeeShops: CFPlist[],
 }
