@@ -21,6 +21,7 @@ export const Header: React.FC<Props> = ( {navBar = true} ) => {
         <NavLink
           className="header__logo-container logo"
           to={adminHomePage ? '/admin' : '/'}
+          onClick={window.location.reload}
         >
           <span className="logo__title">
             Кав’яр

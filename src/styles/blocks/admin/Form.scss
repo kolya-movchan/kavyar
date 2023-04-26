@@ -67,10 +67,6 @@
   .cfp-contacts {
     margin-bottom: 40px;
 
-    &__input {
-      @extend %form-input;
-    }
-  
     &__input:last-child {
       margin: 0;
     }

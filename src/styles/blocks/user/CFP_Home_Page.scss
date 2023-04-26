@@ -7,8 +7,6 @@
     height: calc(92vh - 60px);
     @extend %flex;
     background-color: $main-color-2;
-    // overflow: hidden;
-    // width: 100vw;
   }
   
   &__image {
@@ -37,8 +35,6 @@
     left: 0;
     width: 100%;
     height: 100%;
-    // max-height: calc(100% - 40px);
-    // max-width: 100%;
     object-fit: cover;
     object-position: center;
   }
@@ -91,7 +87,6 @@
   }
 
   &__features {
-    // @extend %flex;
     display: flex;
     flex-direction: column;
     flex-basis: 45%;
@@ -112,8 +107,6 @@
   }
 
   &__feature-item{
-    // @extend %flex;
-
     display: flex;
     align-items: center;
     font-family: $title-light;
@@ -195,10 +188,7 @@
 
   &__GoogleMap-map{
     border: 1px solid black;
-    // margin: 0 auto;
     margin-bottom: 100px;
-    // background-color: red;
-    // width: 100vw;
   }
 
   &__header {
@@ -230,10 +220,6 @@
     flex-direction: column;
     gap: 10px;
   }
-
-  // &__open {
-  //   margin-bottom: 20px;
-  // }
 
   &__time {
     width: 50px;

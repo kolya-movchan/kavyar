@@ -43,7 +43,6 @@
 
   &__add-button {
     align-self: center;
-    // transition: background-color 0.3s ease-in-out;
   }
 
   &__create-button {
@@ -84,15 +83,7 @@
     flex-direction: column;
   }
 
-  &__active {
-    // display: flex;
-    // justify-content: center;
-    // flex-direction: column;
-    // align-items: center;
-  }
-
   &__active-item {
-    // justify-content: center;
     background-color: $main-color-2;
   }
 
@@ -101,8 +92,6 @@
   }
 
   &__inactive-item {
-    // justify-content: space-between;
-    // color: grey;
     background-color: #A0A0A0;
   }
 
@@ -142,7 +131,6 @@
 
   &__input {
     padding: 5px 15px;
-    // width: 100%;
     font-family: $title-light;
     font-size: 16px;
     color: #363636;

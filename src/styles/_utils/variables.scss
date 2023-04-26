@@ -1,14 +1,16 @@
 $main-color: #000;
 $main-color-2: #fff;
-$header-width: 100%;
-$logo-half-width: ($header-width * 0.08) / 2;
-$language-margin: 20px;
 $bg-style: #e3e3e3;
 $button-color: #000;
+
+$header-width: 100%;
+$header-height: 8vh;
+$page-title-height: 8vh;
+$border-radius: 4px;
+$language-margin: 20px;
+$logo-half-width: ($header-width * 0.08) / 2;
+
 $title-light: KyivTypeSans-Light;
 $title-bold: KyivTypeSans-Bold;
 $title-bold-medium: KyivTypeSans-Medium;
 $title-heavy: KyivTypeSans-Heavy2;
-$header-height: 8vh;
-$page-title-height: 8vh;
-$border-radius: 4px;

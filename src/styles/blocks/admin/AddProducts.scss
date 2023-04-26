@@ -31,10 +31,6 @@
     width: 20%;
   }
 
-  &__input {
-    @extend %form-input;
-  }
-
   &__input:focus {
     @extend %form-input-focus
   }

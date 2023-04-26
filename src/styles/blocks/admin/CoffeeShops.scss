@@ -14,7 +14,6 @@
   z-index: 2;
 }
 
-
 .cfp {
   display: flex;
   position: relative;
@@ -46,9 +45,6 @@
 
   &__wrapper {
     margin-bottom: 50px;
-    // display: flex;
-    // flex-wrap: wrap;
-    // display: inline-block;
     width: 85%;
   }
 
@@ -73,7 +69,6 @@
     background-color: $main-color-2;
     border: 1px solid rgb(219, 219, 219);
     border-radius: 4px;
-    // transform: translateY(-50px);
     transition: max-height 0.3s ease-out;
 
     &--open {
@@ -102,13 +97,10 @@
   }
 
   &-features__name {
-    // width: 80%;
-    // display: inline-block;
     font-family: $title-light;
   }
 
   legend {
-    // width: 80%;
     padding: 10px;
     color: #fff;
     background-color: #000;
@@ -120,15 +112,7 @@
     margin-bottom: 20px;
     width: max-content;
     display: flex;
-    // justify-content: center;
     flex-wrap: wrap;
-
-    // @media (min-width: 300px) {
-    //   & {
-    //     justify-content: center;
-    //     align-items: center;
-    //   }
-    // }
   }
 
   .cfp-card {
@@ -187,10 +171,6 @@
       width: 150px;
       height: 150px;
       border-radius: 10px;
-
-      // .cpf-card__logo:hover {
-      //   // transform: scale(1.05);
-      // }
     }
 
     &:hover {
@@ -273,19 +253,19 @@
       transition: all 0.3s ease-in-out;
       
       &:hover {
-      animation: pulsate 1.2s ease-in-out 0s infinite;
+        animation: pulsate 1.2s ease-in-out 0s infinite;
 
-      @keyframes pulsate {
-        0% {
-          transform: scale(1);
+        @keyframes pulsate {
+          0% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.1);
+          }
+          100% {
+            transform: scale(1);
+          }
         }
-        50% {
-          transform: scale(1.1);
-        }
-        100% {
-          transform: scale(1);
-        }
-      }
       }
 
       &.clicked {
@@ -306,7 +286,6 @@
     min-width: 8em;
     opacity: 1;
   }
-
 
   .pagination {
     &__image {
