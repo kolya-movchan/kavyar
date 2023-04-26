@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { deleteFeatureAPI, getFeaturesAll, postNewFeature } from '../../api/fetch';
 import { Feature } from '../../types/Feature';
-import { ErrorMessage } from '../ErrorMessage';
+import { Notification } from '../Notification';
 import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
@@ -155,17 +155,14 @@ export const Features: React.FC = ( ) => {
     <>
       <div className="menus-top">
         {loader && (
-          <div className="loading">
-            <Loader
-              type={features ? 'bubbles' : 'spin'}
-              color='#000'
-            />
-          </div>
+          <Loader
+            type={features ? 'bubbles' : 'spin'}
+            color='#000'
+          />
         )}
 
-
         {(notification === 'success-add') && (
-          <ErrorMessage
+          <Notification
             title='Запит виконано 😎☕'
             description={
               `Особливість успішно додано, вітаю!`
@@ -176,7 +173,7 @@ export const Features: React.FC = ( ) => {
         )}
 
         {notification === 'error-add' && (
-          <ErrorMessage
+          <Notification
             title='Не вдалось додати особливість 😔'
             description='Спробуйте ще раз або перевірте адмінський доступ'
             type='error'
@@ -185,7 +182,7 @@ export const Features: React.FC = ( ) => {
         )}
 
         {(notification === 'success-delete') && (
-          <ErrorMessage
+          <Notification
             title='Запит виконано 😎☕'
             description={
               `Особливість успішно видалено, вітаю!`
@@ -196,7 +193,7 @@ export const Features: React.FC = ( ) => {
         )}
 
         {notification === 'error-delete' && (
-          <ErrorMessage
+          <Notification
             title='Не вдалось видалити 😔'
             description='Спробуйте ще раз або перевірте адмінський доступ'
             type='error'

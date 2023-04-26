@@ -9,7 +9,7 @@ type Props = {
   onExit: () => void,
 };
 
-export const ErrorMessage: React.FC<Props> = ({
+export const Notification: React.FC<Props> = ({
   title, description, type, link, onExit
 }) => {
 

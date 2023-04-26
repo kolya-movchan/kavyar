@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { deleteProductAPI, getAllCategoriesAPI, getAllProductsAPI, postNewProductAPI } from '../../api/fetch';
 import { Category } from '../../types/Category';
 import { Product } from '../../types/Product';
-import { ErrorMessage } from '../ErrorMessage';
+import { Notification } from '../Notification';
 import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
@@ -164,17 +164,15 @@ export const Products: React.FC = ( ) => {
     <>
       <div className="menus-top" style={{ margin: '0'}}>
         {loader && (
-          <div className="loading">
-            <Loader
-              type={(products && productsInactive) ? 'bubbles' : 'spin'}
-              color='#000'
-            />
-          </div>
+          <Loader
+            type={(products && productsInactive) ? 'bubbles' : 'spin'}
+            color='#000'
+          />
         )}
 
 
         {(notification === 'success-add') && (
-          <ErrorMessage
+          <Notification
             title='Запит виконано 😎☕'
             description={
               `Продукт успішно додано, вітаю!`
@@ -185,7 +183,7 @@ export const Products: React.FC = ( ) => {
         )}
 
         {notification === 'error-add' && (
-          <ErrorMessage
+          <Notification
             title='Не вдалось додати продукт 😔'
             description='Спробуйте ще раз або перевірте адмінський доступ'
             type='error'
@@ -194,7 +192,7 @@ export const Products: React.FC = ( ) => {
         )}
 
         {(notification === 'success-delete') && (
-          <ErrorMessage
+          <Notification
             title='Запит виконано 😎☕'
             description={
               `Продукт успішно видалено, вітаю!`
@@ -205,7 +203,7 @@ export const Products: React.FC = ( ) => {
         )}
 
         {notification === 'error-delete' && (
-          <ErrorMessage
+          <Notification
             title='Не вдалось видалити продукт 😔'
             description='Спробуйте ще раз або перевірте адмінський доступ'
             type='error'

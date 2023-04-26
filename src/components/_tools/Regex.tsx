@@ -5,5 +5,5 @@ export const priceRegex = /^\d{0,4}(\.\d{1,2})?$/;
 export const loginRegex = /^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
 
 export const validateInput = (value: string) => {
-  return value.replace(/[^ІЙЇіїєЄа-яА-Я-a-zA-Z-0-9,' ]/g, '');
+  return value.replace(/[^іїєа-яАІЙЇЄ-Я-a-zA-Z-0-9,' ]/g, '');
 };

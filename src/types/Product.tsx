@@ -1,4 +1,3 @@
-
 import { Category } from "./Category";
 
 export interface Product {
@@ -13,4 +12,9 @@ export interface Product {
 export interface ProductForAPI {
   productId: number;
   price: number;
+}
+
+export interface ProductOldfromAPI {
+  productPriceId: number,
+  price: number,
 }

@@ -351,12 +351,10 @@ export const CoffeeShops: React.FC = () => {
   return (
     <div className="cfp">
       {loader && (
-        <div className="loading">
-          <Loader
-            type='spin'
-            color='#000'
-          />
-        </div>
+        <Loader
+          type='spin'
+          color='#000'
+        />
       )}
 
       <form className="cfp__top-menu">

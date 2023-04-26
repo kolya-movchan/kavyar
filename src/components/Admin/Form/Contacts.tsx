@@ -3,14 +3,12 @@ import { InputField } from './InputField';
 
 type Props = {
   name: string,
-  // city: string,
   logoURL: string,
   photosURL: string,
   description: string,
   socialURL: string,
   googleMapsURL: string,
   setName: (newValue: string) => void,
-  // setCity: (newValue: string) => void,
   setLogoURL: (newValue: string) => void,
   setPhotosURL: (newValue: string) => void,
   setDescription: (newValue: string) => void,
@@ -20,14 +18,12 @@ type Props = {
 
 export const Contacts: React.FC<Props> = ({
   name,
-  // city,
   logoURL,
   photosURL,
   description,
   socialURL,
   googleMapsURL,
   setName,
-  // setCity,
   setLogoURL,
   setPhotosURL,
   setDescription,

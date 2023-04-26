@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { deleteCategoryAPI, getAllCategoriesAPI, postNewCategoryAPI } from '../../api/fetch';
 import { Category } from '../../types/Category';
-import { ErrorMessage } from '../ErrorMessage';
+import { Notification } from '../Notification';
 import { Loader } from '../Loader';
 import { NotFound } from '../NotFound';
 import { SearchPannel } from '../SearchPannel';
@@ -152,16 +152,14 @@ export const Categories: React.FC = ( ) => {
     <>
       <div className="menus-top">
         {loader && (
-          <div className="loading">
-            <Loader
-              type={categories ? 'bubbles' : 'spin'}
-              color='#000'
-            />
-          </div>
+          <Loader
+            type={categories ? 'bubbles' : 'spin'}
+            color='#000'
+          />
         )}
 
         {(notification === 'success-add') && (
-          <ErrorMessage
+          <Notification
             title='Запит виконано 😎☕'
             description={
               `Категорію успішно додано, вітаю!`
@@ -172,7 +170,7 @@ export const Categories: React.FC = ( ) => {
         )}
 
         {notification === 'error-add' && (
-          <ErrorMessage
+          <Notification
             title='Не вдалось додати категорію 😔'
             description='Спробуйте ще раз або перевірте адмінський доступ'
             type='error'
@@ -181,7 +179,7 @@ export const Categories: React.FC = ( ) => {
         )}
 
         {(notification === 'success-delete') && (
-          <ErrorMessage
+          <Notification
             title='Запит виконано 😎☕'
             description={
               `Категорію успішно видалено, вітаю!`
@@ -192,7 +190,7 @@ export const Categories: React.FC = ( ) => {
         )}
 
         {notification === 'error-delete' && (
-          <ErrorMessage
+          <Notification
             title='Не вдалось видалити категорію 😔'
             description='Спробуйте ще раз або перевірте адмінський доступ'
             type='error'

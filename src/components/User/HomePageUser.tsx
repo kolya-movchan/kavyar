@@ -352,12 +352,10 @@ export const HomePageUser = () => {
       {isLoaded && <PopUp onChoose={handleCityPopUp} />}
 
       {loader && (
-        <div className="loading">
-          <Loader
-            type='spin'
-            color='#000'
-          />
-        </div>
+        <Loader
+          type='spin'
+          color='#000'
+        />
       )}
 
       <form className="cfp__top-menu">

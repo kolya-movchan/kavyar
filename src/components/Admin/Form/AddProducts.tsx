@@ -6,30 +6,30 @@ import { priceRegex } from '../../_tools/Regex';
 type Props = {
   product: string,
   productPrice: string,
+  productList: Product[],
+  data: Product[] | null,
   onAdd: () => void,
   onAddButton: (event: React.KeyboardEvent, productPress: string) => void,
   onSelect?: (idForAPI: string, nameForUser: string) => void
   setProductPrice: (value: string) => void,
-  productList: Product[],
   onDelete: (value: number) => void,
-  data: Product[] | null,
   onChange: (value: string) => void,
 };
 
 export const AddProducts: React.FC<Props> = ({
   product,
   productPrice,
+  productList,
+  data,
   onAdd,
   onAddButton,
   onSelect,
   setProductPrice,
-  productList,
   onDelete,
   onChange,
-  data,
 }) => {
   const alreadyExist = productList.some(productEl => productEl.name === product);
-  const disabledAdd = !product || !productPrice || !productPrice.match(priceRegex) || alreadyExist;  
+  const disabledAdd = !product || !productPrice || !productPrice.match(priceRegex) || alreadyExist;
 
   return (
     <>

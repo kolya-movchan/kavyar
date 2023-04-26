@@ -1,5 +1,5 @@
 import { Category } from '../types/Category';
-import { CFPforPOST, CFPforUpdate } from '../types/CFP';
+import { CFPforPOST, CFPforUpdate, CFPforEDIT } from '../types/CFP';
 import { City } from '../types/City';
 import { Credentials } from '../types/Credentials';
 import { Feature } from '../types/Feature';
@@ -14,11 +14,12 @@ function wait(delay: number) {
 }
 
 type RequestMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE' | 'PUT';
+type Data = City | Feature | Product | Category | CFPforPOST | CFPforUpdate | Credentials | CFPforEDIT | null;
 
 function request<T>(
   url: string,
   method: RequestMethod = 'GET',
-  data: | City | Feature | Product | Category | CFPforPOST | CFPforUpdate | Credentials | null = null,
+  data: Data = null,
 ): Promise<T> {
   const options: RequestInit = { method };
 
@@ -54,12 +55,11 @@ export const item = {
   get: function <T>(url: string) {
     return request<T>(url);
   },
-  post: function <T>(url: string, data: City | Feature | Product | Category | CFPforPOST | Credentials) {
+  post: function <T>(url: string, data: Data) {
     return request<T>(url, 'POST', data);
   },
   delete: (url: string) => request(url, 'DELETE'),
-  put: (url: string) => request(url, 'PUT'),
-  putEditCFP: function <T>(url: string, data: CFPforUpdate) {
+  put: function<T>(url: string, data?: CFPforUpdate) {
     return request<T>(url, 'PUT', data);
   },
 };

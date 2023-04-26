@@ -1,6 +1,6 @@
 // import { Product } from "./Product";
 
-import { ProductForAPI } from "./Product";
+import { ProductForAPI, ProductOldfromAPI } from "./Product";
 
 export interface CFPlist {
   id: number,
@@ -81,6 +81,6 @@ export interface CFPforUpdate {
   photo: {id: number, url: string},
   location: string,
   features: number[],
-  productPrices: {productPriceId: number, price: number}[],
+  productPrices: ProductOldfromAPI[],
   newProductPrices: ProductForAPI[]
 }

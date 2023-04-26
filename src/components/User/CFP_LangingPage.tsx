@@ -88,12 +88,10 @@ export const CFP_LangingPage: React.FC = () => {
       <GoBack title={title ? title : ''} />
 
       {loader && (
-        <div className="loading">
-          <Loader
-            type={'spin'}
-            color='#000'
-          />
-        // </div>
+        <Loader
+          type={'spin'}
+          color='#000'
+        />
       )}
       <div className="CFP__photo-container">
         {photo && (

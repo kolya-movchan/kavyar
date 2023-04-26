@@ -1,27 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { getAllProductsAPI, getCFPById, getCitiesAll, getFeaturesAll, postNewCFPAPI, updateCFPById } from '../../../api/fetch';
 
-import '../../../styles/blocks/admin/Form.scss';
-import { City } from '../../../types/City';
-import { Product, ProductForAPI } from '../../../types/Product';
-import { ErrorMessage } from '../../ErrorMessage';
+import { getAllProductsAPI, getCitiesAll, getFeaturesAll, postNewCFPAPI } from '../../../api/fetch';
+import { Notification } from '../../Notification';
 import { Loader } from '../../Loader';
 import { emailRegex, priceRegex } from '../../_tools/Regex';
-import { convertGoogleDrive, convertGoogleMap, scrollTop} from '../../_tools/Tools';
 import { AddProducts } from './AddProducts';
 import { Contacts } from './Contacts';
-// import { Features } from './Features';
 import { InputField } from './InputField';
-import { useLocation } from "react-router-dom";
-import { CFPforEDIT } from '../../../types/CFP';
 import { CheckBox } from './CheckBox';
+import '../../../styles/blocks/admin/Form.scss';
+
+import { City } from '../../../types/City';
+import { Product, ProductForAPI } from '../../../types/Product';
+import { convertGoogleDrive, convertGoogleMap, scrollTop} from '../../_tools/Tools';
 import { Feature } from '../../../types/Feature';
+import { Time } from './Time';
 
 export const Form: React.FC = () => {
-  const [loader, setLoader] = useState(false);
-  const [products, setProducts] = useState<Product[]>([]);
-
   const [logoURL, setLogoURL] = useState('');
   const [name, setName] = useState('');
   const [googleMapsURL, setGoogleMapsURL] = useState('');
@@ -31,35 +26,23 @@ export const Form: React.FC = () => {
   const [cityId, setCityId] = useState('');
   const [socialURL, setSocialURL] = useState('');
   const [description, setDescription] = useState('');
-  const [cities, setCities] = useState<City[]>();
   const [product, setProduct] = useState('');
   const [productPrice, setProductPrice] = useState('');
-  const [count, addCount] = useState(0);
-  const [productList, setProductList] = useState<Product[]>([]);
-  const [productPricesForAPI, setProductPricesForAPI] = useState<ProductForAPI[]>([]);
-  const [featureList, setFeatureList] = useState<number[]>([]);
   const [phoneNumber, setPhoneNumber] = useState('+380');
   const [apiID, setApiID] = useState('');
   const [nameForUser, setNameForUser] = useState('');
-  const [notification, setNotification] = useState<null | string>('');
-  const [idCFP, setIdSFP] = useState(0);
-  const [productsOld, setProductsOld] = useState<{
-    productPriceId: number;
-    price: number;
-}[]>([]);
-  const [photoId, setPhotoId] = useState(0);
-  const [logoId, setLogoId] = useState(0);
-
-  const [searchParams] = useSearchParams();
-  const editMode = searchParams.get('edit');
-  const location = useLocation();
+  const [count, addCount] = useState(0);
+  const [loader, setLoader] = useState(false);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [cities, setCities] = useState<City[]>();
+  const [productList, setProductList] = useState<Product[]>([]);
+  const [productPricesForAPI, setProductPricesForAPI] = useState<ProductForAPI[]>([]);
+  const [featureList, setFeatureList] = useState<number[]>([]);
   const [features, setFeatures] = useState<Feature[] | null>(null);
-
+  const [notification, setNotification] = useState<null | string>('');
 
   const unique_id = Date.now();
-  
   const fieldsFilledIn = logoURL && name && description && socialURL;
-
   const htmlElement = document.getElementById("html");
 
   const reset = () => {
@@ -96,12 +79,7 @@ export const Form: React.FC = () => {
     setFeatureList([...featureList, id]);
   };
 
-  const addProduct = () => {
-    createNewProduct();
-  };
-
   const addProductWithButton = (event: React.KeyboardEvent, productType: string) => {
-    // GET -> add new product with productList
     const sumbit = event.key === 'Enter';
     const allowedToSubmit = sumbit && product && productPrice;
     const resetInput = event.key === 'Escape';
@@ -118,22 +96,7 @@ export const Form: React.FC = () => {
   const deleteProduct = (id: number) => {
     const filtered = productList.filter(productItem => productItem.id !== id);
 
-    // const filteredEdit = productList.filter(productItem => {
-    //   if (productItem.id !== id) {
-    //     return;
-    //   }
-
-    //   return {
-    //     productPriceId: productItem.id,
-    //     price: productItem.price,
-    //   };
-    // });
-
-    // console.log(filteredEdit);
-    
-
     setProductList(filtered);
-    // setProductsOld(filteredEdit);
   };
 
   const handlePhoneNumber = (value: string) => {
@@ -177,54 +140,6 @@ export const Form: React.FC = () => {
 
   const hideNotification = () => {
     setNotification('');
-  };
-
-  const handleEditSubmit = () => {
-    // const cityName = cities?.find(city => city.id === +cityId)?.name;
-    // const featuresForEdit = features?.filter(featuresValue => featureList.includes(featuresValue.id));
-
-    const productsOldCurrent = productsOld.filter(
-      productValue => productList.some(productEl => productEl.id === productValue.productPriceId)
-    );
-
-    const newCFPForEdit = {
-      coffeeShopId: idCFP,
-      cityId: +cityId,
-      title: name,
-      description,
-      phone: phoneNumber,
-      open: timeOpen,
-      close: timeClose,
-      url: socialURL,
-      logo: {id: logoId, url: convertGoogleDrive(logoURL)},
-      photo: {id: photoId, url: convertGoogleDrive(photosURL)},
-      location: convertGoogleMap(googleMapsURL),
-      features: featureList,
-      productPrices: productsOldCurrent,
-      newProductPrices: productPricesForAPI,
-    };
-
-    console.log(newCFPForEdit.location);
-    
-
-    updateCFPById(newCFPForEdit)
-      .then(() => {
-        console.log('SUCCESS EDIT');
-        setNotification('success');
-        reset();
-      })
-      .catch(() => {
-        console.log('FAIL');
-        setNotification('error');
-      })
-      .finally(() => {
-        // hideNotification();
-        searchParams.set('edit', 'false');
-        reset();
-        removeLoading();
-      });
-
-    // console.log(JSON.stringify(newCFPForEdit));
   };
 
   const cancelSubmit = () => {
@@ -275,13 +190,6 @@ export const Form: React.FC = () => {
       return;
     }
 
-    if (editMode) {
-      handleEditSubmit();
-
-      return;
-    }
-
-   
     const newCFP = {
       cityId: +cityId,
       title: name,
@@ -305,14 +213,14 @@ export const Form: React.FC = () => {
       .catch(() => setNotification('error'))
       .finally(() => {
         removeLoading();
-        // hideNotification();
       });
   };
 
-  const getPromises: () => [Promise<City[]>, Promise<Product[]>] = () => {
+  const getPromises: () => [Promise<City[]>, Promise<Product[]>, Promise<Feature[]>] = () => {
     return [
       getCitiesAll('cities?usable=true'),
       getAllProductsAPI('products'),
+      getFeaturesAll('features'),
     ];
   };
 
@@ -320,10 +228,11 @@ export const Form: React.FC = () => {
     const result = await Promise.all(getPromises())
       .finally(() => removeLoading());
 
-    const [citiesAPI, productsAPI] = result;
+    const [citiesAPI, productsAPI, featuresAPI] = result;
 
     setCities(citiesAPI);
     setProducts(productsAPI);
+    setFeatures(featuresAPI);
   };
 
   const activateLoading = () => {
@@ -340,113 +249,15 @@ export const Form: React.FC = () => {
     scrollTop();
     activateLoading();
     getAllData();
-    getAllFeatures();
-
-    if (editMode) {
-      activateEditMode();
-    }
   }, []);
 
-  const setUpEditInfo = (cfp: CFPforEDIT) => {
-    const {
-      id,
-      city,
-      title,
-      logo,
-      photo,
-      url,
-      description: descriptionEdit,
-      open,
-      close,
-      features: featuresEdit,
-      location: locationEdit,
-      phone,
-      productPrices,
-    } = cfp;
-
-    setIdSFP(id);
-    setCityId(city.id.toString());
-    setName(title);
-    setLogoURL(logo.url);
-    setLogoId(logo.id);
-    setPhotosURL(photo.url);
-    setPhotoId(photo.id);
-    setSocialURL(url);
-    setGoogleMapsURL(locationEdit);
-    setDescription(descriptionEdit);
-    setPhoneNumber(phone);
-    setTimeOpen(open);
-    setTimeClose(close);
-    setFeatureList(featuresEdit.map(feature => feature.id));
-
-    const productsEditForUser = productPrices.map(productItem => (
-      {
-        id: productItem.product.id,
-        name: productItem.product.name,
-        price: productItem.price,
-      }
-    ));
-
-    setProductList(productsEditForUser);
-
-    // console.log(productPrices, 'GET DATA');
-    
-    const productsOldData = productPrices.map(productItem => (
-      {
-        productPriceId: productItem.id,
-        price: productItem.price,
-      }
-    ));
-
-    setProductsOld(productsOldData);
-  };
-
-  const activateEditMode = () => {
-    activateLoading();
-    scrollTop();
-
-    getCFPById(location.state)
-      .then((coffeShopEdit) => setUpEditInfo(coffeShopEdit))
-      .finally(() => {
-        removeLoading();
-      });
-  };
-
-  const getAllFeatures = () => {
-    getFeaturesAll('features')
-      .then(featuresList => {
-        setFeatures(featuresList);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
-
-  // const alertUser = (event: BeforeUnloadEvent) => {
-  //   event.returnValue = "";
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener("beforeunload", alertUser);
-  //   return () => {
-  //     window.removeEventListener("beforeunload", alertUser);
-  //   };
-  // }, []);
-  
   return (
     <>
-      {loader && (
-        <div className="loading">
-          <Loader
-            type='spin'
-            color='#000'
-          />
-        </div>
-      )}
+      {loader && <Loader type='spin' color='#000' />}
 
-      {(notification === 'success' && !editMode) && (
-        <ErrorMessage
-          title='Запит виконано 😎☕'
+      {(notification === 'success') && (
+        <Notification
+          title='Запит виконано 😎'
           description='Нова кавʼярня створена, вітаю!Тепер ви можете переглянути її в розділі "Кавʼярні"'
           type='success'
           link='/admin/coffeeshops'
@@ -454,21 +265,8 @@ export const Form: React.FC = () => {
         />
       )}
 
-      {(notification === 'success' && editMode) && (
-        <ErrorMessage
-          title='Запит виконано 😎☕'
-          description={
-            `Кавʼярня успішно оновлена, вітаю!
-            Тепер ви можете переглянути її в розділі "Кавʼярні"`
-          }
-          type='success'
-          link='/admin/coffeeshops'
-          onExit={hideNotification}
-        />
-      )}
-
       {notification === 'error' && (
-        <ErrorMessage
+        <Notification
           title='Упс, щось пішло не так 😔'
           description='Перегляньте уважно заповнені поля та Спробуйте ще раз або перевірте адмінський доступ'
           type='error'
@@ -476,29 +274,15 @@ export const Form: React.FC = () => {
         />
       )}
 
-
       <div className="admin-form-container">
         <div className="admin-form-container2">
           <h1 className="admin-form-heading">
-            {editMode
-              ? (
-                <>
-                  Редагувати кавʼярню {' '}
-                  {name && (
-                    <span className="highlight-container">
-                      <span className="highlight">{name}</span>
-                    </span>
-                  )}
-                </>
-              )
-              : 'Створити кавʼярню'}
+            Створити кавʼярню
           </h1>
 
           <form
             className="admin-form"
             name="admin-form"
-            action="/"
-            method="get"
             key={count}
             onSubmit={handleSubmit}
           >
@@ -532,9 +316,7 @@ export const Form: React.FC = () => {
             />
 
             <label className='cfp-phone'>
-              <div>
               Номер Кавʼярні
-              </div>
 
               <input
                 className="input admin-form__phone-input"
@@ -547,36 +329,18 @@ export const Form: React.FC = () => {
             </label>
 
             <div className='cfp-time'>
-              <label className="cfp-time__container">
-                Час Відкриття
-                <input
-                  className="cfp-time__input input"
-                  type="time"
-                  name="appt"
-                  value={timeOpen}
-                  onChange={(event) => setTimeOpen(event.target.value)}
-                  step="3600"
-                />
-              </label>
+              <Time
+                title='Час Відкриття'
+                value={timeOpen}
+                onChange={setTimeOpen}
+              />
 
-              <label className="cfp-time__container">
-                Час Закриття
-                <input
-                  className="cfp-time__input input"
-                  type="time"
-                  name="appt"
-                  value={timeClose}
-                  onChange={(event) => setTimeClose(event.target.value)}
-                  step="3600"
-                />
-              </label>
+              <Time
+                title='Час Закриття'
+                value={timeClose}
+                onChange={setTimeClose}
+              />
             </div>
-
-            {/* <Features
-              // cfpname={name}
-              // onCheck={addFeatureList}
-              // featuresOnEdit={featureList}
-            /> */}
 
             <fieldset className="cfp-features">
               <h2 className="cfp-features__title">
@@ -600,14 +364,14 @@ export const Form: React.FC = () => {
                     featuresOnEdit={featureList}
                   />
                 ))}
-
               </div>
             </fieldset>
 
             <fieldset className="cfp-products">
               <h2 className="cfp-products__title">
                 {'Продукти кав’ярні '}
-                {(editMode && name.length > 0 )&& (
+
+                {name && (
                   <span className="highlight-container">
                     <span className="highlight">{name}</span>
                   </span>
@@ -620,27 +384,21 @@ export const Form: React.FC = () => {
                 productList={productList}
                 data={products}
                 onAddButton={addProductWithButton}
-                onAdd={addProduct}
+                onAdd={createNewProduct}
                 setProductPrice={setProductPrice}
                 onChange={setProduct}
                 onDelete={deleteProduct}
                 onSelect={handleSelect}
               />
-
-              <input
-                type="hidden"
-                name="product-list"
-                value={JSON.stringify(productList)}
-              />
             </fieldset>
 
-            <div className="">
+            <div>
               <button
                 type="submit"
                 className="add-cfp__button button is-black hoveredButton"
                 disabled={!fieldsFilledIn}
               >
-                {`${editMode ? 'Оновити' : 'Створити'} кавʼярню`}
+                Створити кавʼярню
               </button>
             </div>
           </form>

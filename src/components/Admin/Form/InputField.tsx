@@ -1,10 +1,8 @@
-/* eslint-disable no-console */
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import { getRandomDigits } from '../../_tools/Tools';
 import { priceRegex } from '../../_tools/Regex';
 import { Product } from '../../../types/Product';
-// import { Loader } from '../../Loader';
 
 type Props = {
   placeHolderName?: string,
@@ -14,12 +12,12 @@ type Props = {
   required?: boolean,
   textarea?: boolean,
   maxLength?: number,
-  onAddButton?: (event: React.KeyboardEvent, productPress: string) => void,
-  onSelect?: (idForAPI: string, nameForUser: string) => void
-  onChange: (value: string) => void
   selecting?: boolean,
   dataAPI?: Product[] | null,
   cityOnEdit?: number,
+  onAddButton?: (event: React.KeyboardEvent, productPress: string) => void,
+  onSelect?: (idForAPI: string, nameForUser: string) => void
+  onChange: (value: string) => void
 };
 
 export const InputField: React.FC<Props> = ({
@@ -30,26 +28,22 @@ export const InputField: React.FC<Props> = ({
   required = false,
   textarea = false,
   maxLength,
-  onAddButton = null,
-  onChange,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onSelect = () => {},
   selecting,
   dataAPI,
   cityOnEdit,
+  onAddButton = null,
+  onChange,
+  onSelect = () => null,
 }) => {
   const [id] = useState(() => `${name}-${getRandomDigits()}`);
-
   const [touched, setTuched] = useState(false);
   const links = ['cfp-logo-link', 'cfp-contacts-social-link'];
-
   const linkError = links.some(link => link === name);
   const hasError = touched && !value;
   const priceError = name === 'price' && !value?.match(priceRegex);
   const productNameError = name === 'product' && value?.length === 30;
   const descriptionError = name === 'cfp-contacts-description' && value?.length === 400;
   const fieldError = ('cfp-contacts-name' === name) && value?.length === 30;
-
   const upperCaseLabel = label.slice(0, 1).toUpperCase() + label.slice(1);
 
   const handleEvent = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -122,8 +116,7 @@ export const InputField: React.FC<Props> = ({
                 id='selectId'
                 className="cfp-products__select"
                 onChange={handleEvent}
-                // defaultValue={'DEFAULT'}
-                defaultValue={cityOnEdit ? dataAPI.find(data => data.id === cityOnEdit)?.name : 'DEFAULT'}
+                value={cityOnEdit ? dataAPI.find(data => data.id === cityOnEdit)?.name : 'DEFAULT'}
               >
                 <option disabled value="DEFAULT">
                   Оберіть

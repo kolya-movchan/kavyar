@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { postCredentials } from '../../api/fetch';
 import '../../styles/main.scss';
-import { ErrorMessage } from '../ErrorMessage';
+import { Notification } from '../Notification';
 import { Header } from '../Header';
 
 export type Props = {
@@ -91,7 +91,7 @@ export const AuthForm: React.FC<Props> = ({ onLogin, onGuestMode }) => {
       <Header navBar={false}/>
 
       {error && (
-        <ErrorMessage
+        <Notification
           title='Невдалий вхід'
           description='Перевірте логін та пароль'
           type='error'
@@ -145,7 +145,6 @@ export const AuthForm: React.FC<Props> = ({ onLogin, onGuestMode }) => {
               <button
                 className={classNames(
                   'button is-info login__login-button--guest login__login-button',
-                  // {'is-loading': loading}
                 )}
                 type="submit"
                 onClick={() => onGuestMode()}
