@@ -26,8 +26,8 @@ export const CFP_card: React.FC<Props> = ({ cfpData, favoriteShops, onAdd }) => 
         <img
           src={
             favoriteShops.includes(id)
-              ? '../favorite-active.svg'
-              : '../favorite-inactive.svg'}
+              ? './favorite-active.svg'
+              : './favorite-inactive.svg'}
           alt="favorites-icon"
           className={classNames(
             "cfp-card__fav-photo",
