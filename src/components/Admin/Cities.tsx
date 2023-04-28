@@ -252,7 +252,7 @@ export const Cities: React.FC = ( ) => {
                 value={city.name}
                 id={city.id}
                 styling="filters__inactive-item"
-                stylingLink="../delete-icon.png"
+                stylingLink="./delete-icon.png"
                 onDelete={handleCityDeletion}
               />
             ))}

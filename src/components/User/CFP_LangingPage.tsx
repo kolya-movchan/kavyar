@@ -118,7 +118,7 @@ export const CFP_LangingPage: React.FC = () => {
                       key={feature.id}
                     >
                       <img
-                        src="../check_box-filled.svg"
+                        src="./check_box-filled.svg"
                         alt="checkbox"
                         className="CFP__feature-checkbox"
                       />
@@ -181,7 +181,7 @@ export const CFP_LangingPage: React.FC = () => {
                 target="_blank"
               >
                 <img
-                  src="../Facebook-Icon.png"
+                  src="./Facebook-Icon.png"
                   alt="facebook"
                   style={{ width: '50px'}}
                 />
@@ -200,7 +200,7 @@ export const CFP_LangingPage: React.FC = () => {
                 target="_blank"
               >
                 <img
-                  src="../Instagram-Logo.png"
+                  src="./Instagram-Logo.png"
                   alt="instagram"
                   style={{ width: '50px', marginBottom: '10px'}}
                 />
@@ -217,7 +217,7 @@ export const CFP_LangingPage: React.FC = () => {
               target="_blank"
             >
               <img
-                src="../Website-Logo.png"
+                src="./Website-Logo.png"
                 alt="website"
                 style={{ width: '50px', marginBottom: '10px'}}
               />
@@ -236,7 +236,7 @@ export const CFP_LangingPage: React.FC = () => {
           <div className="CFP__hours">
             <div className="CFP__open CFP__time">
               <img
-                src="../clock.png"
+                src="./clock.png"
                 alt="clock"
                 className="CFP__clock" 
               />
@@ -245,7 +245,7 @@ export const CFP_LangingPage: React.FC = () => {
 
             <div className="CFP__close CFP__time">
               <img
-                src="../clock.png"
+                src="./clock.png"
                 alt="clock"
                 className="CFP__clock" 
               />
@@ -260,7 +260,7 @@ export const CFP_LangingPage: React.FC = () => {
                 className="tel"
               >
                 <img
-                  src="../phone.png"
+                  src="./phone.png"
                   alt="clock"
                   className="CFP__clock"
                 />

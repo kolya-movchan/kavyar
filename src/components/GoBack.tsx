@@ -16,8 +16,7 @@ export const GoBack: React.FC<Props> = ({ title }) => {
         className='menuTop__back-container'
       >
         <img
-          src={location.pathname.includes('favorites') ? "./arrow-left.png" : '../arrow-left.png'}
-          // src='./arrow-left.png'
+          src='./arrow-left.png'
           alt="arrow-go-back"
           className="menuTop__back"
           onClick={() => history.back()}
