@@ -11,7 +11,7 @@ export const NotFound: React.FC<Props> = ( { title, styling, text } ) => {
     <div className={`not-found ${styling ? `not-found--${styling}` : ''}`}>
       <img
         className="not-found__photo"
-        src="../sad-coffee.png"
+        src="./sad-coffee.png"
         alt="sad-coffee"
       />
 

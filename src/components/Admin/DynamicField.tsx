@@ -30,7 +30,7 @@ export const DynamicField: React.FC<Props> = ({
             >
               <img
                 className=''
-                src='../checkmark.svg.png'
+                src='./checkmark.svg.png'
                 alt="checkmark"
               />
             </button>
