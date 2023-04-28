@@ -29,6 +29,7 @@ import { Favorites } from './components/User/Favorites';
 const hashRouter = () => (
   <BrowserRouter basename='/kavyar'>
     <Routes>
+      <Route path="/" element={<><Header navBar={false}/> <HomePageUser/></>} />
       <Route path="/admin" element={<AuthProvider><App /></AuthProvider>}>
         <Route index element={<HomePageLogo />}/>
         <Route path="/admin/home" element={<Navigate to="/admin" replace />}/>
@@ -41,8 +42,6 @@ const hashRouter = () => (
         <Route path="form" element={<Form />} />
         <Route path="form/edit" element={<FormEdit />} />
       </Route>
-
-      <Route path="/" element={<><Header navBar={false}/> <HomePageUser/></>} />
       <Route path="/favorites" element={<><Header navBar={false}/> <Favorites/></>} />
       <Route path="/coffeeshops/:cfpName" element={<><Header navBar={false}/> <CFP_LangingPage/></>} />
       <Route path="*" element={<><Header navBar={false}/> <NotFound title={'Сторінку'} styling={'page'} /></>} />
