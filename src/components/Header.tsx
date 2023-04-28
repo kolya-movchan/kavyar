@@ -27,7 +27,7 @@ export const Header: React.FC<Props> = ( {navBar = true} ) => {
             Кав’яр
           </span>
 
-          <img className="logo__image" src="/coffe-grain-logo.svg" alt="logo" />
+          <img className="logo__image" src="./coffe-grain-logo.svg" alt="logo" />
         </NavLink>
 
         {navBar && (
@@ -43,8 +43,8 @@ export const Header: React.FC<Props> = ( {navBar = true} ) => {
             >
               <img
                 className="navBar__link"
-                src="/logout.svg"
-                alt=""
+                src="../logout.svg"
+                alt="logout"
               />
             </button>
           </div>
@@ -63,7 +63,7 @@ export const Header: React.FC<Props> = ( {navBar = true} ) => {
             >
               <img
                 className="navBar__link"
-                src="/coffee-cup.svg"
+                src="../coffee-cup.svg"
                 alt=""
               />
             </NavLink>
