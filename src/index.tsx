@@ -26,7 +26,7 @@ import { CFP_LangingPage } from './components/User/CFP_LangingPage';
 import { Favorites } from './components/User/Favorites';
 
 const hashRouter = () => (
-  <BrowserRouter>
+  <BrowserRouter basename={process.env.PUBLIC_URL}>
     <Routes>
       <Route path="/admin" element={<AuthProvider><App /></AuthProvider>}>
         <Route index element={<HomePageLogo />}/>
