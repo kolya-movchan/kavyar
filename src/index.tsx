@@ -28,9 +28,9 @@ import { Favorites } from './components/User/Favorites';
 const hashRouter = () => (
   <BrowserRouter basename={process.env.PUBLIC_URL}>
     <Routes>
-      <Route path="/admin" element={<AuthProvider><App /></AuthProvider>}>
+      <Route path="admin" element={<AuthProvider><App /></AuthProvider>}>
         <Route index element={<HomePageLogo />}/>
-        <Route path="/admin/home" element={<Navigate to="/admin" replace />}/>
+        <Route path="admin/home" element={<Navigate to="/admin" replace />}/>
         <Route path="*" element={<NotFound title={'Сторінку'} styling={'page'} />}/>
         <Route path="coffeeshops" element={<CoffeeShops />} />
         <Route path="cities" element={(<Cities />)}/>

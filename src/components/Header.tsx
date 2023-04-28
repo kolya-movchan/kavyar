@@ -63,7 +63,7 @@ export const Header: React.FC<Props> = ( {navBar = true} ) => {
             >
               <img
                 className="navBar__link"
-                src="../coffee-cup.svg"
+                src="./coffee-cup.svg"
                 alt=""
               />
             </NavLink>
