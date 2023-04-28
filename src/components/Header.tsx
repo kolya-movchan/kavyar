@@ -43,7 +43,7 @@ export const Header: React.FC<Props> = ( {navBar = true} ) => {
             >
               <img
                 className="navBar__link"
-                src="../logout.svg"
+                src="./logout.svg"
                 alt="logout"
               />
             </button>
@@ -63,7 +63,7 @@ export const Header: React.FC<Props> = ( {navBar = true} ) => {
             >
               <img
                 className="navBar__link"
-                src="../coffee-cup.svg"
+                src="./coffee-cup.svg"
                 alt="favorites-cup"
               />
             </NavLink>
