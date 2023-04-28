@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import {
-  BrowserRouter,
+  BrowserRouter as HashRouter,
   Navigate,
   Route,
   Routes,
@@ -26,7 +26,7 @@ import { CFP_LangingPage } from './components/User/CFP_LangingPage';
 import { Favorites } from './components/User/Favorites';
 
 const hashRouter = () => (
-  <BrowserRouter basename={process.env.PUBLIC_URL}>
+  <HashRouter>
     <Routes>
       <Route path="admin" element={<AuthProvider><App /></AuthProvider>}>
         <Route index element={<HomePageLogo />}/>
@@ -46,7 +46,7 @@ const hashRouter = () => (
       <Route path="/coffeeshops/:cfpName" element={<><Header navBar={false}/> <CFP_LangingPage/></>} />
       <Route path="*" element={<><Header navBar={false}/> <NotFound title={'Сторінку'} styling={'page'} /></>} />
     </Routes>
-  </BrowserRouter>
+  </HashRouter>
 );
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
