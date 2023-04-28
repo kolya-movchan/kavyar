@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/kavyar/static/css/main.2305fff1.css",
-    "main.js": "/kavyar/static/js/main.aab0ac0e.js",
+    "main.js": "/kavyar/static/js/main.8d73cd5e.js",
     "static/media/KyivTypeSans-Bold2.ttf": "/kavyar/static/media/KyivTypeSans-Bold2.42a5288bf40ef896a63f.ttf",
     "static/media/KyivTypeSans-Light-.ttf": "/kavyar/static/media/KyivTypeSans-Light-.d6dc6861fe3281bea4a2.ttf",
     "static/media/KyivTypeSans-Bold-.ttf": "/kavyar/static/media/KyivTypeSans-Bold-.65815a9a71a5138a2235.ttf",
     "static/media/search.svg": "/kavyar/static/media/search.dc2b911a1ae9b25fcce6.svg",
     "index.html": "/kavyar/index.html",
     "main.2305fff1.css.map": "/kavyar/static/css/main.2305fff1.css.map",
-    "main.aab0ac0e.js.map": "/kavyar/static/js/main.aab0ac0e.js.map"
+    "main.8d73cd5e.js.map": "/kavyar/static/js/main.8d73cd5e.js.map"
   },
   "entrypoints": [
     "static/css/main.2305fff1.css",
-    "static/js/main.aab0ac0e.js"
+    "static/js/main.8d73cd5e.js"
   ]
 }
