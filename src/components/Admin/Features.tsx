@@ -241,7 +241,7 @@ export const Features: React.FC = ( ) => {
                 value={feature.name}
                 id={feature.id}
                 styling="filters__inactive-item"
-                stylingLink="../delete-icon.png"
+                stylingLink="./delete-icon.png"
                 onDelete={handleFeatureDeletion}
               />
             ))}

@@ -233,7 +233,7 @@ export const Categories: React.FC = ( ) => {
                 key={category.id}
                 value={category.name}
                 styling="filters__inactive-item"
-                stylingLink="../delete-icon.png"
+                stylingLink="./delete-icon.png"
                 id={category.id}
                 onDelete={handleCategoryDeletion}
               />

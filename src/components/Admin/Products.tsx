@@ -314,7 +314,7 @@ export const Products: React.FC = ( ) => {
                             key={product.id}
                             value={product.name}
                             styling="filters__inactive-item"
-                            stylingLink="../delete-icon.png"
+                            stylingLink="./delete-icon.png"
                             onDelete={deleteProduct}
                           />
                         );
