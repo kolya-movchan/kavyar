@@ -1,9 +1,9 @@
 # Kav'yar
 
-## Intro
+## ☕️ Intro
 “Kav’yar” is an Ukrainian website that will help the users to easily search a perfect coffee shop in key towns of Ukraine. The website offers a big variety of filtering options and a possibility to sort coffee shops by the price of its products. Also, users can add their favourite coffee shops to the favourites category, so they can easily follow the updates of their beloved places.
 
-## Short Description
+## 📌 Short Description
 The project consists of two parts: an admin panel and a user-facing platform.
 
 The admin panel provides a reliable and secure platform that ensures a seamless user experience. It is divided into several main sections: cities, features, categories, products, and coffee shops.
@@ -12,17 +12,17 @@ The user-facing platform of Kav'yar is more than just a tool to help people find
 
 For more details of functionality please watch the demo video attached below.
 
-## User
+## 🔗 User
 [DEMO](https://kolya-movchan.github.io/kavyar/)
 
-## Admin
+## 🔗 Admin
 [DEMO](https://kolya-movchan.github.io/kavyar/#/admin)
 
 ## Kavyar Demo Presentation
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=4UxdJwPujQk&ab_channel=MykolaMovchan" target="_blank"><img src="http://img.youtube.com/vi/4UxdJwPujQk/0.jpg" 
 alt="Kavyar Youtube Video" width="240" height="180" border="10" /></a>
 
-## Team
+## 💪🏻 Team
 - QA
 - 2 Java Developers
 - Front-End
@@ -30,31 +30,31 @@ alt="Kavyar Youtube Video" width="240" height="180" border="10" /></a>
 ## 🛠️ Technologies
 
  Front-End:
- 🚀 HTML, SCSS
- 🚀 SCSS Reset
- 🚀 React
- 🚀 React Router
- 🚀 Typescript
- 🚀 Chat GPT
- 🚀 REST API
- 🚀 Figma
- 🚀 GitHub
- 🚀 Heroku
- 🚀 Git
- 🚀 Scrum
- 🚀 Jira
+ 🚀 HTML, SCSS<br>
+ 🚀 SCSS ResetS<br>
+ 🚀 ReactS<br>
+ 🚀 React RouterS<br>
+ 🚀 TypescriptS<br>
+ 🚀 Chat GPTS<br>
+ 🚀 REST APIS<br>
+ 🚀 FigmaS<br>
+ 🚀 GitHubS<br>
+ 🚀 HerokuS<br>
+ 🚀 GitS<br>
+ 🚀 ScrumS<br>
+ 🚀 JiraS<br>
  🚀 Libraries: bulma, classnames, jwt-decode, jest, node, gh-pages, jsonwebtoken, react, react-cookie, 
  react-loading, react-router, react-router-dom, react-jwt, typescript.
 
  QA, Backend:
- ⚙️ Testrail
- ⚙️ Java
- ⚙️ Spring Boot
- ⚙️ Spring Security
- ⚙️ REST API
- ⚙️ JWT
- ⚙️ Postman
- ⚙️ Heroku
+ ⚙️ TestrailS<br>
+ ⚙️ JavaS<br>
+ ⚙️ Spring BootS<br>
+ ⚙️ Spring SecurityS<br>
+ ⚙️ REST APIS<br>
+ ⚙️ JWTS<br>
+ ⚙️ PostmanS<br>
+ ⚙️ HerokuS<br>
 
 The project was presented live before an audience of students. This live demo showcased the product's features and functionality, and helped to gather valuable feedback from potential users.
 
