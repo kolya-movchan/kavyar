@@ -18,7 +18,7 @@ For more details of functionality please watch the demo video attached below.
 ## 🔗 Admin
 [DEMO](https://kolya-movchan.github.io/kavyar/#/admin)
 
-## Kavyar Demo Presentation
+## 🎬 Kavyar Demo Presentation
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=4UxdJwPujQk&ab_channel=MykolaMovchan" target="_blank"><img src="http://img.youtube.com/vi/4UxdJwPujQk/0.jpg" 
 alt="Kavyar Youtube Video" width="240" height="180" border="10" /></a>
 
@@ -29,7 +29,7 @@ alt="Kavyar Youtube Video" width="240" height="180" border="10" /></a>
 
 ## 🛠️ Technologies
 
- Front-End:
+ Front-End:<br>
  🚀 HTML, SCSS<br>
  🚀 SCSS ResetS<br>
  🚀 ReactS<br>
@@ -46,7 +46,7 @@ alt="Kavyar Youtube Video" width="240" height="180" border="10" /></a>
  🚀 Libraries: bulma, classnames, jwt-decode, jest, node, gh-pages, jsonwebtoken, react, react-cookie, 
  react-loading, react-router, react-router-dom, react-jwt, typescript.
 
- QA, Backend:
+ QA, Backend:<br>
  ⚙️ TestrailS<br>
  ⚙️ JavaS<br>
  ⚙️ Spring BootS<br>
@@ -55,6 +55,9 @@ alt="Kavyar Youtube Video" width="240" height="180" border="10" /></a>
  ⚙️ JWTS<br>
  ⚙️ PostmanS<br>
  ⚙️ HerokuS<br>
+ 
+ ## 📝 Summary
+
 
 The project was presented live before an audience of students. This live demo showcased the product's features and functionality, and helped to gather valuable feedback from potential users.
 
