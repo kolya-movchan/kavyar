@@ -49,7 +49,7 @@ export const Header: React.FC<Props> = ( {navBar = true} ) => {
             >
               <img
                 className="navBar__link"
-                src={process.env.PUBLIC_URL + '/coffe-grain-logo.svg'}
+                src={process.env.PUBLIC_URL + '/logout.svg'}
                 alt="logout"
               />
             </button>
