@@ -18,7 +18,7 @@ For more details of functionality please watch the demo video attached below.
 ## 🔗 Admin
 [DEMO](https://kolya-movchan.github.io/kavyar/#/admin)
 
-## 🎬 Kavyar Demo Presentation
+## 🎬 Demo Presentation
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=4UxdJwPujQk&ab_channel=MykolaMovchan" target="_blank"><img src="http://img.youtube.com/vi/4UxdJwPujQk/0.jpg" 
 alt="Kavyar Youtube Video" width="240" height="180" border="10" /></a>
 
