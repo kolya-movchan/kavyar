@@ -8,9 +8,12 @@ type Props = {
   navBar?: boolean,
 };
 
+
 export const Header: React.FC<Props> = ( {navBar = true} ) => {
   const location = useLocation();
   const adminHomePage = location.pathname.includes('/admin');
+
+  console.log(process.env.PUBLIC_URL);
   
   return (
     <div className={classNames(
@@ -27,12 +30,15 @@ export const Header: React.FC<Props> = ( {navBar = true} ) => {
             Кав’яр
           </span>
 
-          <img className="logo__image" src="./coffe-grain-logo.svg" alt="logo" />
+          <img
+            className="logo__image"
+            src={process.env.PUBLIC_URL + '/coffe-grain-logo.svg'}
+            alt="logo"
+          />
         </NavLink>
 
         {navBar && (
           <div className="navBar">
-
             <button
               onClick={() => logout()}
               style={{
@@ -43,7 +49,7 @@ export const Header: React.FC<Props> = ( {navBar = true} ) => {
             >
               <img
                 className="navBar__link"
-                src="./logout.svg"
+                src={process.env.PUBLIC_URL + '/coffe-grain-logo.svg'}
                 alt="logout"
               />
             </button>
@@ -63,7 +69,7 @@ export const Header: React.FC<Props> = ( {navBar = true} ) => {
             >
               <img
                 className="navBar__link"
-                src="./coffee-cup.svg"
+                src={process.env.PUBLIC_URL + '/coffee-cup.svg'}
                 alt="favorites-cup"
               />
             </NavLink>

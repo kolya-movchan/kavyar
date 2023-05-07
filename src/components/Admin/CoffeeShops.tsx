@@ -486,7 +486,7 @@ export const CoffeeShops: React.FC = () => {
                         state = {cfps.find(cfpStore => cfpStore.id === id)?.id || 0}
                       >
                         <img
-                          src="./edit.png"
+                          src={process.env.PUBLIC_URL + '/edit.png'}
                           alt="edit-coffeshop"
                           className='cfp-card__edit'
                         />
@@ -497,7 +497,7 @@ export const CoffeeShops: React.FC = () => {
                         onClick={() => deactivateCFP(id, isDisable)}
                       >
                         <img
-                          src="./power.svg"
+                          src={process.env.PUBLIC_URL + '/power.svg'}
                           alt="delete-coffeeshop"
                           className="cfp-card__delete-img"
                         />

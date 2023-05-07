@@ -16,7 +16,7 @@ export const GoBack: React.FC<Props> = ({ title }) => {
         className='menuTop__back-container'
       >
         <img
-          src='./arrow-left.png'
+          src={process.env.PUBLIC_URL + '/arrow-left.png'}
           alt="arrow-go-back"
           className="menuTop__back"
           onClick={() => history.back()}
