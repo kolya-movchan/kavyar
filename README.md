@@ -31,30 +31,30 @@ alt="Kavyar Youtube Video" width="240" height="180" border="10" /></a>
 
  Front-End:<br>
  🚀 HTML, SCSS<br>
- 🚀 SCSS ResetS<br>
- 🚀 ReactS<br>
- 🚀 React RouterS<br>
- 🚀 TypescriptS<br>
- 🚀 Chat GPTS<br>
- 🚀 REST APIS<br>
- 🚀 FigmaS<br>
- 🚀 GitHubS<br>
- 🚀 HerokuS<br>
- 🚀 GitS<br>
- 🚀 ScrumS<br>
- 🚀 JiraS<br>
+ 🚀 SCSS Reset<br>
+ 🚀 React<br>
+ 🚀 React Router<br>
+ 🚀 Typescript<br>
+ 🚀 Chat GPT<br>
+ 🚀 REST API<br>
+ 🚀 Figma<br>
+ 🚀 GitHub<br>
+ 🚀 Heroku<br>
+ 🚀 Git<br>
+ 🚀 Scrum<br>
+ 🚀 Jira<br>
  🚀 Libraries: bulma, classnames, jwt-decode, jest, node, gh-pages, jsonwebtoken, react, react-cookie, 
  react-loading, react-router, react-router-dom, react-jwt, typescript.
 
  QA, Backend:<br>
- ⚙️ TestrailS<br>
- ⚙️ JavaS<br>
+ ⚙️ Testrail<br>
+ ⚙️ Java<br
  ⚙️ Spring BootS<br>
- ⚙️ Spring SecurityS<br>
- ⚙️ REST APIS<br>
- ⚙️ JWTS<br>
- ⚙️ PostmanS<br>
- ⚙️ HerokuS<br>
+ ⚙️ Spring Security<br>
+ ⚙️ REST API<br>
+ ⚙️ JWT<br>
+ ⚙️ Postman<br>
+ ⚙️ Heroku<br>
  
  ## 📝 Summary
 
