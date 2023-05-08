@@ -25,7 +25,7 @@ alt="Kavyar Youtube Video" width="240" height="180" border="10" /></a>
 ## 💪🏻 Team
 - QA
 - 2 Java Developers
-- Front-End
+- Front-End Developer
 
 ## 🛠️ Technologies
 
