@@ -48,8 +48,8 @@ alt="Kavyar Youtube Video" width="240" height="180" border="10" /></a>
 
  QA, Backend:<br>
  ⚙️ Testrail<br>
- ⚙️ Java<br
- ⚙️ Spring BootS<br>
+ ⚙️ Java<br>
+ ⚙️ Spring Boot<br>
  ⚙️ Spring Security<br>
  ⚙️ REST API<br>
  ⚙️ JWT<br>
