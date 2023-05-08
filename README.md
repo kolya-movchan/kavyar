@@ -55,6 +55,9 @@ alt="Kavyar Youtube Video" width="240" height="180" border="10" /></a>
  ⚙️ JWT<br>
  ⚙️ Postman<br>
  ⚙️ Heroku<br>
+ ⚙️ Git<br>
+ ⚙️ Scrum<br>
+ ⚙️ Jira<br>
  
  ## 📝 Summary
 
