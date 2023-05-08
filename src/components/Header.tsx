@@ -12,8 +12,6 @@ type Props = {
 export const Header: React.FC<Props> = ( {navBar = true} ) => {
   const location = useLocation();
   const adminHomePage = location.pathname.includes('/admin');
-
-  console.log(process.env.PUBLIC_URL);
   
   return (
     <div className={classNames(

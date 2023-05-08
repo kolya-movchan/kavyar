@@ -30,7 +30,6 @@ export const CFP_LangingPage: React.FC = () => {
   const getCFP = (id: string) => {
     getCFPById(id)
       .then((data) => setCfp(data))
-      .catch((e) => console.log(e))
       .finally(() => removeLoading());
   };
 

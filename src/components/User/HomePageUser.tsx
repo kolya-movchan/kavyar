@@ -170,7 +170,7 @@ export const HomePageUser = () => {
 
     let finalURL = link + additionalParams;
 
-    if (location.pathname.includes('favorites')) {
+    if (location.hash.includes('favorites')) {
       finalURL += `&ids=${savedShops ? savedShops.join(',') : '0'}`;
     }
 

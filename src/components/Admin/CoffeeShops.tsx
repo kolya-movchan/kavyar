@@ -168,7 +168,6 @@ export const CoffeeShops: React.FC = () => {
               }
             });
           })
-          .catch((e) => console.log(e))
           .finally(() => {
             setLoader(false);
             htmlElement?.classList.remove('hidden');
@@ -193,7 +192,6 @@ export const CoffeeShops: React.FC = () => {
               }
             });
           })
-          .catch((e) => console.log(e))
           .finally(() => {
             setLoader(false);
             htmlElement?.classList.remove('hidden');
