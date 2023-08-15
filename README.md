@@ -12,10 +12,10 @@ The user-facing platform of Kav'yar is more than just a tool to help people find
 
 For more details of functionality please watch the demo video attached below.
 
-## 🔗 User 🛠️
+## 🔗 User
 [DEMO](https://kolya-movchan.github.io/kavyar/)
 
-## 🔗 Admin 🛠️
+## 🔗 Admin
 [DEMO](https://kolya-movchan.github.io/kavyar/#/admin)
 
 ## 🎬 Demo Presentation
